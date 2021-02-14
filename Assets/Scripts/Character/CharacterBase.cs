@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TimelineHero.Character
 {
-    public class CharacterBase : MonoBehaviour
+    public class CharacterBase
     {
         public CharacterBase(List<Skill> Skills)
         {

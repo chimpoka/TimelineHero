@@ -7,12 +7,18 @@ namespace TimelineHero.Core
 {
     public class BattleSceneController : SceneControllerBase
     {
-        BattleSystem Battle;
-        BattleSystemView BattleView;
+        public  BattleSystem Battle;
+        public BattleSystemView BattleView;
+
+        private void Awake()
+        {
+            Battle = new BattleSystem();
+            BattleView.SetBattleSystem(Battle);
+        }
 
         private void Start()
         {
-            Battle = new BattleSystem();
+
         }
     }
 }

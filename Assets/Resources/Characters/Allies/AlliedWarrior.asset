@@ -17,17 +17,21 @@ MonoBehaviour:
     - Length: 10
       Actions:
         Actions:
-        - ActionType: 0
+        - ActionType: 1
           Position: 2
-        - ActionType: 0
+        - ActionType: 1
           Position: 4
     - Length: 8
       Actions:
         Actions:
-        - ActionType: 1
+        - ActionType: 2
           Position: 3
+        - ActionType: 2
+          Position: 0
+        - ActionType: 2
+          Position: 0
     - Length: 11
       Actions:
         Actions:
-        - ActionType: 2
+        - ActionType: 3
           Position: 6

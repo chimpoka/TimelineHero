@@ -1,27 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using TimelineHero.Character;
 using UnityEngine.EventSystems;
+using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
-    public class SkillView : MonoBehaviour
+    public class SkillView : MonoBehaviour, IPointerDownHandler
     {
         [SerializeField]
         private TimelineStepView StepPrefab;
+        [SerializeField]
+        private StepPrefabStruct[] Prefabs;
 
         Skill SkillCached;
         List<TimelineStepView> Steps;
+        public Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
+
+        private void Awake()
+        {
+            PrefabsDictionary = new Dictionary<CharacterActionType, TimelineStepView>();
+            foreach (StepPrefabStruct prefab in Prefabs)
+            {
+                PrefabsDictionary.Add(prefab.ActionType, prefab.Prefab);
+            }
+        }
 
         void Start()
         {
-            CreateSteps(5);
+
         }
 
         void Update()
         {
 
+        }
+
+        public void SetSkill(Skill NewSkill)
+        {
+            SkillCached = NewSkill;
+            CreateSteps(SkillCached.Length);
         }
 
         void CreateSteps(int Length)
@@ -30,33 +47,38 @@ namespace TimelineHero.Battle
 
             for (int i = 0; i < Length; ++i)
             {
-                TimelineStepView step = Instantiate(StepPrefab);
-                Transform stepTransform = step.GetComponent<Transform>();
-                step.Create();
+                Action action = SkillCached.GetActionInPosition(i);
+                action = action ?? new Action(CharacterActionType.Empty, i);
 
-                step.StepSpriteRenderer.size = (new Vector2(0.3f, 1.0f));
+                TimelineStepView step = Instantiate(PrefabsDictionary[action.ActionType]);
 
-                Vector3 newPosition = new Vector3(i * step.StepSpriteRenderer.size.x, 0, 0);
-                stepTransform.localPosition = newPosition;
+                RectTransform stepTransform = step.GetComponent<RectTransform>();
+                stepTransform.SetParent(transform);
+                stepTransform.localScale = Vector3.one;
+                stepTransform.anchoredPosition = new Vector2(i * stepTransform.rect.width, 0);
 
                 Steps.Add(step);
-
-                stepTransform.SetParent(transform);
             }
 
-            Vector2 spriteSize = StepPrefab.GetSize();
-            
-            Vector2 colliderSize = new Vector2(spriteSize.x * Length, spriteSize.y);
-            Vector2 colliderOffset = new Vector2(colliderSize.x / 2 - spriteSize.x / 2, 0);
-
-            BoxCollider2D collider = GetComponent<BoxCollider2D>();
-            collider.size = colliderSize;
-            collider.offset = colliderOffset;
+            RectTransform skillTransform = GetComponent<RectTransform>();
+            skillTransform.sizeDelta = new Vector2(StepPrefab.GetSize().x * Length, StepPrefab.GetSize().y);
         }
 
-        private void OnMouseDown()
+        public Vector2 GetSize()
         {
-            print("Down");
+            return GetComponent<RectTransform>().sizeDelta;
         }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            print("OnPointerDown");
+        }
+    }
+
+    [System.Serializable]
+    public struct StepPrefabStruct
+    {
+        public CharacterActionType ActionType;
+        public TimelineStepView Prefab;
     }
 }

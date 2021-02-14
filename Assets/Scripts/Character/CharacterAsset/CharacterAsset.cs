@@ -11,13 +11,18 @@ namespace TimelineHero.Character
 
         public CharacterBase ToCharacter()
         {
-            List<Skill> skillList = new List<Skill>();
+            List<Skill> newSkillList = new List<Skill>();
             foreach (SkillAsset skillAsset in Skills.Skills)
             {
-                skillList.Add(new Skill(skillAsset.Actions.Actions));
+                List<Action> newActionList = new List<Action>();
+                foreach (Action action in skillAsset.Actions.Actions)
+                {
+                    newActionList.Add(new Action(action.ActionType, action.Position - 1));
+                }
+                newSkillList.Add(new Skill(newActionList, skillAsset.Length));
             }
 
-            return new CharacterBase(skillList);
+            return new CharacterBase(newSkillList);
         }
     }
 

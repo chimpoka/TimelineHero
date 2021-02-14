@@ -1,15 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TimelineHero.Core;
-using UnityEngine;
+using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
-    public class BattleSystem : MonoBehaviour
+    public class BattleSystem
     {
-        public GameInstance Game;
+        //public GameInstance Game;
 
         private BattleStateBase BattleState;
         public BattleTimelineTimer TimelineTimer;
+
+        public List<CharacterBase> GetAlliedCharacters()
+        {
+            return GameInstance.Instance.GetAllies();
+        }
     }
 }

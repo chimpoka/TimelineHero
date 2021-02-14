@@ -4,16 +4,26 @@ using UnityEngine;
 
 namespace TimelineHero.Battle
 {
-    public class BattleSystemView
+    public class BattleSystemView : MonoBehaviour
     {
-        BattleSystem Battle;
+        public SkillContainerView BattleSkillContainer;
+        public  BattleSystem BattleSystemCached;
+
         BattleTimelineView TimelineView;
         BattleTimelineTimerView TimerView;
-        SkillContainerView SkillContainer;
+        BattleSkillController SkillController;
 
-        BattleSystemView(BattleSystem Battle)
+        private void Start()
         {
-            this.Battle = Battle;
+            SkillController = new BattleSkillController();
+            SkillController.SetAlliedCharacters(BattleSystemCached.GetAlliedCharacters());
+            SkillController.SetSkillContainer(BattleSkillContainer);
+            SkillController.SpawnSkills();
+        }
+
+        public void SetBattleSystem(BattleSystem NewBattleSystem)
+        {
+            BattleSystemCached = NewBattleSystem;
         }
     }
 }

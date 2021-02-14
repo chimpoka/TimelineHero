@@ -28,13 +28,19 @@ namespace TimelineHero.Core
 
         public List<CharacterBase> GetAllies()
         {
-            AlliedCharacters = AlliedCharacters ?? GetCharactersFromAssets(AlliedCharactersAssets);
+            if (AlliedCharacters == null || AlliedCharacters.Count == 0)
+            {
+                AlliedCharacters = GetCharactersFromAssets(AlliedCharactersAssets);
+            }
             return AlliedCharacters;
         }
 
         public List<CharacterBase> GetEnemies()
         {
-            EnemyCharacters = EnemyCharacters ?? GetCharactersFromAssets(EnemyCharactersAssets);
+            if (EnemyCharacters == null || EnemyCharacters.Count == 0)
+            {
+                EnemyCharacters = GetCharactersFromAssets(EnemyCharactersAssets);
+            }
             return EnemyCharacters;
         }
 
