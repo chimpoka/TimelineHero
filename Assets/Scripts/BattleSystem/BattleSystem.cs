@@ -15,5 +15,10 @@ namespace TimelineHero.Battle
         {
             return GameInstance.Instance.GetAllies();
         }
+
+        public List<CharacterBase> GetEnemyCharacters()
+        {
+            return GameInstance.Instance.GetEnemies();
+        }
     }
 }

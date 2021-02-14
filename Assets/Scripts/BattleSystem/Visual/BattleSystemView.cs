@@ -7,7 +7,8 @@ namespace TimelineHero.Battle
     public class BattleSystemView : MonoBehaviour
     {
         public SkillContainerView BattleSkillContainer;
-        public  BattleSystem BattleSystemCached;
+        public BattleTimelineView BattleTimeline;
+        public BattleSystem BattleSystemCached;
 
         BattleTimelineView TimelineView;
         BattleTimelineTimerView TimerView;
@@ -19,6 +20,8 @@ namespace TimelineHero.Battle
             SkillController.SetAlliedCharacters(BattleSystemCached.GetAlliedCharacters());
             SkillController.SetSkillContainer(BattleSkillContainer);
             SkillController.SpawnSkills();
+
+            BattleTimeline.SetEnemies(BattleSystemCached.GetEnemyCharacters());
         }
 
         public void SetBattleSystem(BattleSystem NewBattleSystem)

@@ -14,23 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Skills:
     Skills:
-    - Length: 10
+    - Length: 4
       Actions:
         Actions:
-        - ActionType: 0
-          Position: 2
-    - Length: 10
-      Actions:
-        Actions:
-        - ActionType: 0
+        - ActionType: 1
+          Position: 3
+        - ActionType: 3
           Position: 4
-    - Length: 10
+    - Length: 4
       Actions:
         Actions:
-        - ActionType: 0
-          Position: 6
-    - Length: 10
+        - ActionType: 2
+          Position: 3
+        - ActionType: 2
+          Position: 4
+    - Length: 4
       Actions:
         Actions:
-        - ActionType: 0
-          Position: 8
+        - ActionType: 4
+          Position: 2
+    - Length: 4
+      Actions:
+        Actions:
+        - ActionType: 1
+          Position: 1
+    - Length: 30
+      Actions:
+        Actions:
+        - ActionType: 1
+          Position: 1
+        - ActionType: 1
+          Position: 30

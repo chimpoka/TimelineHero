@@ -6,8 +6,9 @@ using TimelineHero.Core;
 namespace TimelineHero.Battle
 {
     [CreateAssetMenu(menuName = "ScriptableObject/BattlePrefabs")]
-    public class BattlePrefabsScriptableObject : SingletonScriptableObject<BattlePrefabsScriptableObject>
+    public class BattlePrefabsConfig : SingletonScriptableObject<BattlePrefabsConfig>
     {
         public SkillView SkillPrefab;
+        public CharacterTimelineView CharacterTimelinePrefab;
     }
 }

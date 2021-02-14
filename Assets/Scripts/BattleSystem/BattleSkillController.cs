@@ -18,7 +18,7 @@ namespace TimelineHero.Battle
             {
                 foreach (Skill skill in character.Skills)
                 {
-                    SkillView skillView = MonoBehaviour.Instantiate(BattlePrefabsScriptableObject.Instance.SkillPrefab);
+                    SkillView skillView = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
                     skillView.SetSkill(skill);
                     SkillContainerCached.AddSkill(skillView);
                 }

@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkillPrefab: {fileID: 8050783345233232768, guid: 3c16d13a69eae594a91de58072b8d6a4,
     type: 3}
+  CharacterTimelinePrefab: {fileID: 7342823222223138986, guid: 9525449e0eef91145903f0d1bebdaf2c,
+    type: 3}
