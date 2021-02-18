@@ -23,6 +23,8 @@ namespace TimelineHero.Core
         [SerializeField]
         private List<CharacterAsset> EnemyCharactersAssets;
 
+        public float CanvasScaleFactor;
+
         private List<CharacterBase> AlliedCharacters;
         private List<CharacterBase> EnemyCharacters;
 

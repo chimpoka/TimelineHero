@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TimelineHero.Core;
 
 namespace TimelineHero.Battle
 {
@@ -8,20 +9,25 @@ namespace TimelineHero.Battle
     {
         public SkillContainerView BattleSkillContainer;
         public BattleTimelineView BattleTimeline;
-        public BattleSystem BattleSystemCached;
+        private BattleSystem BattleSystemCached;
 
-        BattleTimelineView TimelineView;
         BattleTimelineTimerView TimerView;
         BattleSkillController SkillController;
 
-        private void Start()
+        private void Awake()
         {
+            GameInstance.Instance.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
+
+            BattleTimeline.SetEnemies(BattleSystemCached.GetEnemyCharacters());
+            BattleTimeline.GenerateEnemiesTimeline();
+            BattleTimeline.GenerateAlliedTimeline();
+
             SkillController = new BattleSkillController();
+            SkillController.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
+            SkillController.SetAlliedTimeline(BattleTimeline.GetAlliedTimeline());
             SkillController.SetAlliedCharacters(BattleSystemCached.GetAlliedCharacters());
             SkillController.SetSkillContainer(BattleSkillContainer);
             SkillController.SpawnSkills();
-
-            BattleTimeline.SetEnemies(BattleSystemCached.GetEnemyCharacters());
         }
 
         public void SetBattleSystem(BattleSystem NewBattleSystem)

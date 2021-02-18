@@ -13,12 +13,12 @@ namespace TimelineHero.Battle
 
         private void Awake()
         {
-            
+
         }
 
         void Start()
         {
-            GenerateEnemiesTimeline();
+
         }
 
         void Update()
@@ -31,14 +31,14 @@ namespace TimelineHero.Battle
             Enemies = NewEnemies;
         }
 
-        private void GenerateEnemiesTimeline()
+        public ref CharacterTimelineView GetAlliedTimeline()
         {
-            EnemyTimeline = Instantiate(BattlePrefabsConfig.Instance.CharacterTimelinePrefab);
+            return ref AlliedTimeline;
+        }
 
-            RectTransform timelineTransform = EnemyTimeline.GetComponent<RectTransform>();
-            timelineTransform.SetParent(transform);
-            timelineTransform.localScale = Vector3.one;
-            timelineTransform.anchoredPosition = new Vector2(0, timelineTransform.sizeDelta.y / 2);
+        public void GenerateEnemiesTimeline()
+        {
+            EnemyTimeline = GenerateTimeline();
 
             foreach (Skill skill in Enemies[0].Skills)
             {
@@ -47,6 +47,29 @@ namespace TimelineHero.Battle
 
                 EnemyTimeline.AddSkill(skillView);
             }
+
+            EnemyTimeline.Size = EnemyTimeline.GetContentSize();
+        }
+
+        public void GenerateAlliedTimeline()
+        {
+            AlliedTimeline = GenerateTimeline();
+            RectTransform alliedTimelineTransform = AlliedTimeline.GetComponent<RectTransform>();
+            alliedTimelineTransform.localScale = Vector3.one;
+            alliedTimelineTransform.anchoredPosition += new Vector2(0, -EnemyTimeline.GetContentSize().y);
+            AlliedTimeline.Size = EnemyTimeline.GetContentSize();
+        }
+
+        private CharacterTimelineView GenerateTimeline()
+        {
+            CharacterTimelineView timeline = Instantiate(BattlePrefabsConfig.Instance.CharacterTimelinePrefab);
+
+            RectTransform timelineTransform = timeline.GetComponent<RectTransform>();
+            timelineTransform.SetParent(transform);
+            timelineTransform.localScale = Vector3.one;
+            timelineTransform.anchoredPosition = new Vector2(0, timelineTransform.sizeDelta.y / 2);
+
+            return timeline;
         }
     }
 }

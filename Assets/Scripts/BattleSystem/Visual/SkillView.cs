@@ -2,19 +2,47 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TimelineHero.Character;
+using TimelineHero.CoreUI;
 
 namespace TimelineHero.Battle
 {
-    public class SkillView : MonoBehaviour, IPointerDownHandler
+    public enum SkillParentObject { NoParent, Container, Timeline }
+
+    public struct SkillRelationData
+    {
+        public Vector2 PositionInContainer;
+        public Vector2 PositionInTimeline;
+        public SkillParentObject Parent;
+
+        public void Clear()
+        {
+            PositionInContainer = Vector2.zero;
+            PositionInTimeline = Vector2.zero;
+        }
+    }
+
+    public class SkillView : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler 
     {
         [SerializeField]
         private TimelineStepView StepPrefab;
         [SerializeField]
         private StepPrefabStruct[] Prefabs;
 
-        Skill SkillCached;
-        List<TimelineStepView> Steps;
-        public Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
+        public delegate void SkillEventHandler(SkillView skill, PointerEventData eventData);
+        public event SkillEventHandler OnPointerDownEvent;
+        public event SkillEventHandler OnPointerUpEvent;
+        public event SkillEventHandler OnBeginDragEvent;
+        public event SkillEventHandler OnEndDragEvent;
+        public event SkillEventHandler OnDragEvent;
+
+        public SkillRelationData RelationData;
+
+        private Skill SkillCached;
+        private List<TimelineStepView> Steps;
+        private Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
+        private Vector2 position;
+        private Vector2 size;
+
 
         private void Awake()
         {
@@ -41,6 +69,11 @@ namespace TimelineHero.Battle
             CreateSteps(SkillCached.Length);
         }
 
+        public Vector2 GetCenterPosition()
+        {
+            return AnchoredPosition;// + TransformCached.rect.center;
+        }
+
         void CreateSteps(int Length)
         {
             Steps = new List<TimelineStepView>();
@@ -60,19 +93,35 @@ namespace TimelineHero.Battle
                 Steps.Add(step);
             }
 
-            RectTransform skillTransform = GetComponent<RectTransform>();
-            skillTransform.sizeDelta = new Vector2(StepPrefab.GetSize().x * Length, StepPrefab.GetSize().y);
+            Size = new Vector2(StepPrefab.GetSize().x * Length, StepPrefab.GetSize().y);
         }
 
-        public Vector2 GetSize()
-        {
-            return GetComponent<RectTransform>().sizeDelta;
-        }
-
+        #region SkillEvents
         public void OnPointerDown(PointerEventData eventData)
         {
-            print("OnPointerDown");
+            OnPointerDownEvent?.Invoke(this, eventData);
         }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            OnBeginDragEvent?.Invoke(this, eventData);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            OnEndDragEvent?.Invoke(this, eventData);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            OnDragEvent?.Invoke(this, eventData);
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            OnPointerUpEvent?.Invoke(this, eventData);
+        }
+        #endregion SkillEvents
     }
 
     [System.Serializable]

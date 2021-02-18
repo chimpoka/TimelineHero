@@ -5,6 +5,7 @@ using UnityEngine;
 namespace TimelineHero.Character
 {
     public enum CharacterActionType { Empty, Attack, Dodge, Stun, Block }
+
     [System.Serializable]
     public class Action
     {

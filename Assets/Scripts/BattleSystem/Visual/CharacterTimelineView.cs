@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TimelineHero.Character;
+using TimelineHero.CoreUI;
 
 namespace TimelineHero.Battle
 {
-    public class CharacterTimelineView : MonoBehaviour
+    public class CharacterTimelineView : UiComponent
     {
-        List<SkillView> Skills;
+        private List<SkillView> Skills;
 
         private void Awake()
         {
@@ -31,22 +32,25 @@ namespace TimelineHero.Battle
             skillTransform.localScale = Vector2.one;
             skillTransform.anchorMin = Vector2.zero;
             skillTransform.anchorMax = Vector2.zero;
-            skillTransform.anchoredPosition = new Vector2(GetSize().x, 0);
+            skillTransform.anchoredPosition = new Vector2(GetContentSize().x, 0);
 
             Skills.Add(NewSkill);
-
-            UpdateSize();
         }
 
-        public Vector2 GetSize()
+        public void RemoveSkill(SkillView SkillToRemove)
+        {
+            //Skills.Remove(SkillToRemove);
+            ShrinkSkills();
+        }
+
+        public Vector2 GetContentSize()
         {
             Vector2 size = Vector2.zero;
 
             foreach (SkillView skill in Skills)
             {
-                Vector2 skillSize = skill.GetSize();
-                size.x += skillSize.x;
-                size.y = size.y > skillSize.y ? size.y : skillSize.y;
+                size.x += skill.Size.x;
+                size.y = size.y > skill.Size.y ? size.y : skill.Size.y;
             }
 
             return size;
@@ -54,8 +58,27 @@ namespace TimelineHero.Battle
 
         public void UpdateSize()
         {
-            RectTransform timelineTransform = GetComponent<RectTransform>();
-            timelineTransform.sizeDelta = GetSize();
+            GetTransform().sizeDelta = GetContentSize();
+        }
+
+        public void SetSize(Vector2 NewSize)
+        {
+            GetTransform().sizeDelta = NewSize;
+        }
+
+        public bool IsPositionInsideBounds(Vector2 Position)
+        {
+            print("Point: " + Position);
+            print("Bounds min: " + WorldBounds.min);
+            print("Bounds max: " + WorldBounds.max);
+
+            return (Position.x > WorldBounds.min.x) && (Position.x < WorldBounds.max.x) &&
+                (Position.y > WorldBounds.min.y) && (Position.y < WorldBounds.max.y);
+        }
+
+        private void ShrinkSkills()
+        {
+
         }
     }
 }
