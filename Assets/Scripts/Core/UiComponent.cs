@@ -11,7 +11,6 @@ namespace TimelineHero.CoreUI
         public Vector2 Size { get => GetTransform().sizeDelta; set => GetTransform().sizeDelta = value; }
         public Vector2 WorldPosition { get => new Vector2(GetTransform().position.x, GetTransform().position.y); set => GetTransform().position = new Vector3(value.x, value.y, 0); }
         public Bounds WorldBounds { get => CalculateBounds(GetTransform(), CanvasScaleFactor); }
-        public float Depth { get => GetTransform().position.z; set => GetTransform().position = new Vector3(GetTransform().position.x, GetTransform().position.y, value); }
 
         protected float CanvasScaleFactor { get => GameInstance.Instance.CanvasScaleFactor; }
 
@@ -21,6 +20,14 @@ namespace TimelineHero.CoreUI
         {
             transformCached = transformCached ?? GetComponent<RectTransform>();
             return transformCached;
+        }
+
+        public void SetParent(Transform Parent)
+        {
+            GetTransform().SetParent(Parent);
+            GetTransform().localScale = Vector3.one;
+            GetTransform().anchorMin = Vector3.zero;
+            GetTransform().anchorMax = Vector3.zero;
         }
 
         private Bounds CalculateBounds(RectTransform transform, float uiScaleFactor)
@@ -38,14 +45,6 @@ namespace TimelineHero.CoreUI
         {
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(new Vector3(WorldBounds.center.x, WorldBounds.center.y, 2000), new Vector3(0.2f, 0.2f, 0.2f));
-
-            //Vector3[] corners = new Vector3[4];
-            //GetTransform().GetWorldCorners(corners);
-
-            //foreach (var corner in corners)
-            //{
-            //    Gizmos.DrawCube(new Vector3(corner.x, corner.y, 2000), new Vector3(0.2f, 0.2f, 0.2f));
-            //}
         }
     }
 }

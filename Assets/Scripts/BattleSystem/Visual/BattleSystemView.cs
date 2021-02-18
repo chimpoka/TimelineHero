@@ -19,11 +19,9 @@ namespace TimelineHero.Battle
             GameInstance.Instance.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
 
             BattleTimeline.SetEnemies(BattleSystemCached.GetEnemyCharacters());
-            BattleTimeline.GenerateEnemiesTimeline();
-            BattleTimeline.GenerateAlliedTimeline();
+            BattleTimeline.GenerateView();
 
             SkillController = new BattleSkillController();
-            SkillController.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
             SkillController.SetAlliedTimeline(BattleTimeline.GetAlliedTimeline());
             SkillController.SetAlliedCharacters(BattleSystemCached.GetAlliedCharacters());
             SkillController.SetSkillContainer(BattleSkillContainer);

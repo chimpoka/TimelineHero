@@ -7,33 +7,29 @@ namespace TimelineHero.Battle
 {
     public class BattleTimelineView : MonoBehaviour
     {
-        List<CharacterBase> Enemies;
-        CharacterTimelineView EnemyTimeline;
-        CharacterTimelineView AlliedTimeline;
-
-        private void Awake()
-        {
-
-        }
-
-        void Start()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
+        private List<CharacterBase> Enemies;
+        private CharacterTimelineView EnemyTimeline;
+        private CharacterTimelineView AlliedTimeline;
 
         public void SetEnemies(List<CharacterBase> NewEnemies)
         {
             Enemies = NewEnemies;
         }
 
-        public ref CharacterTimelineView GetAlliedTimeline()
+        public CharacterTimelineView GetAlliedTimeline()
         {
-            return ref AlliedTimeline;
+            return AlliedTimeline;
+        }
+
+        public CharacterTimelineView GetEnemyTimeline()
+        {
+            return EnemyTimeline;
+        }
+
+        public void GenerateView()
+        {
+            GenerateEnemiesTimeline();
+            GenerateAlliedTimeline();
         }
 
         public void GenerateEnemiesTimeline()
@@ -44,7 +40,6 @@ namespace TimelineHero.Battle
             {
                 SkillView skillView = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
                 skillView.SetSkill(skill);
-
                 EnemyTimeline.AddSkill(skillView);
             }
 
@@ -54,20 +49,17 @@ namespace TimelineHero.Battle
         public void GenerateAlliedTimeline()
         {
             AlliedTimeline = GenerateTimeline();
-            RectTransform alliedTimelineTransform = AlliedTimeline.GetComponent<RectTransform>();
-            alliedTimelineTransform.localScale = Vector3.one;
-            alliedTimelineTransform.anchoredPosition += new Vector2(0, -EnemyTimeline.GetContentSize().y);
+            AlliedTimeline.GetTransform().localScale = Vector3.one;
+            AlliedTimeline.AnchoredPosition += new Vector2(0, -EnemyTimeline.GetContentSize().y);
             AlliedTimeline.Size = EnemyTimeline.GetContentSize();
         }
 
         private CharacterTimelineView GenerateTimeline()
         {
             CharacterTimelineView timeline = Instantiate(BattlePrefabsConfig.Instance.CharacterTimelinePrefab);
-
-            RectTransform timelineTransform = timeline.GetComponent<RectTransform>();
-            timelineTransform.SetParent(transform);
-            timelineTransform.localScale = Vector3.one;
-            timelineTransform.anchoredPosition = new Vector2(0, timelineTransform.sizeDelta.y / 2);
+            timeline.GetTransform().SetParent(transform);
+            timeline.GetTransform().localScale = Vector3.one;
+            timeline.AnchoredPosition = new Vector2(0, timeline.Size.y / 2);
 
             return timeline;
         }

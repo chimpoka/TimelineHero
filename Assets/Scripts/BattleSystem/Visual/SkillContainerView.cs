@@ -22,28 +22,31 @@ namespace TimelineHero.Battle
         {
             Skills = Skills ?? new List<SkillView>();
 
-            RectTransform newSkillTransform = Skill.GetTransform();
-            newSkillTransform.SetParent(transform);
-            newSkillTransform.localScale = Vector3.one;
-            newSkillTransform.anchorMin = new Vector2(0, 0);
-            newSkillTransform.anchorMax = new Vector2(0, 0);
+            Skill.SetParent(GetTransform());
 
+            
+
+            Skill.AnchoredPosition = GetNextPosition();
+
+            Skills.Add(Skill);
+        }
+
+        private Vector2 GetNextPosition()
+        {
             Vector2 newPosition = new Vector2(Border.y, Border.z);
 
-            foreach(SkillView skill in Skills)
+            foreach (SkillView skill in Skills)
             {
                 newPosition += new Vector2(skill.Size.x + SkillOffset.x, 0);
 
                 if (newPosition.x + skill.Size.x > Size.x)
                 {
                     newPosition.x = Border.z;
-                    newPosition.y += Skill.Size.y + SkillOffset.y;
+                    newPosition.y += SkillView.GetSkillStaticHeight() + SkillOffset.y;
                 }
             }
 
-            Skill.AnchoredPosition = newPosition;
-
-            Skills.Add(Skill);
+            return newPosition;
         }
     }
 }

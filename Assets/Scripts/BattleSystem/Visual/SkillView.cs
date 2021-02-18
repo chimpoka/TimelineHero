@@ -6,6 +6,13 @@ using TimelineHero.CoreUI;
 
 namespace TimelineHero.Battle
 {
+    [System.Serializable]
+    public struct StepPrefabStruct
+    {
+        public CharacterActionType ActionType;
+        public TimelineStepView Prefab;
+    }
+
     public enum SkillParentObject { NoParent, Container, Timeline }
 
     public struct SkillRelationData
@@ -37,7 +44,7 @@ namespace TimelineHero.Battle
 
         private Skill SkillCached;
         private List<TimelineStepView> Steps;
-        private Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
+        static private Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
 
 
         private void Awake()
@@ -49,14 +56,16 @@ namespace TimelineHero.Battle
             }
         }
 
-        void Start()
+        static public float GetSkillStaticHeight()
         {
-
+            return GetTimelineStepStaticSize().y;
         }
 
-        void Update()
+        static public Vector2 GetTimelineStepStaticSize()
         {
+            Rect prefabRect = PrefabsDictionary[CharacterActionType.Empty].GetComponent<RectTransform>().rect;
 
+            return new Vector2(prefabRect.width, prefabRect.height);
         }
 
         public void SetSkill(Skill NewSkill)
@@ -75,18 +84,13 @@ namespace TimelineHero.Battle
                 action = action ?? new Action(CharacterActionType.Empty, i);
 
                 TimelineStepView step = Instantiate(PrefabsDictionary[action.ActionType]);
-
-                RectTransform stepTransform = step.GetTransform();
-                stepTransform.SetParent(transform);
-                stepTransform.localScale = Vector3.one;
+                step.GetTransform().SetParent(GetTransform());
                 step.AnchoredPosition = new Vector2(i * step.Size.x, 0);
 
                 Steps.Add(step);
             }
 
-            Rect prefabRect = PrefabsDictionary[CharacterActionType.Empty].GetComponent<RectTransform>().rect;
-
-            Size = new Vector2(prefabRect.width * Length, prefabRect.height);
+            Size = GetTimelineStepStaticSize() * new Vector2(Length, 1.0f);
         }
 
         #region SkillEvents
@@ -115,12 +119,5 @@ namespace TimelineHero.Battle
             OnPointerUpEvent?.Invoke(this, eventData);
         }
         #endregion SkillEvents
-    }
-
-    [System.Serializable]
-    public struct StepPrefabStruct
-    {
-        public CharacterActionType ActionType;
-        public TimelineStepView Prefab;
     }
 }

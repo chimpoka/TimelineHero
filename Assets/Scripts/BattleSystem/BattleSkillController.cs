@@ -2,15 +2,12 @@
 using UnityEngine;
 using TimelineHero.Character;
 using UnityEngine.EventSystems;
+using TimelineHero.Core;
 
 namespace TimelineHero.Battle
 {
-
-
     public class BattleSkillController
     {
-        public float CanvasScaleFactor;
-
         private List<CharacterBase> AlliedCharacters;
         private SkillContainerView SkillContainerCached;
         private CharacterTimelineView AlliedTimelineCached;
@@ -97,7 +94,7 @@ namespace TimelineHero.Battle
 
         public void OnSkillDrag(SkillView Skill, PointerEventData eventData)
         {
-            Skill.AnchoredPosition += eventData.delta / CanvasScaleFactor;
+            Skill.AnchoredPosition += eventData.delta / GameInstance.Instance.CanvasScaleFactor;
         }
         #endregion SkillEvents
     }
