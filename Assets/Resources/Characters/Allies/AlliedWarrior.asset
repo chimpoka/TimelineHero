@@ -35,3 +35,22 @@ MonoBehaviour:
         Actions:
         - ActionType: 3
           Position: 6
+    - Length: 11
+      Actions:
+        Actions:
+        - ActionType: 4
+          Position: 6
+        - ActionType: 2
+          Position: 8
+    - Length: 6
+      Actions:
+        Actions:
+        - ActionType: 3
+          Position: 4
+    - Length: 8
+      Actions:
+        Actions:
+        - ActionType: 1
+          Position: 5
+        - ActionType: 4
+          Position: 6

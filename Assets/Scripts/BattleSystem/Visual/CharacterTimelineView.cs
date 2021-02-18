@@ -39,7 +39,7 @@ namespace TimelineHero.Battle
 
         public void RemoveSkill(SkillView SkillToRemove)
         {
-            //Skills.Remove(SkillToRemove);
+            Skills.Remove(SkillToRemove);
             ShrinkSkills();
         }
 
@@ -78,7 +78,14 @@ namespace TimelineHero.Battle
 
         private void ShrinkSkills()
         {
+            Vector2 skillPosition = Vector2.zero;
 
+            foreach (SkillView skill in Skills)
+            {
+                skill.AnchoredPosition = skillPosition;
+                skill.RelationData.PositionInTimeline = skillPosition;
+                skillPosition += new Vector2(skill.Size.x, 0);
+            }
         }
     }
 }

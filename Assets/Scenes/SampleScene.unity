@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Border: {x: 20, y: 20, z: 20, w: 20}
-  SkillOffset: {x: 10, y: 10}
+  SkillOffset: {x: 15, y: 15}
 --- !u!1 &1692974512
 GameObject:
   m_ObjectHideFlags: 0

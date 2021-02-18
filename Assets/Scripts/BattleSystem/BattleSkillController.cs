@@ -56,6 +56,8 @@ namespace TimelineHero.Battle
         public void OnSkillPointerDown(SkillView Skill, PointerEventData eventData)
         {
             Skill.AnchoredPosition += new Vector2(-6, 6);
+            // Move to foreground
+            Skill.GetTransform().SetSiblingIndex(Skill.GetTransform().parent.childCount - 1);
         }
 
         public void OnSkillPointerUp(SkillView Skill, PointerEventData eventData)
@@ -76,6 +78,7 @@ namespace TimelineHero.Battle
             }
             else
             {
+                AlliedTimelineCached.RemoveSkill(Skill);
                 Skill.GetTransform().SetParent(SkillContainerCached.GetTransform());
                 Skill.AnchoredPosition = Skill.RelationData.PositionInContainer;
                 Skill.RelationData.Parent = SkillParentObject.Container;

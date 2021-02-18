@@ -11,6 +11,7 @@ namespace TimelineHero.CoreUI
         public Vector2 Size { get => GetTransform().sizeDelta; set => GetTransform().sizeDelta = value; }
         public Vector2 WorldPosition { get => new Vector2(GetTransform().position.x, GetTransform().position.y); set => GetTransform().position = new Vector3(value.x, value.y, 0); }
         public Bounds WorldBounds { get => CalculateBounds(GetTransform(), CanvasScaleFactor); }
+        public float Depth { get => GetTransform().position.z; set => GetTransform().position = new Vector3(GetTransform().position.x, GetTransform().position.y, value); }
 
         protected float CanvasScaleFactor { get => GameInstance.Instance.CanvasScaleFactor; }
 

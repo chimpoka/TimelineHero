@@ -34,10 +34,10 @@ namespace TimelineHero.Battle
             {
                 newPosition += new Vector2(skill.Size.x + SkillOffset.x, 0);
 
-                if (newPosition.x > Size.x)
+                if (newPosition.x + skill.Size.x > Size.x)
                 {
                     newPosition.x = Border.z;
-                    newPosition.y += Skill.Size.y;
+                    newPosition.y += Skill.Size.y + SkillOffset.y;
                 }
             }
 

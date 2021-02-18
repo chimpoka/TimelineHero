@@ -24,8 +24,6 @@ namespace TimelineHero.Battle
     public class SkillView : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler 
     {
         [SerializeField]
-        private TimelineStepView StepPrefab;
-        [SerializeField]
         private StepPrefabStruct[] Prefabs;
 
         public delegate void SkillEventHandler(SkillView skill, PointerEventData eventData);
@@ -40,8 +38,6 @@ namespace TimelineHero.Battle
         private Skill SkillCached;
         private List<TimelineStepView> Steps;
         private Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
-        private Vector2 position;
-        private Vector2 size;
 
 
         private void Awake()
@@ -69,11 +65,6 @@ namespace TimelineHero.Battle
             CreateSteps(SkillCached.Length);
         }
 
-        public Vector2 GetCenterPosition()
-        {
-            return AnchoredPosition;// + TransformCached.rect.center;
-        }
-
         void CreateSteps(int Length)
         {
             Steps = new List<TimelineStepView>();
@@ -85,15 +76,17 @@ namespace TimelineHero.Battle
 
                 TimelineStepView step = Instantiate(PrefabsDictionary[action.ActionType]);
 
-                RectTransform stepTransform = step.GetComponent<RectTransform>();
+                RectTransform stepTransform = step.GetTransform();
                 stepTransform.SetParent(transform);
                 stepTransform.localScale = Vector3.one;
-                stepTransform.anchoredPosition = new Vector2(i * stepTransform.rect.width, 0);
+                step.AnchoredPosition = new Vector2(i * step.Size.x, 0);
 
                 Steps.Add(step);
             }
 
-            Size = new Vector2(StepPrefab.GetSize().x * Length, StepPrefab.GetSize().y);
+            Rect prefabRect = PrefabsDictionary[CharacterActionType.Empty].GetComponent<RectTransform>().rect;
+
+            Size = new Vector2(prefabRect.width * Length, prefabRect.height);
         }
 
         #region SkillEvents

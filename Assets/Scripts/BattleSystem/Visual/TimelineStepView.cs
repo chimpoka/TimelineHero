@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TimelineHero.CoreUI;
 using UnityEngine;
 
 namespace TimelineHero.Battle
 {
-    public class TimelineStepView : MonoBehaviour
+    public class TimelineStepView : UiComponent
     {
-        RectTransform TransformCached;
         private void Awake()
         {
-            TransformCached = GetComponent<RectTransform>();
         }
 
         void Start()
@@ -22,10 +21,10 @@ namespace TimelineHero.Battle
 
         }
 
-        public Vector2 GetSize()
-        {
-            TransformCached = TransformCached ?? GetComponent<RectTransform>();
-            return new Vector2(TransformCached.rect.width, TransformCached.rect.height);
-        }
+        //public Vector2 GetSize()
+        //{
+        //    TransformCached = TransformCached ?? GetComponent<RectTransform>();
+        //    return new Vector2(TransformCached.rect.width, TransformCached.rect.height);
+        //}
     }
 }
