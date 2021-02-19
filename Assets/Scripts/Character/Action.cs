@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace TimelineHero.Character
 {
-    public enum CharacterActionType { Empty, Attack, Dodge, Stun, Block }
+    public enum CharacterActionType
+    {
+        Empty, Attack, Dodge, Stun, Block, BlockContinuance, Parry, LuckAttack, LuckDodge, LuckBlock,
+        AdrenalinAttack, AdrenalinDodge, AdrenalinBlock, RandomAttack, ImperviousAttack, SelfAttack,
+        SelfLuckAttack, SelfRandomAttack, Open, Close
+    }
 
     [System.Serializable]
     public class Action
