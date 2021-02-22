@@ -10,8 +10,7 @@ namespace TimelineHero.Core
         {
             get
             {
-                if (!_instance)
-                    _instance = Resources.LoadAll<T>("").FirstOrDefault();
+                _instance = _instance ?? Resources.LoadAll<T>("").FirstOrDefault();
                 return _instance;
             }
         }

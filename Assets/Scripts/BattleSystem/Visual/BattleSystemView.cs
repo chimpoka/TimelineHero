@@ -11,15 +11,13 @@ namespace TimelineHero.Battle
         public BattleTimelineView BattleTimeline;
         private BattleSystem BattleSystemCached;
 
-        BattleTimelineTimerView TimerView;
         BattleSkillController SkillController;
 
         private void Awake()
         {
             GameInstance.Instance.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
 
-            BattleTimeline.SetEnemies(BattleSystemCached.GetEnemyCharacters());
-            BattleTimeline.GenerateView();
+            BattleTimeline.SetBattleSystem(BattleSystemCached);
 
             SkillController = new BattleSkillController();
             SkillController.SetAlliedTimeline(BattleTimeline.GetAlliedTimeline());
@@ -31,6 +29,11 @@ namespace TimelineHero.Battle
         public void SetBattleSystem(BattleSystem NewBattleSystem)
         {
             BattleSystemCached = NewBattleSystem;
+        }
+
+        public BattleTimelineTimerView GetTimerView()
+        {
+            return BattleTimeline.GetTimerView();
         }
     }
 }

@@ -74,7 +74,12 @@ namespace TimelineHero.Battle
             CreateSteps(SkillCached.Length);
         }
 
-        void CreateSteps(int Length)
+        public int GetLength()
+        {
+            return SkillCached.Length;
+        }
+
+        private void CreateSteps(int Length)
         {
             Steps = new List<TimelineStepView>();
 

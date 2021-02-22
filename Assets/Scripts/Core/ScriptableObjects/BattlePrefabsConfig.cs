@@ -10,5 +10,6 @@ namespace TimelineHero.Battle
     {
         public SkillView SkillPrefab;
         public CharacterTimelineView CharacterTimelinePrefab;
+        public BattleTimelineTimerView TimerPrefab;
     }
 }

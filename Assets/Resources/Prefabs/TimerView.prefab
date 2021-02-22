@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8050783345233232782
+--- !u!1 &5845143090907188774
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8050783345233232769}
-  - component: {fileID: 8050783345233232770}
-  - component: {fileID: 8050783345233232771}
-  - component: {fileID: 8050783345233232768}
+  - component: {fileID: 8095310373554571672}
+  - component: {fileID: 8866399105789353339}
+  - component: {fileID: 256685126955727267}
+  - component: {fileID: -7243033508178429347}
   m_Layer: 5
-  m_Name: Skill
+  m_Name: TimerView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &8050783345233232769
+--- !u!224 &8095310373554571672
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050783345233232782}
+  m_GameObject: {fileID: 5845143090907188774}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -36,37 +36,37 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
-  m_Pivot: {x: 0, y: 0}
---- !u!222 &8050783345233232770
+  m_SizeDelta: {x: 66, y: 66}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!222 &8866399105789353339
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050783345233232782}
+  m_GameObject: {fileID: 5845143090907188774}
   m_CullTransparentMesh: 0
---- !u!114 &8050783345233232771
+--- !u!114 &256685126955727267
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050783345233232782}
+  m_GameObject: {fileID: 5845143090907188774}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_Maskable: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ac0086419506a00459d46ca7cc4d3694, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 67466d757e951094fa21ae3e2d36a021, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -75,34 +75,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8050783345233232768
+--- !u!114 &-7243033508178429347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050783345233232782}
+  m_GameObject: {fileID: 5845143090907188774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b8457ae8a9786142807f777ddf8ef5d, type: 3}
+  m_Script: {fileID: 11500000, guid: e8b5cb535c96bfc4d82fbf87132ab01b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefabs:
-  - ActionType: 0
-    Prefab: {fileID: 8434394297544314787, guid: faedc13aeab1b244284685b722c8404b,
-      type: 3}
-  - ActionType: 1
-    Prefab: {fileID: 8434394297544314787, guid: 53e3c0e8e6c654842b9c7403600d4c6b,
-      type: 3}
-  - ActionType: 2
-    Prefab: {fileID: 8434394297544314787, guid: 7d9c887e7434bc24eaf8da89b2c28f23,
-      type: 3}
-  - ActionType: 3
-    Prefab: {fileID: 8434394297544314787, guid: 40dfad2a894ba6e4c90c003e410445fe,
-      type: 3}
-  - ActionType: 4
-    Prefab: {fileID: 8434394297544314787, guid: 0bdc42f9655604143a45499135bfe55c,
-      type: 3}
-  - ActionType: 5
-    Prefab: {fileID: 8434394297544314787, guid: 0bdc42f9655604143a45499135bfe55c,
-      type: 3}

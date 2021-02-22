@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TimelineHero.Battle;
+﻿using UnityEngine;
+using TimelineHero.Hud;
+using TimelineHero.Core;
 
-namespace TimelineHero.Core
+namespace TimelineHero.Battle
 {
     public class BattleSceneController : SceneControllerBase
     {
-        public  BattleSystem Battle;
+        [SerializeField]
         public BattleSystemView BattleView;
+        public BattleSystem Battle;
+        public BattleStateBase BattleState;
 
         private void Awake()
         {
@@ -18,7 +19,7 @@ namespace TimelineHero.Core
 
         private void Start()
         {
-
+            BattleState = new ConstructTimelineBattleState(this);
         }
     }
 }

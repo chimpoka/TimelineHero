@@ -24,8 +24,6 @@ namespace TimelineHero.Battle
 
             Skill.SetParent(GetTransform());
 
-            
-
             Skill.AnchoredPosition = GetNextPosition();
 
             Skills.Add(Skill);

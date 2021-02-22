@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using TimelineHero.Character;
 using TimelineHero.CoreUI;
 
 namespace TimelineHero.Battle
@@ -32,20 +31,37 @@ namespace TimelineHero.Battle
 
         public Vector2 GetContentSize()
         {
-            Vector2 contentSize = new Vector2(0, SkillView.GetSkillStaticHeight());
+            float x = Skills.Aggregate<SkillView, float>(0, (total, next) => total += next.Size.x);
+            return new Vector2(x, SkillView.GetSkillStaticHeight());
 
-            foreach (SkillView skill in Skills)
-            {
-                contentSize.x += skill.Size.x;
-            }
+            //Vector2 contentSize = new Vector2(0, SkillView.GetSkillStaticHeight());
 
-            return contentSize;
+            //foreach (SkillView skill in Skills)
+            //{
+            //    contentSize.x += skill.Size.x;
+            //}
+
+            //return contentSize;
         }
 
         public bool IsPositionInsideBounds(Vector2 Position)
         {
             return (Position.x > WorldBounds.min.x) && (Position.x < WorldBounds.max.x) &&
                 (Position.y > WorldBounds.min.y) && (Position.y < WorldBounds.max.y);
+        }
+
+        public int GetLength()
+        {
+            return Skills.Aggregate(0, (total, next) => total += next.GetLength());
+
+            //int length = 0;
+
+            //foreach (SkillView skill in Skills)
+            //{
+            //    length += skill.GetLength();
+            //}
+
+            //return length;
         }
 
         private void ShrinkSkills()
