@@ -5,11 +5,56 @@ namespace TimelineHero.Character
 {
     public class CharacterBase
     {
-        public CharacterBase(List<Skill> Skills)
+        public int Health 
         {
-            this.Skills = Skills;
+            get
+            {
+                return health;
+            } 
+            set 
+            { 
+                health = value;
+                OnHealthChanged?.Invoke(this);
+            } 
         }
 
+        public int MaxHealth
+        {
+            get
+            {
+                return maxHealth;
+            }
+            set
+            {
+                maxHealth = value;
+                OnMaxHealthChanged?.Invoke(this);
+            }
+        }
+
+        public int Armor
+        {
+            get
+            {
+                return armor;
+            }
+            set
+            {
+                armor = value;
+                OnArmorChanged?.Invoke(this);
+            }
+        }
+
+
+
+        public System.Action<CharacterBase> OnHealthChanged;
+        public System.Action<CharacterBase> OnMaxHealthChanged;
+        public System.Action<CharacterBase> OnArmorChanged;
         public List<Skill> Skills;
+        public string Name;
+
+        private int health;
+        private int maxHealth;
+        private int armor;
+
     }
 }

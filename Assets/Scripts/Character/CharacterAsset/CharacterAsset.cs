@@ -7,22 +7,30 @@ namespace TimelineHero.Character
     [CreateAssetMenu(menuName = "ScriptableObject/Character")]
     public class CharacterAsset : ScriptableObject
     {
+        public int Health;
         public SkillsList Skills = new SkillsList();
 
         public CharacterBase ToCharacter()
         {
+            CharacterBase character = new CharacterBase();
+
             List<Skill> newSkillList = new List<Skill>();
             foreach (SkillAsset skillAsset in Skills.Skills)
             {
                 List<Action> newActionList = new List<Action>();
                 foreach (Action action in skillAsset.Actions.Actions)
                 {
-                    newActionList.Add(new Action(action.ActionType, action.Position - 1));
+                    newActionList.Add(new Action(action.ActionType, action.Position - 1, character));
                 }
-                newSkillList.Add(new Skill(newActionList, skillAsset.Length));
+                newSkillList.Add(new Skill(newActionList, skillAsset.Length, character));
             }
 
-            return new CharacterBase(newSkillList);
+            character.Skills = newSkillList;
+            character.Health = Health;
+            character.MaxHealth = Health;
+            character.Name = name;
+
+            return character;
         }
     }
 

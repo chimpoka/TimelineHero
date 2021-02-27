@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AlliedCharactersAssets:
   - {fileID: 11400000, guid: d7ed2c7ff34bcff4595026677d821ce9, type: 2}
+  - {fileID: 11400000, guid: 3688c6746778aec40a6d7ffd3e3c3b12, type: 2}
   EnemyCharactersAssets:
   - {fileID: 11400000, guid: 1cd48c33bcbfd854aaf614c5d162faf2, type: 2}
   CanvasScaleFactor: 1

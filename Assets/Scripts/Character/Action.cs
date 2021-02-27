@@ -18,15 +18,19 @@ namespace TimelineHero.Character
         {
             this.ActionType = NewAction.ActionType;
             this.Position = NewAction.Position;
+            this.Owner = NewAction.Owner;
         }
 
-        public Action(CharacterActionType ActionType, int Position)
+        public Action(CharacterActionType ActionType, int Position, CharacterBase Owner)
         {
             this.ActionType = ActionType;
             this.Position = Position;
+            this.Owner = Owner;
         }
 
         public CharacterActionType ActionType;
+        public CharacterBase Owner;
         public int Position;
+        public int Value;
     }
 }

@@ -86,7 +86,7 @@ namespace TimelineHero.Battle
             for (int i = 0; i < Length; ++i)
             {
                 Action action = SkillCached.GetActionInPosition(i);
-                action = action ?? new Action(CharacterActionType.Empty, i);
+                action = action ?? new Action(CharacterActionType.Empty, i, SkillCached.Owner);
 
                 TimelineStepView step = Instantiate(PrefabsDictionary[action.ActionType]);
                 step.GetTransform().SetParent(GetTransform());

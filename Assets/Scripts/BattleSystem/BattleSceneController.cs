@@ -19,6 +19,9 @@ namespace TimelineHero.Battle
 
         private void Start()
         {
+            BattleHud Hud = (BattleHud)HudBase.Instance;
+            Hud.SetBattleSceneController(this);
+
             BattleState = new ConstructTimelineBattleState(this);
         }
     }

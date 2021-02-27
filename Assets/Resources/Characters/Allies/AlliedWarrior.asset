@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3a3174b3caf204a8fec1e994a1aba8, type: 3}
   m_Name: AlliedWarrior
   m_EditorClassIdentifier: 
+  Health: 100
   Skills:
     Skills:
     - Length: 10

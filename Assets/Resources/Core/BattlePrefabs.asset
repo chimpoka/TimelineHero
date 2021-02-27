@@ -18,3 +18,5 @@ MonoBehaviour:
     type: 3}
   TimerPrefab: {fileID: -7243033508178429347, guid: 262faf29623e8504faea45e9f74ad468,
     type: 3}
+  CharacterStatusPrefab: {fileID: 446106145192331737, guid: b3cc404ee5104074195c63e64cd06b1d,
+    type: 3}
