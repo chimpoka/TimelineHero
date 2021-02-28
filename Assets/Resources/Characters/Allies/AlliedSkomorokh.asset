@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3a3174b3caf204a8fec1e994a1aba8, type: 3}
   m_Name: AlliedSkomorokh
   m_EditorClassIdentifier: 
-  Health: 20
+  Health: 9
   Skills:
     Skills:
     - Length: 20
