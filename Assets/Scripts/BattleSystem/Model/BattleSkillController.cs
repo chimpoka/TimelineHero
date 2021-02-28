@@ -22,8 +22,7 @@ namespace TimelineHero.Battle
                     skillView.SetSkill(skill);
                     SkillContainerCached.AddSkill(skillView);
 
-                    skillView.RelationData.Parent = SkillParentObject.Container;
-                    skillView.RelationData.PositionInContainer = skillView.AnchoredPosition;
+                    skillView.LocationType = SkillLocationType.Container;
 
                     skillView.OnPointerDownEvent += OnSkillPointerDown;
                     skillView.OnPointerUpEvent += OnSkillPointerUp;
@@ -53,32 +52,32 @@ namespace TimelineHero.Battle
         public void OnSkillPointerDown(SkillView Skill, PointerEventData eventData)
         {
             Skill.AnchoredPosition += new Vector2(-6, 6);
+
+            if (Skill.LocationType == SkillLocationType.Container)
+            {
+                SkillContainerCached.RemoveSkill(Skill);
+            }
+            else if (Skill.LocationType == SkillLocationType.Timeline)
+            {
+                AlliedTimelineCached.RemoveSkill(Skill);
+            }
+
             // Move to foreground
             Skill.GetTransform().SetSiblingIndex(Skill.GetTransform().parent.childCount - 1);
         }
 
         public void OnSkillPointerUp(SkillView Skill, PointerEventData eventData)
         {
-            // Temp shit!
             if (AlliedTimelineCached.IsPositionInsideBounds(Skill.WorldBounds.center))
             {
-                if (Skill.RelationData.Parent == SkillParentObject.Container)
+                if (!AlliedTimelineCached.TryAddSkill(Skill))
                 {
-                    AlliedTimelineCached.AddSkill(Skill);
-                    Skill.RelationData.PositionInTimeline = Skill.AnchoredPosition;
-                    Skill.RelationData.Parent = SkillParentObject.Timeline;
-                }
-                else if (Skill.RelationData.Parent == SkillParentObject.Timeline)
-                {
-                    Skill.AnchoredPosition = Skill.RelationData.PositionInTimeline;
+                    SkillContainerCached.AddSkill(Skill);
                 }
             }
             else
             {
-                AlliedTimelineCached.RemoveSkill(Skill);
-                Skill.GetTransform().SetParent(SkillContainerCached.GetTransform());
-                Skill.AnchoredPosition = Skill.RelationData.PositionInContainer;
-                Skill.RelationData.Parent = SkillParentObject.Container;
+                SkillContainerCached.AddSkill(Skill);
             }
         }
 

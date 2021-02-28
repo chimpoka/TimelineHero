@@ -13,25 +13,14 @@ namespace TimelineHero.Battle
         public TimelineStepView Prefab;
     }
 
-    public enum SkillParentObject { NoParent, Container, Timeline }
-
-    public struct SkillRelationData
-    {
-        public Vector2 PositionInContainer;
-        public Vector2 PositionInTimeline;
-        public SkillParentObject Parent;
-
-        public void Clear()
-        {
-            PositionInContainer = Vector2.zero;
-            PositionInTimeline = Vector2.zero;
-        }
-    }
+    public enum SkillLocationType { NoParent, Container, Timeline, Deck }
 
     public class SkillView : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler 
     {
         [SerializeField]
         private StepPrefabStruct[] Prefabs;
+
+        public int Length { get => SkillCached.Length; }
 
         public delegate void SkillEventHandler(SkillView skill, PointerEventData eventData);
         public event SkillEventHandler OnPointerDownEvent;
@@ -40,12 +29,12 @@ namespace TimelineHero.Battle
         public event SkillEventHandler OnEndDragEvent;
         public event SkillEventHandler OnDragEvent;
 
-        public SkillRelationData RelationData;
+        public SkillLocationType LocationType;
 
         private Skill SkillCached;
         private List<TimelineStepView> Steps;
-        static private Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
 
+        static private Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
 
         private void Awake()
         {

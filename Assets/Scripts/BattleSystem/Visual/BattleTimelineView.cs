@@ -25,12 +25,12 @@ namespace TimelineHero.Battle
 
         public int GetTimelineLength()
         {
-            return GetEnemyTimeline().GetLength();
+            return GetEnemyTimeline().Length;
         }
 
         public CharacterTimelineView GetAlliedTimeline()
         {
-            AlliedTimeline = AlliedTimeline ?? GenerateAlliedTimeline(GetEnemyTimeline().Size);
+            AlliedTimeline = AlliedTimeline ?? GenerateAlliedTimeline(GetEnemyTimeline().Size, GetEnemyTimeline().MaxLength);
             return AlliedTimeline;
         }
 
@@ -63,6 +63,7 @@ namespace TimelineHero.Battle
                 enemyTimeline.AddSkill(skillView);
             }
 
+            enemyTimeline.MaxLength = enemyTimeline.Length;
             enemyTimeline.Size = enemyTimeline.GetContentSize();
             enemyTimeline.GetTransform().localScale = new Vector3(1,-1,1);
 
@@ -74,12 +75,13 @@ namespace TimelineHero.Battle
             return enemyTimeline;
         }
 
-        private CharacterTimelineView GenerateAlliedTimeline(Vector2 EnemyTimelineSize)
+        private CharacterTimelineView GenerateAlliedTimeline(Vector2 EnemyTimelineSize, int MaxLength)
         {
             CharacterTimelineView alliedTimeline = GenerateTimeline();
             alliedTimeline.GetTransform().localScale = Vector3.one;
             alliedTimeline.AnchoredPosition += new Vector2(0, -EnemyTimelineSize.y);
             alliedTimeline.Size = EnemyTimelineSize;
+            alliedTimeline.MaxLength = MaxLength;
             return alliedTimeline;
         }
 

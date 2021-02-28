@@ -10,22 +10,41 @@ namespace TimelineHero.Battle
     {
         private List<SkillView> Skills;
 
+        public int Length { get => Skills.Aggregate(0, (total, next) => total += next.Length); }
+        public int MaxLength { get => maxLength; set => maxLength = value; }
+
+        private int maxLength;
+
+
         private void Awake()
         {
             Skills = new List<SkillView>();
+        }
+
+        public bool TryAddSkill(SkillView NewSkill)
+        {
+            if (IsEnoughSpaceForSkill(NewSkill))
+            {
+                AddSkill(NewSkill);
+                return true;
+            }
+
+            return false;
         }
 
         public void AddSkill(SkillView NewSkill)
         {
             NewSkill.SetParent(GetTransform());
             NewSkill.AnchoredPosition = new Vector2(GetContentSize().x, 0);
-            
+            NewSkill.LocationType = SkillLocationType.Timeline;
+
             Skills.Add(NewSkill);
         }
 
         public void RemoveSkill(SkillView SkillToRemove)
         {
             Skills.Remove(SkillToRemove);
+            SkillToRemove.LocationType = SkillLocationType.NoParent;
 
             ShrinkSkills();
         }
@@ -40,11 +59,6 @@ namespace TimelineHero.Battle
         {
             return (Position.x > WorldBounds.min.x) && (Position.x < WorldBounds.max.x) &&
                 (Position.y > WorldBounds.min.y) && (Position.y < WorldBounds.max.y);
-        }
-
-        public int GetLength()
-        {
-            return Skills.Aggregate(0, (total, next) => total += next.GetLength());
         }
 
         public Action GetActionInPosition(int Position)
@@ -64,7 +78,12 @@ namespace TimelineHero.Battle
                 return skill.GetActionInPosition(Position - prevSkillsLength);
             }
 
-            return new Action(CharacterActionType.Empty, Position, null);
+            return new Action(CharacterActionType.Empty, Position, Skills.Last().GetSkill().Owner);
+        }
+
+        public bool IsEnoughSpaceForSkill(SkillView NewSkill)
+        {
+            return Length + NewSkill.Length < MaxLength;
         }
 
         private void ShrinkSkills()
@@ -74,7 +93,6 @@ namespace TimelineHero.Battle
             foreach (SkillView skill in Skills)
             {
                 skill.AnchoredPosition = skillPosition;
-                skill.RelationData.PositionInTimeline = skillPosition;
                 skillPosition += new Vector2(skill.Size.x, 0);
             }
         }

@@ -13,38 +13,39 @@ namespace TimelineHero.Battle
 
         private List<SkillView> Skills;
 
-        private void Awake()
-        {
-            Skills = new List<SkillView>();
-        }
-
         public void AddSkill(SkillView Skill)
         {
             Skills = Skills ?? new List<SkillView>();
 
-            Skill.SetParent(GetTransform());
-
-            Skill.AnchoredPosition = GetNextPosition();
-
             Skills.Add(Skill);
+            Skill.SetParent(GetTransform());
+            Skill.LocationType = SkillLocationType.Container;
+            ShrinkSkills();
         }
 
-        private Vector2 GetNextPosition()
+        public void RemoveSkill(SkillView Skill)
+        {
+            Skills.Remove(Skill);
+            Skill.LocationType = SkillLocationType.NoParent;
+            ShrinkSkills();
+        }
+
+        private void ShrinkSkills()
         {
             Vector2 newPosition = new Vector2(Border.y, Border.z);
 
             foreach (SkillView skill in Skills)
             {
-                newPosition += new Vector2(skill.Size.x + SkillOffset.x, 0);
-
                 if (newPosition.x + skill.Size.x > Size.x)
                 {
                     newPosition.x = Border.z;
                     newPosition.y += SkillView.GetSkillStaticHeight() + SkillOffset.y;
                 }
-            }
 
-            return newPosition;
+                skill.AnchoredPosition = newPosition;
+                
+                newPosition += new Vector2(skill.Size.x + SkillOffset.x, 0);
+            }
         }
     }
 }
