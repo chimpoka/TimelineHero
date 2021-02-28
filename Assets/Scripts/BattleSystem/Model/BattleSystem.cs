@@ -8,10 +8,17 @@ namespace TimelineHero.Battle
 {
     public class BattleSystem
     {
+        public BattleSystem()
+        {
+            ActionBehaviour = new ActionExecutionBehaviour();
+        }
+
         public System.Action OnTimerStarted;
         public System.Action OnTimerFinished;
+        public System.Action<int> OnActionExecuted;
 
         private BattleTimelineTimer TimelineTimer;
+        private ActionExecutionBehaviour ActionBehaviour;
 
         public List<CharacterBase> GetAlliedCharacters()
         {
@@ -37,10 +44,16 @@ namespace TimelineHero.Battle
         {
             GameObject timerObject = new GameObject("Timer");
             TimelineTimer = timerObject.AddComponent<BattleTimelineTimer>();
+            TimelineTimer.OnActionExecuted += (int Position) => OnActionExecuted?.Invoke(Position);
             TimelineTimer.OnElapsed += () => OnTimerFinished?.Invoke();
             TimelineTimer.Launch(5.0f, GetTimelineLength());
 
             OnTimerStarted?.Invoke();
+        }
+
+        public void ExecuteActions(Action AlliedAction, Action EnemyAction)
+        {
+            ActionBehaviour.Execute(AlliedAction, EnemyAction);
         }
     }
 }

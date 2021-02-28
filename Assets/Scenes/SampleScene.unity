@@ -1100,8 +1100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd17b91199c5b64ca53cfd7e15439cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Border: {x: 20, y: 20, z: 20, w: 20}
-  SkillOffset: {x: 15, y: 15}
+  Border: {x: 30, y: 30, z: 30, w: 30}
+  SkillOffset: {x: 30, y: 30}
 --- !u!1 &1692974512
 GameObject:
   m_ObjectHideFlags: 0

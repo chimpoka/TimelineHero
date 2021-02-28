@@ -14,11 +14,17 @@ namespace TimelineHero.Character
     [System.Serializable]
     public class Action
     {
+        public Action()
+        {
+
+        }
+
         public Action(Action NewAction)
         {
             this.ActionType = NewAction.ActionType;
             this.Position = NewAction.Position;
             this.Owner = NewAction.Owner;
+            this.Value = NewAction.Value;
         }
 
         public Action(CharacterActionType ActionType, int Position, CharacterBase Owner)

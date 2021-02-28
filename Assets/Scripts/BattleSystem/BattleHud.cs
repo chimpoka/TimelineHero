@@ -77,7 +77,7 @@ namespace TimelineHero.Battle
 
         public void OnPlayBattleButton()
         {
-            OnPlayBattleButtonEvent();
+            OnPlayBattleButtonEvent?.Invoke();
         }
 
         public void SlowDownGameSpeed()

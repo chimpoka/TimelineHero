@@ -12,9 +12,10 @@ namespace TimelineHero.Battle
         private CharacterTimelineView AlliedTimeline;
         private BattleTimelineTimerView TimerView;
 
-        public void SetBattleSystem(BattleSystem NewBattleSystem)
+        public void Initialize(BattleSystem BattleSystemRef)
         {
-            BattleSystemCached = NewBattleSystem;
+            BattleSystemCached = BattleSystemRef;
+            BattleSystemCached.OnActionExecuted += ExecuteActionsInPosition;
         }
 
         public BattleTimelineTimerView GetTimerView()
@@ -37,6 +38,13 @@ namespace TimelineHero.Battle
         {
             EnemyTimeline = EnemyTimeline ?? GenerateEnemiesTimeline();
             return EnemyTimeline;
+        }
+
+        public void ExecuteActionsInPosition(int Position)
+        {
+            Action alliedAction = GetAlliedTimeline().GetActionInPosition(Position);
+            Action enemyAction = GetEnemyTimeline().GetActionInPosition(Position);
+            BattleSystemCached.ExecuteActions(alliedAction, enemyAction);
         }
 
         private List<Skill> GetEnemySkills()

@@ -17,7 +17,7 @@ namespace TimelineHero.Battle
         {
             GameInstance.Instance.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
 
-            BattleTimeline.SetBattleSystem(BattleSystemCached);
+            BattleTimeline.Initialize(BattleSystemCached);
 
             SkillController = new BattleSkillController();
             SkillController.SetAlliedTimeline(BattleTimeline.GetAlliedTimeline());
@@ -26,9 +26,9 @@ namespace TimelineHero.Battle
             SkillController.SpawnSkills();
         }
 
-        public void SetBattleSystem(BattleSystem NewBattleSystem)
+        public void Initialize(BattleSystem BattleSystemRef)
         {
-            BattleSystemCached = NewBattleSystem;
+            BattleSystemCached = BattleSystemRef;
         }
 
         public BattleTimelineTimerView GetTimerView()

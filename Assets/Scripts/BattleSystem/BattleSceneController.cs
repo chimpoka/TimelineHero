@@ -14,7 +14,7 @@ namespace TimelineHero.Battle
         private void Awake()
         {
             Battle = new BattleSystem();
-            BattleView.SetBattleSystem(Battle);
+            BattleView.Initialize(Battle);
         }
 
         private void Start()

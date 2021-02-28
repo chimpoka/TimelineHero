@@ -38,7 +38,7 @@ namespace TimelineHero.Battle
             OnUpdate?.Invoke(AccumulatedTimeInSeconds);
             OnUpdateInterp?.Invoke(AccumulatedTimeInSeconds / EndTimeIsSeconds);
 
-            if (AccumulatedTimeInSeconds / StepTimeInSeconds >= CurrentStep)
+            if ((int)(AccumulatedTimeInSeconds / StepTimeInSeconds) > CurrentStep)
             {
                 OnActionExecuted?.Invoke(++CurrentStep);
             }

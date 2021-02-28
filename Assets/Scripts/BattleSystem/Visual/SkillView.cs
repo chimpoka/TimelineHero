@@ -79,6 +79,11 @@ namespace TimelineHero.Battle
             return SkillCached.Length;
         }
 
+        public Skill GetSkill()
+        {
+            return SkillCached;
+        }
+
         private void CreateSteps(int Length)
         {
             Steps = new List<TimelineStepView>();
@@ -91,6 +96,7 @@ namespace TimelineHero.Battle
                 TimelineStepView step = Instantiate(PrefabsDictionary[action.ActionType]);
                 step.GetTransform().SetParent(GetTransform());
                 step.AnchoredPosition = new Vector2(i * step.Size.x, 0);
+                step.SetValue(action.Value);
 
                 Steps.Add(step);
             }

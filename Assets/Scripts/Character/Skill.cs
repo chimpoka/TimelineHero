@@ -27,7 +27,7 @@ namespace TimelineHero.Character
                 }
             }
 
-            return null;
+            return new Action(CharacterActionType.Empty, Position, Owner);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using TimelineHero.CoreUI;
+using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
@@ -33,15 +34,6 @@ namespace TimelineHero.Battle
         {
             float x = Skills.Aggregate<SkillView, float>(0, (total, next) => total += next.Size.x);
             return new Vector2(x, SkillView.GetSkillStaticHeight());
-
-            //Vector2 contentSize = new Vector2(0, SkillView.GetSkillStaticHeight());
-
-            //foreach (SkillView skill in Skills)
-            //{
-            //    contentSize.x += skill.Size.x;
-            //}
-
-            //return contentSize;
         }
 
         public bool IsPositionInsideBounds(Vector2 Position)
@@ -53,15 +45,26 @@ namespace TimelineHero.Battle
         public int GetLength()
         {
             return Skills.Aggregate(0, (total, next) => total += next.GetLength());
+        }
 
-            //int length = 0;
+        public Action GetActionInPosition(int Position)
+        {
+            int prevSkillsLength = 0;
 
-            //foreach (SkillView skill in Skills)
-            //{
-            //    length += skill.GetLength();
-            //}
+            foreach (SkillView skillView in Skills)
+            {
+                Skill skill = skillView.GetSkill();
 
-            //return length;
+                if (Position >= skill.Length + prevSkillsLength)
+                {
+                    prevSkillsLength += skill.Length;
+                    continue;
+                }
+
+                return skill.GetActionInPosition(Position - prevSkillsLength);
+            }
+
+            return new Action(CharacterActionType.Empty, Position, null);
         }
 
         private void ShrinkSkills()

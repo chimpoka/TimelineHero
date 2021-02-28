@@ -20,7 +20,10 @@ namespace TimelineHero.Character
                 List<Action> newActionList = new List<Action>();
                 foreach (Action action in skillAsset.Actions.Actions)
                 {
-                    newActionList.Add(new Action(action.ActionType, action.Position - 1, character));
+                    Action newAction = new Action(action);
+                    newAction.Owner = character;
+                    newAction.Position -= 1;
+                    newActionList.Add(newAction);
                 }
                 newSkillList.Add(new Skill(newActionList, skillAsset.Length, character));
             }
