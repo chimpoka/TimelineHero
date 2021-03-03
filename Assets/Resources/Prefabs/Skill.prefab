@@ -128,19 +128,19 @@ MonoBehaviour:
     Prefab: {fileID: 8434394297544314787, guid: 1206465cdafa00140aae7d92ea5f9ed1,
       type: 3}
   - ActionType: 13
-    Prefab: {fileID: 8434394297544314787, guid: 581dce33f5aa3ac42b64e7b94a795fce,
+    Prefab: {fileID: 3579473793009473673, guid: b74370895a8909c41bd2aa4f92a54a80,
       type: 3}
   - ActionType: 14
     Prefab: {fileID: 8434394297544314787, guid: 765424158a5fdbc4a90626bd824f054e,
       type: 3}
   - ActionType: 15
-    Prefab: {fileID: 8434394297544314787, guid: 25adc4e5cc25d094b99cedf95c2151ab,
+    Prefab: {fileID: 1664057068801435862, guid: 540b31ee7a357454d9f106ba5a01fabf,
       type: 3}
   - ActionType: 16
     Prefab: {fileID: 8434394297544314787, guid: fb03d10be0caf33458f0cfa3cedca368,
       type: 3}
   - ActionType: 17
-    Prefab: {fileID: 8434394297544314787, guid: 543966da5cb999440bda7d5b47c6817f,
+    Prefab: {fileID: 6373215813187415266, guid: 22e052237a8e9e14cb9f9db539803732,
       type: 3}
   - ActionType: 18
     Prefab: {fileID: 8434394297544314787, guid: 2f7b80080cd92e347a8c81f3cab20683,
@@ -148,3 +148,4 @@ MonoBehaviour:
   - ActionType: 19
     Prefab: {fileID: 8434394297544314787, guid: e9ae9a15370f16c4584decbf0fca76b8,
       type: 3}
+  LocationType: 0

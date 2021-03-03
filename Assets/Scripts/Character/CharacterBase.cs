@@ -15,6 +15,11 @@ namespace TimelineHero.Character
             { 
                 health = value;
                 OnHealthChanged?.Invoke(this);
+
+                if (IsDead)
+                {
+                    OnDied?.Invoke(this);
+                }
             } 
         }
 
@@ -44,11 +49,20 @@ namespace TimelineHero.Character
             }
         }
 
+        public bool IsDead
+        {
+            get
+            {
+                return health <= 0;
+            }
+        }
+
 
 
         public System.Action<CharacterBase> OnHealthChanged;
         public System.Action<CharacterBase> OnMaxHealthChanged;
         public System.Action<CharacterBase> OnArmorChanged;
+        public System.Action<CharacterBase> OnDied;
         public List<Skill> Skills;
         public string Name;
 
