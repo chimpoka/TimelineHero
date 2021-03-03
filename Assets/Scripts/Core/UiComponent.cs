@@ -30,6 +30,12 @@ namespace TimelineHero.CoreUI
             GetTransform().anchorMax = Vector3.zero;
         }
 
+        public void SetAnchorsToCenter()
+        {
+            GetTransform().anchorMin = new Vector2(0.5f, 0.5f);
+            GetTransform().anchorMax = new Vector2(0.5f, 0.5f);
+        }
+
         private Bounds CalculateBounds(RectTransform transform, float uiScaleFactor)
         {
             Vector3[] corners = new Vector3[4];

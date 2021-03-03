@@ -35,5 +35,10 @@ namespace TimelineHero.Battle
         {
             return BattleTimeline.GetTimerView();
         }
+
+        public void SetActive(bool Active)
+        {
+            SkillController.SetActive(Active);
+        }
     }
 }

@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace TimelineHero.Battle
+﻿namespace TimelineHero.Battle
 {
     public class PlayTimelineBattleState : BattleStateBase
     {
         public PlayTimelineBattleState(BattleSceneController BattleSceneControllerRef)
             : base(BattleSceneControllerRef)
         {
-            BattleSceneControllerRef.Battle.StartBattleTimer();
             BattleSceneControllerRef.Battle.OnTimerFinished += SetNextState;
+            BattleSceneControllerRef.Battle.StartBattleTimer();
+            BattleSceneControllerRef.BattleView.SetActive(false);
             Hud.SetPlayState();
         }
 

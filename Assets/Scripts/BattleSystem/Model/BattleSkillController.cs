@@ -11,6 +11,7 @@ namespace TimelineHero.Battle
         private List<CharacterBase> AlliedCharacters;
         private SkillContainerView SkillContainerCached;
         private CharacterTimelineView AlliedTimelineCached;
+        private bool IsActive;
 
         public void SpawnSkills()
         {
@@ -33,6 +34,11 @@ namespace TimelineHero.Battle
             }
         }
 
+        public void SetActive(bool Active)
+        {
+            IsActive = Active;
+        }
+
         public void SetAlliedCharacters(List<CharacterBase> NewAlliedCharacters)
         {
             AlliedCharacters = NewAlliedCharacters;
@@ -51,6 +57,9 @@ namespace TimelineHero.Battle
         #region SkillEvents
         public void OnSkillPointerDown(SkillView Skill, PointerEventData eventData)
         {
+            if (!IsActive)
+                return;
+
             Skill.AnchoredPosition += new Vector2(-6, 6);
 
             if (Skill.LocationType == SkillLocationType.Container)
@@ -68,6 +77,9 @@ namespace TimelineHero.Battle
 
         public void OnSkillPointerUp(SkillView Skill, PointerEventData eventData)
         {
+            if (!IsActive)
+                return;
+
             if (AlliedTimelineCached.IsPositionInsideBounds(Skill.WorldBounds.center))
             {
                 if (!AlliedTimelineCached.TryAddSkill(Skill))
@@ -83,16 +95,21 @@ namespace TimelineHero.Battle
 
         public void OnSkillBeginDrag(SkillView Skill, PointerEventData eventData)
         {
-
+            if (!IsActive)
+                return;
         }
 
         public void OnSkillEndDrag(SkillView Skill, PointerEventData eventData)
         {
-
+            if (!IsActive)
+                return;
         }
 
         public void OnSkillDrag(SkillView Skill, PointerEventData eventData)
         {
+            if (!IsActive)
+                return;
+
             Skill.AnchoredPosition += eventData.delta / GameInstance.Instance.CanvasScaleFactor;
         }
         #endregion SkillEvents

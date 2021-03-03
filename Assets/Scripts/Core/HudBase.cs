@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TimelineHero.CoreUI;
+using UnityEngine;
 
 namespace TimelineHero.Hud
 {
@@ -21,6 +22,13 @@ namespace TimelineHero.Hud
         private void Awake()
         {
             instance = this;
+        }
+
+        public void InstantiateWindow(UiComponent WindowPrefab)
+        {
+            UiComponent window = Instantiate(WindowPrefab);
+            window.SetParent(transform);
+            window.SetAnchorsToCenter();
         }
     }
 }

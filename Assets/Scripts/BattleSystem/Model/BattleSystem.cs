@@ -6,28 +6,48 @@ using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
+    public enum BattleResult { Lost, Won }
+
     public class BattleSystem
     {
         public BattleSystem()
         {
             ActionBehaviour = new ActionExecutionBehaviour();
+
+            GetEnemyCharacters()[0].OnDied += OnEnemyDied;
+
+            foreach(CharacterBase ally in GetAlliedCharacters())
+            {
+                ally.OnDied += OnAllyDied;
+            }
         }
 
         public System.Action OnTimerStarted;
         public System.Action OnTimerFinished;
         public System.Action<int> OnActionExecuted;
+        public System.Action<BattleResult> OnBattleFinished;
 
         private BattleTimelineTimer TimelineTimer;
         private ActionExecutionBehaviour ActionBehaviour;
+        private List<CharacterBase> AlliedCharacters;
+        private List<CharacterBase> EnemyCharacters;
 
         public List<CharacterBase> GetAlliedCharacters()
         {
-            return GameInstance.Instance.GetAllies();
+            if (AlliedCharacters == null || AlliedCharacters.Count == 0)
+            {
+                AlliedCharacters = GameInstance.Instance.GetAllies();
+            }
+            return AlliedCharacters;
         }
 
         public List<CharacterBase> GetEnemyCharacters()
         {
-            return GameInstance.Instance.GetEnemies();
+            if (EnemyCharacters == null || EnemyCharacters.Count == 0)
+            {
+                EnemyCharacters = GameInstance.Instance.GetEnemies();
+            }
+            return EnemyCharacters;
         }
 
         public BattleTimelineTimer GetTimer()
@@ -46,14 +66,38 @@ namespace TimelineHero.Battle
             TimelineTimer = timerObject.AddComponent<BattleTimelineTimer>();
             TimelineTimer.OnActionExecuted += (int Position) => OnActionExecuted?.Invoke(Position);
             TimelineTimer.OnElapsed += () => OnTimerFinished?.Invoke();
+            TimelineTimer.OnStopped += () => OnTimerFinished?.Invoke();
             TimelineTimer.Launch(5.0f, GetTimelineLength());
 
             OnTimerStarted?.Invoke();
         }
 
+        public void StopBattleTimer()
+        {
+            TimelineTimer.Stop();
+        }
+
         public void ExecuteActions(Action AlliedAction, Action EnemyAction)
         {
             ActionBehaviour.Execute(AlliedAction, EnemyAction);
+        }
+
+        private void OnEnemyDied(CharacterBase Enemy)
+        {
+            OnBattleFinished?.Invoke(BattleResult.Won);
+        }
+
+        private void OnAllyDied(CharacterBase Ally)
+        {
+            foreach(CharacterBase character in GetAlliedCharacters())
+            {
+                if (!character.IsDead)
+                {
+                    return;
+                }
+            }
+
+            OnBattleFinished?.Invoke(BattleResult.Lost);
         }
     }
 }

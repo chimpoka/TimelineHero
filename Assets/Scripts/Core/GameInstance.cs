@@ -25,25 +25,14 @@ namespace TimelineHero.Core
 
         public float CanvasScaleFactor;
 
-        private List<CharacterBase> AlliedCharacters;
-        private List<CharacterBase> EnemyCharacters;
-
         public List<CharacterBase> GetAllies()
         {
-            if (AlliedCharacters == null || AlliedCharacters.Count == 0)
-            {
-                AlliedCharacters = GetCharactersFromAssets(AlliedCharactersAssets);
-            }
-            return AlliedCharacters;
+            return GetCharactersFromAssets(AlliedCharactersAssets);
         }
 
         public List<CharacterBase> GetEnemies()
         {
-            if (EnemyCharacters == null || EnemyCharacters.Count == 0)
-            {
-                EnemyCharacters = GetCharactersFromAssets(EnemyCharactersAssets);
-            }
-            return EnemyCharacters;
+            return GetCharactersFromAssets(EnemyCharactersAssets);
         }
 
         private List<CharacterBase> GetCharactersFromAssets(List<CharacterAsset> Assets)

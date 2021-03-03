@@ -12,6 +12,7 @@ namespace TimelineHero.Battle
             : base(BattleSceneControllerRef)
         {
             Hud.OnPlayBattleButtonEvent += SetNextState;
+            BattleSceneControllerRef.BattleView.SetActive(true);
             BattleSceneControllerRef.BattleView.GetTimerView().ResetPosition();
             Hud.SetConstructState();
         }
