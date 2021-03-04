@@ -24,7 +24,8 @@ namespace TimelineHero.Battle
 
         public System.Action OnTimerStarted;
         public System.Action OnTimerFinished;
-        public System.Action<int> OnActionExecuted;
+        public System.Action<int> OnIntegerValue;
+        public System.Action<ActionEffectData[]> OnActionExecuted;
         public System.Action<BattleResult> OnBattleFinished;
 
         private BattleTimelineTimer TimelineTimer;
@@ -64,7 +65,7 @@ namespace TimelineHero.Battle
         {
             GameObject timerObject = new GameObject("Timer");
             TimelineTimer = timerObject.AddComponent<BattleTimelineTimer>();
-            TimelineTimer.OnActionExecuted += (int Position) => OnActionExecuted?.Invoke(Position);
+            TimelineTimer.OnIntegerValue += (int Position) => OnIntegerValue?.Invoke(Position);
             TimelineTimer.OnElapsed += () => OnTimerFinished?.Invoke();
             TimelineTimer.OnStopped += () => OnTimerFinished?.Invoke();
             TimelineTimer.Launch(5.0f, GetTimelineLength());
@@ -79,7 +80,8 @@ namespace TimelineHero.Battle
 
         public void ExecuteActions(Action AlliedAction, Action EnemyAction)
         {
-            ActionBehaviour.Execute(AlliedAction, EnemyAction);
+            ActionEffectData[] data = ActionBehaviour.Execute(AlliedAction, EnemyAction);
+            OnActionExecuted?.Invoke(data);
         }
 
         private void OnEnemyDied(CharacterBase Enemy)

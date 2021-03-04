@@ -2,35 +2,58 @@
 
 namespace TimelineHero.Battle
 {
-    public class ActionExecutionBehaviour
+    public struct ActionEffectData
     {
-        public void Execute(Action AlliedAction, Action EnemyAction)
+        public ActionEffectData(string AlliedText, string EnemyText)
         {
-            Execute_Internal(AlliedAction, EnemyAction);
-            Execute_Internal(EnemyAction, AlliedAction);
+            this.AlliedText = AlliedText;
+            this.EnemyText = EnemyText;
         }
 
-        private void Execute_Internal(Action FirstAction, Action SecondAction)
+        public string AlliedText;
+        public string EnemyText;
+
+        public ActionEffectData Swap()
         {
-            if (!IsDead(FirstAction.Owner))
+            string temp = AlliedText;
+            AlliedText = EnemyText;
+            EnemyText = temp;
+            return this;
+        }
+    }
+
+    public class ActionExecutionBehaviour
+    {
+        public ActionEffectData[] Execute(Action AlliedAction, Action EnemyAction)
+        {
+            ActionEffectData FirstActionData = Execute_Internal(AlliedAction, EnemyAction);
+            ActionEffectData SecondActionData = Execute_Internal(EnemyAction, AlliedAction);
+
+            return new ActionEffectData[2] { FirstActionData, SecondActionData.Swap() };
+        }
+
+        private ActionEffectData Execute_Internal(Action AttackerAction, Action DefenderAction)
+        {
+            if (!IsDead(AttackerAction.Owner))
             {
-                if (FirstAction.ActionType == CharacterActionType.Attack)
+                if (AttackerAction.ActionType == CharacterActionType.Attack)
                 {
-                    DoAction_Attack(FirstAction, SecondAction);
+                    return DoAction_Attack(AttackerAction, DefenderAction);
                 }
-                if (FirstAction.ActionType == CharacterActionType.RandomAttack)
+                if (AttackerAction.ActionType == CharacterActionType.RandomAttack)
                 {
-                    DoAction_RandomAttack(FirstAction, SecondAction);
+                    return DoAction_RandomAttack(AttackerAction, DefenderAction);
                 }
-                if (FirstAction.ActionType == CharacterActionType.SelfAttack)
+                if (AttackerAction.ActionType == CharacterActionType.SelfAttack)
                 {
-                    DoAction_SelfAttack(FirstAction);
+                    return DoAction_SelfAttack(AttackerAction);
                 }
-                if (FirstAction.ActionType == CharacterActionType.SelfRandomAttack)
+                if (AttackerAction.ActionType == CharacterActionType.SelfRandomAttack)
                 {
-                    DoAction_SelfRandomAttack(FirstAction);
+                    return DoAction_SelfRandomAttack(AttackerAction);
                 }
             }
+            return new ActionEffectData();
         }
 
         private bool IsDead(CharacterBase Character)
@@ -38,35 +61,40 @@ namespace TimelineHero.Battle
             return Character == null || Character.IsDead;
         }
 
-        private void DoAction_Attack(Action AttackerAction, Action DefenderAction)
+        private ActionEffectData DoAction_Attack(Action AttackerAction, Action DefenderAction)
         {
             if (!IsDead(DefenderAction.Owner))
             {
                 DefenderAction.Owner.Health -= AttackerAction.Value;
+                return new ActionEffectData("", (-AttackerAction.Value).ToString());
             }
+            return new ActionEffectData();
         }
 
-        private void DoAction_SelfAttack(Action AttackerAction)
+        private ActionEffectData DoAction_SelfAttack(Action AttackerAction)
         {
             AttackerAction.Owner.Health -= AttackerAction.Value;
+            return new ActionEffectData((-AttackerAction.Value).ToString(), "");
         }
 
-        private void DoAction_RandomAttack(Action AttackerAction, Action DefenderAction)
+        private ActionEffectData DoAction_RandomAttack(Action AttackerAction, Action DefenderAction)
         {
             bool success = UnityEngine.Random.value > 0.4f; // Fair random :)
             if (success)
             {
-                DoAction_Attack(AttackerAction, DefenderAction);
+                return DoAction_Attack(AttackerAction, DefenderAction);
             }
+            return new ActionEffectData("Miss", "");
         }
 
-        private void DoAction_SelfRandomAttack(Action AttackerAction)
+        private ActionEffectData DoAction_SelfRandomAttack(Action AttackerAction)
         {
             bool success = UnityEngine.Random.value > 0.4f; // Fair random :)
             if (success)
             {
-                DoAction_SelfAttack(AttackerAction);
+                return DoAction_SelfAttack(AttackerAction);
             }
+            return new ActionEffectData("Miss", "");
         }
     }
 }

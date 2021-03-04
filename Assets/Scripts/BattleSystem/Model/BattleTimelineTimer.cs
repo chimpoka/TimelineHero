@@ -9,7 +9,7 @@ namespace TimelineHero.Battle
         // Returns accumulated time
         public System.Action<float> OnUpdate;
         // Returns accumulated action
-        public System.Action<int> OnActionExecuted;
+        public System.Action<int> OnIntegerValue;
         // On timer ends
         public System.Action OnElapsed;
         // On timer interrupted
@@ -47,7 +47,7 @@ namespace TimelineHero.Battle
 
             if ((int)(AccumulatedTimeInSeconds / StepTimeInSeconds) > CurrentStep)
             {
-                OnActionExecuted?.Invoke(++CurrentStep);
+                OnIntegerValue?.Invoke(++CurrentStep);
             }
 
             if (AccumulatedTimeInSeconds >= EndTimeIsSeconds)
