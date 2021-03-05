@@ -142,10 +142,13 @@ MonoBehaviour:
   - ActionType: 17
     Prefab: {fileID: 6373215813187415266, guid: 22e052237a8e9e14cb9f9db539803732,
       type: 3}
-  - ActionType: 18
+  - ActionType: 19
     Prefab: {fileID: 8434394297544314787, guid: 2f7b80080cd92e347a8c81f3cab20683,
       type: 3}
-  - ActionType: 19
+  - ActionType: 20
     Prefab: {fileID: 8434394297544314787, guid: e9ae9a15370f16c4584decbf0fca76b8,
+      type: 3}
+  - ActionType: 18
+    Prefab: {fileID: 6591175722870230602, guid: 2a9639d63c2fa3748b51c91f94a1247a,
       type: 3}
   LocationType: 0

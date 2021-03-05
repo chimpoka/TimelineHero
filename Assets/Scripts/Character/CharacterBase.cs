@@ -57,8 +57,6 @@ namespace TimelineHero.Character
             }
         }
 
-
-
         public System.Action<CharacterBase> OnHealthChanged;
         public System.Action<CharacterBase> OnMaxHealthChanged;
         public System.Action<CharacterBase> OnArmorChanged;
@@ -70,5 +68,8 @@ namespace TimelineHero.Character
         private int maxHealth;
         private int armor;
 
+        // Effects
+        public bool HasActionPriority;
+        public int StunDuration;
     }
 }

@@ -11,6 +11,8 @@ namespace TimelineHero.Character
             this.Actions = Actions;
             this.Length = Length;
             this.Owner = Owner;
+
+            SplitCompositeActions();
         }
 
         public List<Action> Actions;
@@ -28,6 +30,24 @@ namespace TimelineHero.Character
             }
 
             return new Action(CharacterActionType.Empty, Position, Owner);
+        }
+
+        private void SplitCompositeActions()
+        {
+            List<Action> actionsToAdd = new List<Action>();
+
+            foreach (Action action in Actions)
+            {
+                for (int i = 1; i < action.Duration; ++i)
+                {
+                    if (action.ActionType == CharacterActionType.StunningAttack)
+                    {
+                        actionsToAdd.Add(new Action(CharacterActionType.Stun, action.Position + i, Owner));
+                    }
+                }
+            }
+
+            Actions.AddRange(actionsToAdd);
         }
     }
 }

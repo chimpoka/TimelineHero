@@ -8,7 +8,7 @@ namespace TimelineHero.Character
     {
         Empty, Attack, Dodge, Stun, Block, BlockContinuance, Parry, LuckAttack, LuckDodge, LuckBlock,
         AdrenalinAttack, AdrenalinDodge, AdrenalinBlock, RandomAttack, ImperviousAttack, SelfAttack,
-        SelfLuckAttack, SelfRandomAttack, Open, Close
+        SelfLuckAttack, SelfRandomAttack, StunningAttack, Open, Close
     }
 
     [System.Serializable]
@@ -25,6 +25,7 @@ namespace TimelineHero.Character
             this.Position = NewAction.Position;
             this.Owner = NewAction.Owner;
             this.Value = NewAction.Value;
+            this.Duration = NewAction.Duration;
         }
 
         public Action(CharacterActionType ActionType, int Position, CharacterBase Owner)
@@ -38,5 +39,6 @@ namespace TimelineHero.Character
         public CharacterBase Owner;
         public int Position;
         public int Value;
+        public int Duration;
     }
 }

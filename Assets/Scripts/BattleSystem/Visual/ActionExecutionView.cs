@@ -18,11 +18,15 @@ namespace TimelineHero.UI
         {
             foreach(ActionEffectData data in EffectData)
             {
-                if (!(data.AlliedText == null || data.AlliedText == ""))
+                if (!data.IsValid())
+                {
+                    continue;
+                }
+                if (data.AlliedText != "")
                 {
                     InstantiateActionEffect(AlliedActionEmitter, data.AlliedText);
                 }
-                if (!(data.EnemyText == null || data.EnemyText == ""))
+                if (data.EnemyText != "")
                 {
                     InstantiateActionEffect(EnemyActionEmitter, data.EnemyText);
                 }

@@ -15,7 +15,7 @@ namespace TimelineHero.Battle
         public void Initialize(BattleSystem BattleSystemRef)
         {
             BattleSystemCached = BattleSystemRef;
-            BattleSystemCached.OnIntegerValue += ExecuteActionsInPosition;
+            BattleSystemCached.OnTimerIntegerValue += ExecuteActionsInPosition;
         }
 
         public BattleTimelineTimerView GetTimerView()

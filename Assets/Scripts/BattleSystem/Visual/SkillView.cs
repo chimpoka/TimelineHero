@@ -83,7 +83,7 @@ namespace TimelineHero.Battle
                 action = action ?? new Action(CharacterActionType.Empty, i, SkillCached.Owner);
 
                 TimelineStepView step = Instantiate(PrefabsDictionary[action.ActionType]);
-                step.GetTransform().SetParent(GetTransform());
+                step.SetParent(GetTransform());
                 step.AnchoredPosition = new Vector2(i * step.Size.x, 0);
                 step.SetValue(action.Value);
 
