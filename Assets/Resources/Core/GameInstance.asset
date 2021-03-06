@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameInstance
   m_EditorClassIdentifier: 
   AlliedCharactersAssets:
-  - {fileID: 11400000, guid: 73d40167077498949a1b2a229199d284, type: 2}
+  - {fileID: 11400000, guid: dc23ff522ea55064ca8e262bbbbaaa04, type: 2}
   EnemyCharactersAssets:
   - {fileID: 11400000, guid: 03c6eb5ca2b08104a97fcaa07088f0c4, type: 2}
-  CanvasScaleFactor: 0.95104164
+  CanvasScaleFactor: 1

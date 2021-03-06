@@ -21,165 +21,211 @@ MonoBehaviour:
         - ActionType: 1
           Position: 12
           Value: 1
+          Duration: 0
         - ActionType: 3
           Position: 13
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 14
           Value: 0
+          Duration: 0
     - Length: 13
       Actions:
         Actions:
-        - ActionType: 18
+        - ActionType: 19
           Position: 1
           Value: 0
+          Duration: 0
         - ActionType: 10
           Position: 5
           Value: 2
+          Duration: 0
         - ActionType: 3
           Position: 6
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 7
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 8
           Value: 0
+          Duration: 0
     - Length: 15
       Actions:
         Actions:
         - ActionType: 7
           Position: 5
           Value: 1
+          Duration: 0
         - ActionType: 3
           Position: 6
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 7
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 8
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 9
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 10
           Value: 0
+          Duration: 0
     - Length: 15
       Actions:
         Actions:
         - ActionType: 13
           Position: 4
           Value: 1
+          Duration: 0
         - ActionType: 13
           Position: 8
           Value: 1
+          Duration: 0
         - ActionType: 13
           Position: 12
           Value: 1
+          Duration: 0
     - Length: 18
       Actions:
         Actions:
         - ActionType: 7
           Position: 5
           Value: 1
+          Duration: 0
         - ActionType: 3
           Position: 6
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 7
           Value: 0
+          Duration: 0
         - ActionType: 16
           Position: 10
           Value: 1
+          Duration: 0
         - ActionType: 7
           Position: 13
           Value: 1
+          Duration: 0
         - ActionType: 3
           Position: 14
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 15
           Value: 0
+          Duration: 0
     - Length: 20
       Actions:
         Actions:
         - ActionType: 13
           Position: 4
           Value: 1
+          Duration: 0
         - ActionType: 3
           Position: 5
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 6
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 7
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 8
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 9
           Value: 0
+          Duration: 0
         - ActionType: 13
           Position: 14
           Value: 1
+          Duration: 0
         - ActionType: 13
           Position: 17
           Value: 1
-        - ActionType: 19
+          Duration: 0
+        - ActionType: 20
           Position: 20
           Value: 0
+          Duration: 0
     - Length: 10
       Actions:
         Actions:
         - ActionType: 1
           Position: 6
           Value: 2
+          Duration: 0
         - ActionType: 3
           Position: 7
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 8
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 9
           Value: 0
-        - ActionType: 19
+          Duration: 0
+        - ActionType: 20
           Position: 10
           Value: 0
+          Duration: 0
     - Length: 18
       Actions:
         Actions:
         - ActionType: 1
           Position: 7
           Value: 1
+          Duration: 0
     - Length: 13
       Actions:
         Actions:
         - ActionType: 13
           Position: 6
           Value: 2
+          Duration: 0
         - ActionType: 17
           Position: 9
           Value: 1
+          Duration: 0
     - Length: 20
       Actions:
         Actions:
         - ActionType: 10
           Position: 7
           Value: 2
+          Duration: 0
         - ActionType: 3
           Position: 8
           Value: 0
+          Duration: 0
         - ActionType: 3
           Position: 9
           Value: 0
+          Duration: 0
         - ActionType: 16
           Position: 11
           Value: 2
+          Duration: 0
         - ActionType: 1
           Position: 13
           Value: 1
+          Duration: 0

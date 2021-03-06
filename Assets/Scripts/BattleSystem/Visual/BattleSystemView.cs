@@ -13,11 +13,16 @@ namespace TimelineHero.Battle
 
         BattleSkillController SkillController;
 
+        private void Awake()
+        {
+            float a = GetComponent<Canvas>().scaleFactor;
+        }
+
         public void Initialize(BattleSystem BattleSystemRef)
         {
-            BattleSystemCached = BattleSystemRef;
-
             GameInstance.Instance.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
+
+            BattleSystemCached = BattleSystemRef;
 
             BattleTimeline.Initialize(BattleSystemCached);
 

@@ -10,9 +10,7 @@ namespace TimelineHero.CoreUI
         public Vector2 AnchoredPosition { get => GetTransform().anchoredPosition; set => GetTransform().anchoredPosition = value; }
         public Vector2 Size { get => GetTransform().sizeDelta; set => GetTransform().sizeDelta = value; }
         public Vector2 WorldPosition { get => new Vector2(GetTransform().position.x, GetTransform().position.y); set => GetTransform().position = new Vector3(value.x, value.y, 0); }
-        public Bounds WorldBounds { get => CalculateBounds(GetTransform(), CanvasScaleFactor); }
-
-        protected float CanvasScaleFactor { get => GameInstance.Instance.CanvasScaleFactor; }
+        public Bounds WorldBounds { get => CalculateBounds(); }
 
         private RectTransform transformCached;
 
@@ -36,13 +34,13 @@ namespace TimelineHero.CoreUI
             GetTransform().anchorMax = new Vector2(0.5f, 0.5f);
         }
 
-        private Bounds CalculateBounds(RectTransform transform, float uiScaleFactor)
+        private Bounds CalculateBounds()
         {
             Vector3[] corners = new Vector3[4];
-            transform.GetWorldCorners(corners);
+            GetTransform().GetWorldCorners(corners);
 
             Vector3 center = new Vector3((corners[1].x + corners[2].x) / 2, (corners[0].y + corners[1].y) / 2, 0);
-            Bounds bounds = new Bounds(center, new Vector3(Mathf.Abs(corners[1].x - corners[2].x), Mathf.Abs(corners[0].y - corners[1].y), 0.0f) * uiScaleFactor);
+            Bounds bounds = new Bounds(center, new Vector3(Mathf.Abs(corners[1].x - corners[2].x), Mathf.Abs(corners[0].y - corners[1].y), 0.0f));
 
             return bounds;
         }

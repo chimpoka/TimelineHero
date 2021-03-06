@@ -11,7 +11,7 @@ namespace TimelineHero.Battle
         public BattleSystem Battle;
         public BattleStateBase BattleState;
 
-        private void Awake()
+        private void testAwake()
         {
             Battle = new BattleSystem();
             Battle.OnBattleFinished += OnBattleFinished;
@@ -20,6 +20,8 @@ namespace TimelineHero.Battle
 
         private void Start()
         {
+            testAwake();
+
             BattleHud Hud = (BattleHud)HudBase.Instance;
             Hud.SetBattleSceneController(this);
 
