@@ -83,7 +83,7 @@ namespace TimelineHero.Battle
 
         public bool IsEnoughSpaceForSkill(SkillView NewSkill)
         {
-            return Length + NewSkill.Length < MaxLength;
+            return Length + NewSkill.Length <= MaxLength;
         }
 
         private void ShrinkSkills()

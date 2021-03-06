@@ -151,4 +151,6 @@ MonoBehaviour:
   - ActionType: 18
     Prefab: {fileID: 6591175722870230602, guid: 2a9639d63c2fa3748b51c91f94a1247a,
       type: 3}
+  DelimeterPrefab: {fileID: 7582023798472982483, guid: 454949891e1125544afe96bba0e932f1,
+    type: 3}
   LocationType: 0

@@ -18,6 +18,8 @@ namespace TimelineHero.Battle
     public class SkillView : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler 
     {
         [SerializeField]
+        private RectTransform DelimeterPrefab;
+        [SerializeField]
         private StepPrefabStruct[] Prefabs;
 
         public int Length { get => SkillCached.Length; }
@@ -91,6 +93,10 @@ namespace TimelineHero.Battle
             }
 
             Size = GetTimelineStepStaticSize() * new Vector2(Length, 1.0f);
+
+            RectTransform delimeter = Instantiate(DelimeterPrefab);
+            delimeter.SetParent(GetTransform());
+            delimeter.localScale = Vector3.one;
         }
 
         #region SkillEvents
