@@ -36,15 +36,15 @@ namespace TimelineHero.Character
             }
         }
 
-        public int Armor
+        public int Block
         {
             get
             {
-                return armor;
+                return block;
             }
             set
             {
-                armor = value;
+                block = value;
                 OnArmorChanged?.Invoke(this);
             }
         }
@@ -66,10 +66,23 @@ namespace TimelineHero.Character
 
         private int health;
         private int maxHealth;
-        private int armor;
+        private int block;
 
         // Effects
         public bool HasActionPriority;
         public int StunDuration;
+        public int BlockDuration;
+
+        public int Hit(int Damage)
+        {
+            if (block >= Damage)
+            {
+                return 0;
+            }
+
+            int ActualDamage = Damage - Block;
+            Health -= ActualDamage;
+            return ActualDamage;
+        }
     }
 }

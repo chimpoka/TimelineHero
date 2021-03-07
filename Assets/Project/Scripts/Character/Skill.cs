@@ -67,6 +67,10 @@ namespace TimelineHero.Character
                     {
                         AdditionalActions.Add(new Action(CharacterActionType.Stun, action.Position + i, Owner));
                     }
+                    else if (action.ActionType == CharacterActionType.Block)
+                    {
+                        AdditionalActions.Add(new Action(CharacterActionType.BlockContinuance, action.Position + i, Owner, action.Value));
+                    }
                 }
             }
         }

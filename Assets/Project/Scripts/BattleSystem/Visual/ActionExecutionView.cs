@@ -17,7 +17,7 @@ namespace TimelineHero.UI
         {
             foreach(ActionEffectData data in EffectData)
             {
-                if (!data.IsValid())
+                if (data == null)
                 {
                     continue;
                 }

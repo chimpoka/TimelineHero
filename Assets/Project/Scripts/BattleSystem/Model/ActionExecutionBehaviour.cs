@@ -3,7 +3,7 @@ using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
-    public struct ActionEffectData
+    public class ActionEffectData
     {
         public ActionEffectData(string AlliedText, string EnemyText)
         {
@@ -21,35 +21,57 @@ namespace TimelineHero.Battle
             EnemyText = temp;
             return this;
         }
-
-        public bool IsValid()
-        {
-            return AlliedText != null || EnemyText != null;
-        }
     }
 
     public class ActionExecutionBehaviour
     {
         public List<ActionEffectData> Execute(Action AlliedAction, Action EnemyAction)
         {
-            if (IsDead(AlliedAction.Owner) || IsDead(EnemyAction.Owner))
-            {
-                return null;
-            }
-
             List<ActionEffectData> actionsDataList = new List<ActionEffectData>();
 
-            ActionEffectData stunData;
-            stunData = TryDecreaseStunDuration(AlliedAction.Owner);
-            actionsDataList.Add(stunData.IsValid() ? stunData : Execute_Internal(AlliedAction, EnemyAction));
-            stunData = TryDecreaseStunDuration(EnemyAction.Owner);
-            actionsDataList.Add(stunData.IsValid() ? stunData.Swap() : Execute_Internal(EnemyAction, AlliedAction).Swap());
+            actionsDataList.AddRange(PreExecute_Internal(AlliedAction));
+            actionsDataList.AddRange(SwapActionEffectData(PreExecute_Internal(EnemyAction)));
 
+            if (IsDead(AlliedAction.Owner) || IsDead(EnemyAction.Owner))
+            {
+                return actionsDataList;
+            }
+
+            actionsDataList.Add(Execute_Internal(AlliedAction, EnemyAction));
+            actionsDataList.Add(Execute_Internal(EnemyAction, AlliedAction)?.Swap());
+
+            return actionsDataList;
+        }
+
+        private List<ActionEffectData> PreExecute_Internal(Action AttackerAction)
+        {
+            if (IsDead(AttackerAction.Owner))
+                return null;
+            
+            List<ActionEffectData> actionsDataList = new List<ActionEffectData>();
+
+            actionsDataList.Add(TryDecreaseStunDuration(AttackerAction.Owner));
+
+            if (AttackerAction.Owner.StunDuration > 0)
+            {
+                return actionsDataList;
+            }
+
+            actionsDataList.Add(TryDecreaseBlockDuration(AttackerAction.Owner));
+
+            if (AttackerAction.ActionType == CharacterActionType.Block)
+            {
+                actionsDataList.Add(DoAction_Block(AttackerAction));
+            }
+            
             return actionsDataList;
         }
 
         private ActionEffectData Execute_Internal(Action AttackerAction, Action DefenderAction)
         {
+            if (AttackerAction.Owner.StunDuration > 0)
+                return null;
+
             if (AttackerAction.ActionType == CharacterActionType.Attack)
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
@@ -75,7 +97,20 @@ namespace TimelineHero.Battle
                 return DoAction_SelfAttack(AttackerAction);
             }
 
-            return new ActionEffectData();
+            return null;
+        }
+
+        private List<ActionEffectData> SwapActionEffectData(List<ActionEffectData> Data)
+        {
+            if (Data == null)
+                return null;
+
+            for (int i = 0; i < Data.Count; ++i)
+            {
+                Data[i]?.Swap();
+            }
+
+            return Data;
         }
 
         private bool IsDead(CharacterBase Character)
@@ -90,17 +125,30 @@ namespace TimelineHero.Battle
                 Character.StunDuration--;
                 return new ActionEffectData("zzz...", "");
             }
-            return new ActionEffectData();
+            return null;
+        }
+
+        private ActionEffectData TryDecreaseBlockDuration(CharacterBase Character)
+        {
+            if (Character.BlockDuration > 0)
+            {
+                Character.BlockDuration--;
+            }
+            else
+            {
+                Character.Block = 0;
+            }
+            return null;
         }
 
         private ActionEffectData DoAction_Attack(Action AttackerAction, Action DefenderAction)
         {
-            DefenderAction.Owner.Health -= AttackerAction.Value;
-            ActionEffectData data = new ActionEffectData("", (-AttackerAction.Value).ToString());
+            int hitDamage = DefenderAction.Owner.Hit(AttackerAction.Value);
+            ActionEffectData data = new ActionEffectData("", (-hitDamage).ToString());
 
             if (AttackerAction.Duration > 0)
             {
-                DefenderAction.Owner.StunDuration += AttackerAction.Duration;
+                DefenderAction.Owner.StunDuration += AttackerAction.Duration - 1;
                 data.EnemyText += " Stun!";
             }
 
@@ -109,8 +157,8 @@ namespace TimelineHero.Battle
 
         private ActionEffectData DoAction_SelfAttack(Action AttackerAction)
         {
-            AttackerAction.Owner.Health -= AttackerAction.Value;
-            return new ActionEffectData((-AttackerAction.Value).ToString(), "");
+            int hitDamage = AttackerAction.Owner.Hit(AttackerAction.Value);
+            return new ActionEffectData((-hitDamage).ToString(), "");
         }
 
         private ActionEffectData DoAction_LuckAttack(Action AttackerAction, Action DefenderAction)
@@ -131,6 +179,17 @@ namespace TimelineHero.Battle
                 return DoAction_SelfAttack(AttackerAction);
             }
             return new ActionEffectData("Miss", "");
+        }
+
+        private ActionEffectData DoAction_Block(Action AttackerAction)
+        {
+            if (AttackerAction.Duration > 0)
+            {
+                AttackerAction.Owner.BlockDuration += AttackerAction.Duration - 1;
+                AttackerAction.Owner.Block = AttackerAction.Value;
+                return new ActionEffectData("Block!", "");
+            }
+            return null;
         }
     }
 }

@@ -28,11 +28,12 @@ namespace TimelineHero.Character
             this.Duration = NewAction.Duration;
         }
 
-        public Action(CharacterActionType ActionType, int Position, CharacterBase Owner)
+        public Action(CharacterActionType ActionType, int Position, CharacterBase Owner, int Value = 0)
         {
             this.ActionType = ActionType;
             this.Position = Position;
             this.Owner = Owner;
+            this.Value = Value;
         }
 
         public CharacterActionType ActionType;
