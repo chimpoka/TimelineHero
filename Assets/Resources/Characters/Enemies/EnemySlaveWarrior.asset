@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3a3174b3caf204a8fec1e994a1aba8, type: 3}
   m_Name: EnemySlaveWarrior
   m_EditorClassIdentifier: 
-  Health: 6
+  Health: 70
   Skills:
     Skills:
     - Length: 46
@@ -21,66 +21,52 @@ MonoBehaviour:
         - ActionType: 4
           Position: 6
           Value: 2
-        - ActionType: 5
-          Position: 7
-          Value: 2
-        - ActionType: 5
-          Position: 8
-          Value: 2
-        - ActionType: 5
-          Position: 9
-          Value: 2
-        - ActionType: 5
-          Position: 10
-          Value: 2
+          Duration: 5
         - ActionType: 1
           Position: 13
           Value: 2
+          Duration: 0
         - ActionType: 6
           Position: 14
           Value: 0
+          Duration: 0
         - ActionType: 6
           Position: 15
           Value: 0
+          Duration: 0
         - ActionType: 6
           Position: 16
           Value: 0
+          Duration: 0
         - ActionType: 4
           Position: 21
           Value: 1
-        - ActionType: 5
-          Position: 22
-          Value: 1
-        - ActionType: 5
-          Position: 23
-          Value: 1
-        - ActionType: 5
-          Position: 24
-          Value: 1
+          Duration: 4
         - ActionType: 7
           Position: 26
           Value: 2
+          Duration: 0
         - ActionType: 6
           Position: 27
           Value: 0
+          Duration: 0
         - ActionType: 6
           Position: 28
           Value: 0
+          Duration: 0
         - ActionType: 6
           Position: 29
           Value: 0
+          Duration: 0
         - ActionType: 2
           Position: 32
           Value: 0
-        - ActionType: 2
-          Position: 33
-          Value: 0
+          Duration: 4
         - ActionType: 2
           Position: 38
           Value: 0
-        - ActionType: 2
-          Position: 39
-          Value: 0
+          Duration: 3
         - ActionType: 1
-          Position: 42
+          Position: 43
           Value: 1
+          Duration: 0

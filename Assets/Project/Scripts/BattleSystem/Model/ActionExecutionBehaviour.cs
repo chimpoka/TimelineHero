@@ -80,6 +80,10 @@ namespace TimelineHero.Battle
             if (AttackerAction.Owner.StunDuration > 0)
                 return null;
 
+            if (AttackerAction.ActionType == CharacterActionType.ImperviousAttack)
+            {
+                return DoAction_ImperviousAttack(AttackerAction, DefenderAction);
+            }
             if (AttackerAction.ActionType == CharacterActionType.Attack)
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
@@ -162,13 +166,8 @@ namespace TimelineHero.Battle
             return null;
         }
 
-        private ActionEffectData DoAction_Attack(Action AttackerAction, Action DefenderAction)
+        private ActionEffectData DoAction_ImperviousAttack(Action AttackerAction, Action DefenderAction)
         {
-            if (DefenderAction.Owner.DodgeDuration > 0)
-            {
-                return new ActionEffectData("", "Dodged!");
-            }
-
             int hitDamage = DefenderAction.Owner.Hit(AttackerAction.Value);
             ActionEffectData data = new ActionEffectData("", (-hitDamage).ToString());
 
@@ -179,6 +178,16 @@ namespace TimelineHero.Battle
             }
 
             return data;
+        }
+
+        private ActionEffectData DoAction_Attack(Action AttackerAction, Action DefenderAction)
+        {
+            if (DefenderAction.Owner.DodgeDuration > 0)
+            {
+                return new ActionEffectData("", "Dodged!");
+            }
+
+            return DoAction_ImperviousAttack(AttackerAction, DefenderAction);
         }
 
         private ActionEffectData DoAction_SelfAttack(Action AttackerAction)

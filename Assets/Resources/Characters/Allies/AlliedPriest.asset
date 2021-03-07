@@ -21,18 +21,88 @@ MonoBehaviour:
         - ActionType: 1
           Position: 2
           Value: 3
+          Duration: 0
         - ActionType: 1
           Position: 3
-          Value: 4
+          Value: 3
+          Duration: 0
+        - ActionType: 1
+          Position: 4
+          Value: 3
+          Duration: 0
+        - ActionType: 1
+          Position: 5
+          Value: 3
+          Duration: 0
+        - ActionType: 1
+          Position: 6
+          Value: 3
+          Duration: 0
     - Length: 5
       Actions:
         Actions:
         - ActionType: 1
           Position: 1
           Value: 2
+          Duration: 0
+        - ActionType: 1
+          Position: 2
+          Value: 2
+          Duration: 0
+        - ActionType: 1
+          Position: 3
+          Value: 2
+          Duration: 0
+        - ActionType: 1
+          Position: 4
+          Value: 2
+          Duration: 0
+        - ActionType: 1
+          Position: 5
+          Value: 2
+          Duration: 0
+    - Length: 5
+      Actions:
+        Actions:
+        - ActionType: 1
+          Position: 1
+          Value: 3
+          Duration: 0
         - ActionType: 1
           Position: 2
           Value: 3
-        - ActionType: 3
+          Duration: 0
+        - ActionType: 1
+          Position: 3
+          Value: 3
+          Duration: 0
+        - ActionType: 1
+          Position: 4
+          Value: 3
+          Duration: 0
+        - ActionType: 1
           Position: 5
-          Value: 22
+          Value: 3
+          Duration: 0
+    - Length: 6
+      Actions:
+        Actions:
+        - ActionType: 8
+          Position: 2
+          Value: 3
+          Duration: 4
+    - Length: 6
+      Actions:
+        Actions:
+        - ActionType: 14
+          Position: 1
+          Value: 2
+          Duration: 0
+        - ActionType: 14
+          Position: 2
+          Value: 2
+          Duration: 0
+        - ActionType: 14
+          Position: 3
+          Value: 2
+          Duration: 0

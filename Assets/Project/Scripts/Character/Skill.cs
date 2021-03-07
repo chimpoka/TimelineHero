@@ -63,7 +63,8 @@ namespace TimelineHero.Character
                     if (action.ActionType == CharacterActionType.Attack ||
                         action.ActionType == CharacterActionType.LuckAttack ||
                         action.ActionType == CharacterActionType.RandomAttack ||
-                        action.ActionType == CharacterActionType.SelfRandomAttack)
+                        action.ActionType == CharacterActionType.SelfRandomAttack ||
+                        action.ActionType == CharacterActionType.ImperviousAttack)
                     {
                         AdditionalActions.Add(new Action(CharacterActionType.Stun, action.Position + i, Owner));
                     }
