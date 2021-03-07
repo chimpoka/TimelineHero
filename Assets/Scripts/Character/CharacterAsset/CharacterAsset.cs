@@ -25,7 +25,9 @@ namespace TimelineHero.Character
                     newAction.Position -= 1;
                     newActionList.Add(newAction);
                 }
-                newSkillList.Add(new Skill(newActionList, skillAsset.Length, character));
+                Skill newSkill = new Skill(newActionList, skillAsset.Length, character);
+                newSkill.Initialize();
+                newSkillList.Add(newSkill);
             }
 
             character.Skills = newSkillList;

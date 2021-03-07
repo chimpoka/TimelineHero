@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TimelineHero.Battle;
 using TimelineHero.CoreUI;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace TimelineHero.UI
         public RectTransform EnemyActionEmitter;
         public RectTransform AlliedActionEmitter;
 
-        public void CreateActionEffect(ActionEffectData[] EffectData)
+        public void CreateActionEffect(List<ActionEffectData> EffectData)
         {
             foreach(ActionEffectData data in EffectData)
             {

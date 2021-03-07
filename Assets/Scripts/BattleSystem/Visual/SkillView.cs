@@ -63,6 +63,7 @@ namespace TimelineHero.Battle
         {
             SkillCached = NewSkill;
             CreateSteps(SkillCached.Length);
+            CreateDelimeter();
         }
 
         public int GetLength()
@@ -93,10 +94,14 @@ namespace TimelineHero.Battle
             }
 
             Size = GetTimelineStepStaticSize() * new Vector2(Length, 1.0f);
+        }
 
+        private void CreateDelimeter()
+        {
             RectTransform delimeter = Instantiate(DelimeterPrefab);
             delimeter.SetParent(GetTransform());
             delimeter.localScale = Vector3.one;
+            delimeter.anchoredPosition = Vector2.zero;
         }
 
         #region SkillEvents

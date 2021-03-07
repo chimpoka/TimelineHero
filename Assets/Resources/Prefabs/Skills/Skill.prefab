@@ -65,8 +65,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ac0086419506a00459d46ca7cc4d3694, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -87,6 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8457ae8a9786142807f777ddf8ef5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DelimeterPrefab: {fileID: 7582023798472982483, guid: 454949891e1125544afe96bba0e932f1,
+    type: 3}
   Prefabs:
   - ActionType: 0
     Prefab: {fileID: 8434394297544314787, guid: faedc13aeab1b244284685b722c8404b,
@@ -110,7 +112,7 @@ MonoBehaviour:
     Prefab: {fileID: 8434394297544314787, guid: 6ad7cc5bcd1a4524898cff044d3c45d3,
       type: 3}
   - ActionType: 7
-    Prefab: {fileID: 8434394297544314787, guid: d4ccaf3f46ec39e4a8fd0e06d9d3ea4d,
+    Prefab: {fileID: 5936650824801121231, guid: 0523cdf588f0e6a4a99f269b78943439,
       type: 3}
   - ActionType: 8
     Prefab: {fileID: 8434394297544314787, guid: a1154d31d3f04ea4f9a2da5715424d2b,
@@ -137,20 +139,20 @@ MonoBehaviour:
     Prefab: {fileID: 1664057068801435862, guid: 540b31ee7a357454d9f106ba5a01fabf,
       type: 3}
   - ActionType: 16
-    Prefab: {fileID: 8434394297544314787, guid: fb03d10be0caf33458f0cfa3cedca368,
-      type: 3}
+    Prefab: {fileID: 207786625190048611, guid: c4ad93d75ad175743bd51597e9578baf, type: 3}
   - ActionType: 17
     Prefab: {fileID: 6373215813187415266, guid: 22e052237a8e9e14cb9f9db539803732,
       type: 3}
-  - ActionType: 19
+  - ActionType: 18
     Prefab: {fileID: 8434394297544314787, guid: 2f7b80080cd92e347a8c81f3cab20683,
       type: 3}
-  - ActionType: 20
+  - ActionType: 19
     Prefab: {fileID: 8434394297544314787, guid: e9ae9a15370f16c4584decbf0fca76b8,
       type: 3}
-  - ActionType: 18
-    Prefab: {fileID: 6591175722870230602, guid: 2a9639d63c2fa3748b51c91f94a1247a,
+  - ActionType: 20
+    Prefab: {fileID: 1517227166761903751, guid: d6c32de62367e5a40bf6d4db50b02332,
       type: 3}
-  DelimeterPrefab: {fileID: 7582023798472982483, guid: 454949891e1125544afe96bba0e932f1,
-    type: 3}
+  - ActionType: 21
+    Prefab: {fileID: 6373215813187415266, guid: 1874ee6b2b8ea074e95510a11f4e594e,
+      type: 3}
   LocationType: 0

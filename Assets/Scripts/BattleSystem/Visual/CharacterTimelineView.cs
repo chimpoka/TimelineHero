@@ -32,13 +32,21 @@ namespace TimelineHero.Battle
             return false;
         }
 
-        public void AddSkill(SkillView NewSkill)
+        public void AddSkill(SkillView NewSkill, int Index = -1)
         {
+            if (Index == -1)
+            {
+                Skills.Add(NewSkill);
+            }
+            else if (Index >= 0)
+            {
+                Skills.Insert(Index, NewSkill);
+            }
+
             NewSkill.SetParent(GetTransform());
-            NewSkill.AnchoredPosition = new Vector2(GetContentSize().x, 0);
             NewSkill.LocationType = SkillLocationType.Timeline;
 
-            Skills.Add(NewSkill);
+            ShrinkSkills();
         }
 
         public void RemoveSkill(SkillView SkillToRemove)
@@ -84,6 +92,39 @@ namespace TimelineHero.Battle
         public bool IsEnoughSpaceForSkill(SkillView NewSkill)
         {
             return Length + NewSkill.Length <= MaxLength;
+        }
+
+        public void RebuildSkillsWithRandomActions()
+        {
+            Dictionary<int, SkillView> skillsWithRandomActions = new Dictionary<int, SkillView>();
+
+            for (int i = 0; i < Skills.Count; ++i)
+            {
+                Skill skill = Skills[i].GetSkill();
+
+                if (skill.RandomActionsCounter > 0)
+                {
+                    SkillView NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
+                    NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithRandomActions(skill));
+                    Destroy(Skills[i].gameObject);
+                    skillsWithRandomActions.Add(i, NewSkill);
+                }
+            }
+
+            foreach (var skill in skillsWithRandomActions)
+            {
+                Skills.RemoveAt(skill.Key);
+                AddSkill(skill.Value, skill.Key);
+            }
+        }
+
+        public void ClearTimeline()
+        {
+            while (Skills.Count != 0)
+            {
+                Destroy(Skills[0].gameObject);
+                Skills.RemoveAt(0);
+            }
         }
 
         private void ShrinkSkills()

@@ -1,4 +1,5 @@
-﻿using TimelineHero.Character;
+﻿using System.Collections.Generic;
+using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
@@ -23,26 +24,28 @@ namespace TimelineHero.Battle
 
         public bool IsValid()
         {
-            return AlliedText != null && EnemyText != null;
+            return AlliedText != null || EnemyText != null;
         }
     }
 
     public class ActionExecutionBehaviour
     {
-        public ActionEffectData[] Execute(Action AlliedAction, Action EnemyAction)
+        public List<ActionEffectData> Execute(Action AlliedAction, Action EnemyAction)
         {
             if (IsDead(AlliedAction.Owner) || IsDead(EnemyAction.Owner))
             {
                 return null;
             }
 
-            ActionEffectData FirstStunActionData = TryDecreaseStunDuration(AlliedAction.Owner);
-            ActionEffectData SecondStunActionData = TryDecreaseStunDuration(EnemyAction.Owner);
+            List<ActionEffectData> actionsDataList = new List<ActionEffectData>();
 
-            ActionEffectData FirstActionData = Execute_Internal(AlliedAction, EnemyAction);
-            ActionEffectData SecondActionData = Execute_Internal(EnemyAction, AlliedAction);
+            ActionEffectData stunData;
+            stunData = TryDecreaseStunDuration(AlliedAction.Owner);
+            actionsDataList.Add(stunData.IsValid() ? stunData : Execute_Internal(AlliedAction, EnemyAction));
+            stunData = TryDecreaseStunDuration(EnemyAction.Owner);
+            actionsDataList.Add(stunData.IsValid() ? stunData.Swap() : Execute_Internal(EnemyAction, AlliedAction).Swap());
 
-            return new ActionEffectData[4] { FirstStunActionData, SecondStunActionData.Swap(), FirstActionData, SecondActionData.Swap() };
+            return actionsDataList;
         }
 
         private ActionEffectData Execute_Internal(Action AttackerAction, Action DefenderAction)
@@ -51,23 +54,27 @@ namespace TimelineHero.Battle
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.RandomAttack)
+            if (AttackerAction.ActionType == CharacterActionType.LuckAttack)
             {
-                return DoAction_RandomAttack(AttackerAction, DefenderAction);
+                return DoAction_LuckAttack(AttackerAction, DefenderAction);
             }
             if (AttackerAction.ActionType == CharacterActionType.SelfAttack)
             {
                 return DoAction_SelfAttack(AttackerAction);
             }
+            if (AttackerAction.ActionType == CharacterActionType.SelfLuckAttack)
+            {
+                return DoAction_SelfLuckAttack(AttackerAction);
+            }
+            if (AttackerAction.ActionType == CharacterActionType.RandomAttack)
+            {
+                return DoAction_Attack(AttackerAction, DefenderAction);
+            }
             if (AttackerAction.ActionType == CharacterActionType.SelfRandomAttack)
             {
-                return DoAction_SelfRandomAttack(AttackerAction);
+                return DoAction_SelfAttack(AttackerAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.StunningAttack)
-            {
-                return DoAction_StunningAttack(AttackerAction, DefenderAction);
-            }
-            
+
             return new ActionEffectData();
         }
 
@@ -89,7 +96,15 @@ namespace TimelineHero.Battle
         private ActionEffectData DoAction_Attack(Action AttackerAction, Action DefenderAction)
         {
             DefenderAction.Owner.Health -= AttackerAction.Value;
-            return new ActionEffectData("", (-AttackerAction.Value).ToString());
+            ActionEffectData data = new ActionEffectData("", (-AttackerAction.Value).ToString());
+
+            if (AttackerAction.Duration > 0)
+            {
+                DefenderAction.Owner.StunDuration += AttackerAction.Duration;
+                data.EnemyText += " Stun!";
+            }
+
+            return data;
         }
 
         private ActionEffectData DoAction_SelfAttack(Action AttackerAction)
@@ -98,7 +113,7 @@ namespace TimelineHero.Battle
             return new ActionEffectData((-AttackerAction.Value).ToString(), "");
         }
 
-        private ActionEffectData DoAction_RandomAttack(Action AttackerAction, Action DefenderAction)
+        private ActionEffectData DoAction_LuckAttack(Action AttackerAction, Action DefenderAction)
         {
             bool success = UnityEngine.Random.value < 0.6f; // Fair random :)
             if (success)
@@ -108,7 +123,7 @@ namespace TimelineHero.Battle
             return new ActionEffectData("Miss", "");
         }
 
-        private ActionEffectData DoAction_SelfRandomAttack(Action AttackerAction)
+        private ActionEffectData DoAction_SelfLuckAttack(Action AttackerAction)
         {
             bool success = UnityEngine.Random.value < 0.6f; // Fair random :)
             if (success)
@@ -116,14 +131,6 @@ namespace TimelineHero.Battle
                 return DoAction_SelfAttack(AttackerAction);
             }
             return new ActionEffectData("Miss", "");
-        }
-
-        private ActionEffectData DoAction_StunningAttack(Action AttackerAction, Action DefenderAction)
-        {
-            DefenderAction.Owner.StunDuration += AttackerAction.Duration;
-            ActionEffectData data = DoAction_Attack(AttackerAction, DefenderAction);
-            data.EnemyText += " Stun!";
-            return data;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace TimelineHero.Battle
             Hud.OnPlayBattleButtonEvent += SetNextState;
             BattleSceneControllerRef.BattleView.SetActive(true);
             BattleSceneControllerRef.BattleView.GetTimerView().ResetPosition();
+            BattleSceneControllerRef.BattleView.BattleTimeline.ClearAlliedTimeline();
             Hud.SetConstructState();
         }
 

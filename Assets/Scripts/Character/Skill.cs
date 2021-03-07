@@ -12,16 +12,36 @@ namespace TimelineHero.Character
             this.Length = Length;
             this.Owner = Owner;
 
-            SplitCompositeActions();
+            //Initialize();
         }
+
+        public int RandomActionsCounter { get => randomActionsCounter; }
 
         public List<Action> Actions;
         public int Length;
         public CharacterBase Owner;
 
+        private List<Action> AdditionalActions;
+        private int randomActionsCounter;
+
+
+        public void Initialize()
+        {
+            CountRandomActions();
+            SplitCompositeActions();
+        }
+
         public Action GetActionInPosition(int Position)
         {
-            foreach(Action action in Actions)
+            foreach (Action action in Actions)
+            {
+                if (action.Position == Position)
+                {
+                    return action;
+                }
+            }
+
+            foreach (Action action in AdditionalActions)
             {
                 if (action.Position == Position)
                 {
@@ -34,20 +54,33 @@ namespace TimelineHero.Character
 
         private void SplitCompositeActions()
         {
-            List<Action> actionsToAdd = new List<Action>();
+            AdditionalActions = AdditionalActions ?? new List<Action>();
 
             foreach (Action action in Actions)
             {
                 for (int i = 1; i < action.Duration; ++i)
                 {
-                    if (action.ActionType == CharacterActionType.StunningAttack)
+                    if (action.ActionType == CharacterActionType.Attack ||
+                        action.ActionType == CharacterActionType.LuckAttack ||
+                        action.ActionType == CharacterActionType.RandomAttack ||
+                        action.ActionType == CharacterActionType.SelfRandomAttack)
                     {
-                        actionsToAdd.Add(new Action(CharacterActionType.Stun, action.Position + i, Owner));
+                        AdditionalActions.Add(new Action(CharacterActionType.Stun, action.Position + i, Owner));
                     }
                 }
             }
+        }
 
-            Actions.AddRange(actionsToAdd);
+        private void CountRandomActions()
+        {
+            foreach (Action action in Actions)
+            {
+                if (action.ActionType == CharacterActionType.RandomAttack ||
+                    action.ActionType == CharacterActionType.SelfRandomAttack)
+                {
+                    randomActionsCounter++;
+                }
+            }
         }
     }
 }

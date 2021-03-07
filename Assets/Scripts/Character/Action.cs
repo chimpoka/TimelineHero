@@ -8,7 +8,7 @@ namespace TimelineHero.Character
     {
         Empty, Attack, Dodge, Stun, Block, BlockContinuance, Parry, LuckAttack, LuckDodge, LuckBlock,
         AdrenalinAttack, AdrenalinDodge, AdrenalinBlock, RandomAttack, ImperviousAttack, SelfAttack,
-        SelfLuckAttack, SelfRandomAttack, StunningAttack, Open, Close
+        SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled
     }
 
     [System.Serializable]

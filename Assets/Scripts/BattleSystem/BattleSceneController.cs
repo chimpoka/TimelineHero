@@ -11,16 +11,11 @@ namespace TimelineHero.Battle
         public BattleSystem Battle;
         public BattleStateBase BattleState;
 
-        private void testAwake()
+        private void Start()
         {
             Battle = new BattleSystem();
             Battle.OnBattleFinished += OnBattleFinished;
             BattleView.Initialize(Battle);
-        }
-
-        private void Start()
-        {
-            testAwake();
 
             BattleHud Hud = (BattleHud)HudBase.Instance;
             Hud.SetBattleSceneController(this);

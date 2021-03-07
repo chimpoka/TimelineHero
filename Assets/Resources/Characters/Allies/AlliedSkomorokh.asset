@@ -21,19 +21,11 @@ MonoBehaviour:
         - ActionType: 1
           Position: 12
           Value: 1
-          Duration: 0
-        - ActionType: 3
-          Position: 13
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 14
-          Value: 0
-          Duration: 0
+          Duration: 3
     - Length: 13
       Actions:
         Actions:
-        - ActionType: 19
+        - ActionType: 18
           Position: 1
           Value: 0
           Duration: 0
@@ -59,27 +51,7 @@ MonoBehaviour:
         - ActionType: 7
           Position: 5
           Value: 1
-          Duration: 0
-        - ActionType: 3
-          Position: 6
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 7
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 8
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 9
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 10
-          Value: 0
-          Duration: 0
+          Duration: 6
     - Length: 15
       Actions:
         Actions:
@@ -101,15 +73,7 @@ MonoBehaviour:
         - ActionType: 7
           Position: 5
           Value: 1
-          Duration: 0
-        - ActionType: 3
-          Position: 6
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 7
-          Value: 0
-          Duration: 0
+          Duration: 3
         - ActionType: 16
           Position: 10
           Value: 1
@@ -117,42 +81,14 @@ MonoBehaviour:
         - ActionType: 7
           Position: 13
           Value: 1
-          Duration: 0
-        - ActionType: 3
-          Position: 14
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 15
-          Value: 0
-          Duration: 0
+          Duration: 3
     - Length: 20
       Actions:
         Actions:
         - ActionType: 13
           Position: 4
           Value: 1
-          Duration: 0
-        - ActionType: 3
-          Position: 5
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 6
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 7
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 8
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 9
-          Value: 0
-          Duration: 0
+          Duration: 6
         - ActionType: 13
           Position: 14
           Value: 1
@@ -161,7 +97,7 @@ MonoBehaviour:
           Position: 17
           Value: 1
           Duration: 0
-        - ActionType: 20
+        - ActionType: 19
           Position: 20
           Value: 0
           Duration: 0
@@ -171,20 +107,8 @@ MonoBehaviour:
         - ActionType: 1
           Position: 6
           Value: 2
-          Duration: 0
-        - ActionType: 3
-          Position: 7
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 8
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 9
-          Value: 0
-          Duration: 0
-        - ActionType: 20
+          Duration: 4
+        - ActionType: 19
           Position: 10
           Value: 0
           Duration: 0

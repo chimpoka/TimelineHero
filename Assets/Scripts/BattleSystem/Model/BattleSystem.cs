@@ -25,7 +25,7 @@ namespace TimelineHero.Battle
         public System.Action OnTimerStarted;
         public System.Action OnTimerFinished;
         public System.Action<int> OnTimerIntegerValue;
-        public System.Action<ActionEffectData[]> OnActionExecuted;
+        public System.Action<List<ActionEffectData>> OnActionExecuted;
         public System.Action<BattleResult> OnBattleFinished;
 
         private BattleTimelineTimer TimelineTimer;
@@ -80,7 +80,7 @@ namespace TimelineHero.Battle
 
         public void ExecuteActions(Action AlliedAction, Action EnemyAction)
         {
-            ActionEffectData[] data = ActionBehaviour.Execute(AlliedAction, EnemyAction);
+            List<ActionEffectData> data = ActionBehaviour.Execute(AlliedAction, EnemyAction);
             OnActionExecuted?.Invoke(data);
         }
 

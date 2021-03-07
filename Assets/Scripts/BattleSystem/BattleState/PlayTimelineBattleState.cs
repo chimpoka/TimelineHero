@@ -8,6 +8,7 @@
             BattleSceneControllerRef.Battle.OnTimerFinished += SetNextState;
             BattleSceneControllerRef.Battle.StartBattleTimer();
             BattleSceneControllerRef.BattleView.SetActive(false);
+            BattleSceneControllerRef.BattleView.BattleTimeline.RebuildSkillsWithRandomActions();
             Hud.SetPlayState();
         }
 
