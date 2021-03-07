@@ -72,6 +72,7 @@ namespace TimelineHero.Character
         public bool HasActionPriority;
         public int StunDuration;
         public int BlockDuration;
+        public int DodgeDuration;
 
         public int Hit(int Damage)
         {

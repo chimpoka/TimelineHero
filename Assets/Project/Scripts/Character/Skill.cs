@@ -71,6 +71,11 @@ namespace TimelineHero.Character
                     {
                         AdditionalActions.Add(new Action(CharacterActionType.BlockContinuance, action.Position + i, Owner, action.Value));
                     }
+                    else if (action.ActionType == CharacterActionType.Dodge ||
+                             action.ActionType == CharacterActionType.LuckDodge)
+                    {
+                        AdditionalActions.Add(new Action(CharacterActionType.Dodge, action.Position + i, Owner));
+                    }
                 }
             }
         }
