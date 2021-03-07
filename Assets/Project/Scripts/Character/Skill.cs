@@ -77,6 +77,10 @@ namespace TimelineHero.Character
                     {
                         AdditionalActions.Add(new Action(CharacterActionType.Dodge, action.Position + i, Owner));
                     }
+                    else if (action.ActionType == CharacterActionType.Parry)
+                    {
+                        AdditionalActions.Add(new Action(CharacterActionType.Parry, action.Position + i, Owner));
+                    }
                 }
             }
         }

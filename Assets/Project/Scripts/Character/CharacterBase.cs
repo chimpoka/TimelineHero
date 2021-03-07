@@ -73,6 +73,7 @@ namespace TimelineHero.Character
         public int StunDuration;
         public int BlockDuration;
         public int DodgeDuration;
+        public int ParryDuration;
 
         public int Hit(int Damage)
         {

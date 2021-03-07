@@ -68,7 +68,7 @@ namespace TimelineHero.Battle
             TimelineTimer.OnIntegerValue += (int Position) => OnTimerIntegerValue?.Invoke(Position);
             TimelineTimer.OnElapsed += () => OnTimerFinished?.Invoke();
             TimelineTimer.OnStopped += () => OnTimerFinished?.Invoke();
-            TimelineTimer.Launch(5.0f, GetTimelineLength());
+            TimelineTimer.Launch(2.0f, GetTimelineLength());
 
             OnTimerStarted?.Invoke();
         }

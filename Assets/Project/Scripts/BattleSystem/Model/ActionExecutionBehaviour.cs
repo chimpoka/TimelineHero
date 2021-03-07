@@ -53,6 +53,7 @@ namespace TimelineHero.Battle
             actionsDataList.Add(TryDecreaseStunDuration(AttackerAction.Owner));
             actionsDataList.Add(TryDecreaseBlockDuration(AttackerAction.Owner));
             actionsDataList.Add(TryDecreaseDodgeDuration(AttackerAction.Owner));
+            actionsDataList.Add(TryDecreaseParryDuration(AttackerAction.Owner));
 
             if (AttackerAction.Owner.StunDuration > 0)
             {
@@ -70,6 +71,10 @@ namespace TimelineHero.Battle
             else if (AttackerAction.ActionType == CharacterActionType.LuckDodge)
             {
                 actionsDataList.Add(DoAction_LuckDodge(AttackerAction));
+            }
+            else if (AttackerAction.ActionType == CharacterActionType.Parry)
+            {
+                actionsDataList.Add(DoAction_Parry(AttackerAction));
             }
 
             return actionsDataList;
@@ -166,8 +171,22 @@ namespace TimelineHero.Battle
             return null;
         }
 
+        private ActionEffectData TryDecreaseParryDuration(CharacterBase Character)
+        {
+            if (Character.ParryDuration > 0)
+            {
+                Character.ParryDuration--;
+            }
+            return null;
+        }
+
         private ActionEffectData DoAction_ImperviousAttack(Action AttackerAction, Action DefenderAction)
         {
+            if (DefenderAction.Owner.ParryDuration > 0)
+            {
+                return new ActionEffectData("", "Parry!");
+            }
+
             int hitDamage = DefenderAction.Owner.Hit(AttackerAction.Value);
             ActionEffectData data = new ActionEffectData("", (-hitDamage).ToString());
 
@@ -245,6 +264,15 @@ namespace TimelineHero.Battle
                 return DoAction_Dodge(AttackerAction);
             }
             return new ActionEffectData("Miss Dodge...", "");
+        }
+
+        private ActionEffectData DoAction_Parry(Action AttackerAction)
+        {
+            if (AttackerAction.Duration > 0)
+            {
+                AttackerAction.Owner.ParryDuration = AttackerAction.Duration;
+            }
+            return null;
         }
     }
 }
