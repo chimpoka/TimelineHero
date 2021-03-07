@@ -60,6 +60,8 @@ namespace TimelineHero.Battle
             if (!IsActive)
                 return;
 
+            Skill.DOKill();
+
             Skill.AnchoredPosition += new Vector2(-6, 6);
 
             if (Skill.LocationType == SkillLocationType.Container)

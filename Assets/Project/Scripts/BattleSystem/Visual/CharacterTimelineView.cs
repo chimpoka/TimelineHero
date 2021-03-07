@@ -25,14 +25,14 @@ namespace TimelineHero.Battle
         {
             if (IsEnoughSpaceForSkill(NewSkill))
             {
-                AddSkill(NewSkill);
+                AddSkill(NewSkill, true);
                 return true;
             }
 
             return false;
         }
 
-        public void AddSkill(SkillView NewSkill, int Index = -1)
+        public void AddSkill(SkillView NewSkill, bool SmoothMotion, int Index = -1)
         {
             if (Index == -1)
             {
@@ -46,7 +46,7 @@ namespace TimelineHero.Battle
             NewSkill.SetParent(GetTransform());
             NewSkill.LocationType = SkillLocationType.Timeline;
 
-            ShrinkSkills();
+            ShrinkSkills(SmoothMotion);
         }
 
         public void RemoveSkill(SkillView SkillToRemove)
@@ -54,7 +54,7 @@ namespace TimelineHero.Battle
             Skills.Remove(SkillToRemove);
             SkillToRemove.LocationType = SkillLocationType.NoParent;
 
-            ShrinkSkills();
+            ShrinkSkills(true);
         }
 
         public Vector2 GetContentSize()
@@ -106,7 +106,7 @@ namespace TimelineHero.Battle
                 {
                     SkillView NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
                     NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithRandomActions(skill));
-                    Destroy(Skills[i].gameObject);
+                    Skills[i].DestroyGameObject();
                     skillsWithRandomActions.Add(i, NewSkill);
                 }
             }
@@ -114,7 +114,7 @@ namespace TimelineHero.Battle
             foreach (var skill in skillsWithRandomActions)
             {
                 Skills.RemoveAt(skill.Key);
-                AddSkill(skill.Value, skill.Key);
+                AddSkill(skill.Value, false, skill.Key);
             }
         }
 
@@ -127,13 +127,20 @@ namespace TimelineHero.Battle
             }
         }
 
-        private void ShrinkSkills()
+        private void ShrinkSkills(bool SmoothMotion)
         {
             Vector2 skillPosition = Vector2.zero;
 
             foreach (SkillView skill in Skills)
             {
-                skill.AnchoredPosition = skillPosition;
+                if (SmoothMotion)
+                {
+                    skill.DOAnchorPos(skillPosition);
+                }
+                else
+                {
+                    skill.AnchoredPosition = skillPosition;
+                }
                 skillPosition += new Vector2(skill.Size.x, 0);
             }
         }

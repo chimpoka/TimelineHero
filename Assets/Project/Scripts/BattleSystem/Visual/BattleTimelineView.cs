@@ -71,7 +71,7 @@ namespace TimelineHero.Battle
             {
                 SkillView skillView = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
                 skillView.SetSkill(skill);
-                enemyTimeline.AddSkill(skillView);
+                enemyTimeline.AddSkill(skillView, false);
             }
 
             enemyTimeline.MaxLength = enemyTimeline.Length;

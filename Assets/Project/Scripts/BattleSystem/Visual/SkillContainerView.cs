@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using TimelineHero.CoreUI;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace TimelineHero.Battle
                     newPosition.y += SkillView.GetSkillStaticHeight() + SkillOffset.y;
                 }
 
-                skill.AnchoredPosition = newPosition;
+                skill.DOAnchorPos(newPosition);
                 
                 newPosition += new Vector2(skill.Size.x + SkillOffset.x, 0);
             }

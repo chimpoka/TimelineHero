@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TimelineHero.Core;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 
 namespace TimelineHero.CoreUI
 {
@@ -13,6 +16,7 @@ namespace TimelineHero.CoreUI
         public Bounds WorldBounds { get => CalculateBounds(); }
 
         private RectTransform transformCached;
+        TweenerCore<Vector2, Vector2, VectorOptions> tween;
 
         public RectTransform GetTransform()
         {
@@ -32,6 +36,26 @@ namespace TimelineHero.CoreUI
         {
             GetTransform().anchorMin = new Vector2(0.5f, 0.5f);
             GetTransform().anchorMax = new Vector2(0.5f, 0.5f);
+        }
+
+        public void DOAnchorPos(Vector2 Position, float Duration = 1.0f)
+        {
+            DOKill();
+            tween = GetTransform().DOAnchorPos(Position, Duration);
+        }
+
+        public void DOKill()
+        {
+            if (tween != null)
+            {
+                tween.Kill();
+            }
+        }
+
+        public void DestroyGameObject()
+        {
+            DOKill();
+            Destroy(gameObject);
         }
 
         private Bounds CalculateBounds()
