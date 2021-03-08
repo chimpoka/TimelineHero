@@ -29,15 +29,7 @@ MonoBehaviour:
         - ActionType: 6
           Position: 14
           Value: 0
-          Duration: 0
-        - ActionType: 6
-          Position: 15
-          Value: 0
-          Duration: 0
-        - ActionType: 6
-          Position: 16
-          Value: 0
-          Duration: 0
+          Duration: 3
         - ActionType: 4
           Position: 21
           Value: 1
@@ -47,17 +39,9 @@ MonoBehaviour:
           Value: 2
           Duration: 0
         - ActionType: 6
-          Position: 27
-          Value: 0
-          Duration: 0
-        - ActionType: 6
-          Position: 28
-          Value: 0
-          Duration: 0
-        - ActionType: 6
           Position: 29
           Value: 0
-          Duration: 0
+          Duration: 3
         - ActionType: 2
           Position: 32
           Value: 0

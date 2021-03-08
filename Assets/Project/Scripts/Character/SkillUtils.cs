@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace TimelineHero.Character
@@ -29,6 +29,16 @@ namespace TimelineHero.Character
             newSkill.Initialize();
 
             return newSkill;
+        }
+
+        public static bool IsOpeningSkill(Skill SkillRef)
+        {
+            return SkillRef.Actions[0].ActionType == CharacterActionType.Open;
+        }
+
+        public static bool IsClosingSkill(Skill SkillRef)
+        {
+            return SkillRef?.Actions?.Last().ActionType == CharacterActionType.Close;
         }
     }
 }

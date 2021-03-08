@@ -23,13 +23,17 @@ namespace TimelineHero.Battle
 
         public bool TryAddSkill(SkillView NewSkill)
         {
-            if (IsEnoughSpaceForSkill(NewSkill))
-            {
-                AddSkill(NewSkill, true);
-                return true;
-            }
+            if (SkillUtils.IsOpeningSkill(NewSkill.GetSkill()) && Skills.Count > 0)
+                return false;
 
-            return false;
+            if (SkillUtils.IsClosingSkill(Skills.LastOrDefault()?.GetSkill()))
+                return false;
+
+            if (!IsEnoughSpaceForSkill(NewSkill))
+                return false;
+
+            AddSkill(NewSkill, true);
+            return true;
         }
 
         public void AddSkill(SkillView NewSkill, bool SmoothMotion, int Index = -1)
