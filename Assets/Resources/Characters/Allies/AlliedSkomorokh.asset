@@ -32,19 +32,7 @@ MonoBehaviour:
         - ActionType: 10
           Position: 5
           Value: 2
-          Duration: 0
-        - ActionType: 3
-          Position: 6
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 7
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 8
-          Value: 0
-          Duration: 0
+          Duration: 4
     - Length: 15
       Actions:
         Actions:
