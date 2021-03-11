@@ -47,10 +47,10 @@ namespace TimelineHero.Battle
             BattleSystemCached.ExecuteActions(alliedAction, enemyAction);
         }
 
-        public void RebuildSkillsWithRandomActions()
+        public void RebuildSkillsForPlayState()
         {
-            GetAlliedTimeline().RebuildSkillsWithRandomActions();
-            GetEnemyTimeline().RebuildSkillsWithRandomActions();
+            GetAlliedTimeline().RebuildSkillsForPlayState();
+            GetEnemyTimeline().RebuildSkillsForPlayState();
         }
 
         public void ClearAlliedTimeline()

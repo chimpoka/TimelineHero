@@ -45,10 +45,10 @@ namespace TimelineHero.Battle
 
         private List<ActionEffectData> PreExecute_Internal(Action AttackerAction)
         {
-            if (IsDead(AttackerAction.Owner))
-                return null;
-            
             List<ActionEffectData> actionsDataList = new List<ActionEffectData>();
+
+            if (IsDead(AttackerAction.Owner))
+                return actionsDataList;
 
             actionsDataList.Add(TryDecreaseStunDuration(AttackerAction.Owner));
             actionsDataList.Add(TryDecreaseBlockDuration(AttackerAction.Owner));
@@ -113,15 +113,24 @@ namespace TimelineHero.Battle
             {
                 return DoAction_SelfAttack(AttackerAction);
             }
+            if (AttackerAction.ActionType == CharacterActionType.AdrenalineAttack)
+            {
+                return DoAction_AdrenalineAttack(AttackerAction, DefenderAction);
+            }
+            if (AttackerAction.ActionType == CharacterActionType.AdrenalineDodge)
+            {
+                return DoAction_AdrenalineDodge(AttackerAction);
+            }
+            if (AttackerAction.ActionType == CharacterActionType.AdrenalineBlock)
+            {
+                return DoAction_AdrenalineBlock(AttackerAction);
+            }
 
             return null;
         }
 
         private List<ActionEffectData> SwapActionEffectData(List<ActionEffectData> Data)
         {
-            if (Data == null)
-                return null;
-
             for (int i = 0; i < Data.Count; ++i)
             {
                 Data[i]?.Swap();
@@ -273,6 +282,42 @@ namespace TimelineHero.Battle
                 AttackerAction.Owner.ParryDuration = AttackerAction.Duration;
             }
             return null;
+        }
+
+        private ActionEffectData DoAction_AdrenalineAttack(Action AttackerAction, Action DefenderAction)
+        {
+            if (AttackerAction.Owner.Adrenaline <= 0)
+            {
+                UnityEngine.Debug.LogError("No Adrenaline!");
+                return new ActionEffectData("Error: No Adrenaline!", "");
+            }
+
+            AttackerAction.Owner.Adrenaline--;
+            return DoAction_Attack(AttackerAction, DefenderAction);
+        }
+
+        private ActionEffectData DoAction_AdrenalineDodge(Action AttackerAction)
+        {
+            if (AttackerAction.Owner.Adrenaline <= 0)
+            {
+                UnityEngine.Debug.LogError("No Adrenaline!");
+                return new ActionEffectData("Error: No Adrenaline!", "");
+            }
+
+            AttackerAction.Owner.Adrenaline--;
+            return DoAction_Dodge(AttackerAction);
+        }
+
+        private ActionEffectData DoAction_AdrenalineBlock(Action AttackerAction)
+        {
+            if (AttackerAction.Owner.Adrenaline <= 0)
+            {
+                UnityEngine.Debug.LogError("No Adrenaline!");
+                return new ActionEffectData("Error: No Adrenaline!", "");
+            }
+
+            AttackerAction.Owner.Adrenaline--;
+            return DoAction_Block(AttackerAction);
         }
     }
 }

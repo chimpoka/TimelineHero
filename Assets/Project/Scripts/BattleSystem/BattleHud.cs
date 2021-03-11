@@ -85,13 +85,20 @@ namespace TimelineHero.Battle
 
                 CharactersStatuses.Add(character, status);
                 character.OnHealthChanged += SetHealth;
+                character.OnAdrenalineChanged += SetAdrenaline;
                 SetHealth(character);
+                SetAdrenaline(character);
             }
         }
 
         private void SetHealth(CharacterBase Character)
         {
             CharactersStatuses[Character].SetHealth(Character.Health, Character.MaxHealth);
+        }
+
+        private void SetAdrenaline(CharacterBase Character)
+        {
+            CharactersStatuses[Character].SetAdrenaline(Character.Adrenaline);
         }
     }
 }

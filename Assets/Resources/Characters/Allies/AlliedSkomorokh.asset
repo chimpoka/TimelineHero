@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AlliedSkomorokh
   m_EditorClassIdentifier: 
   Health: 9
+  Adrenaline: 2
   Skills:
     Skills:
     - Length: 20
@@ -22,7 +23,7 @@ MonoBehaviour:
           Position: 12
           Value: 1
           Duration: 3
-    - Length: 13
+    - Length: 12
       Actions:
         Actions:
         - ActionType: 18
@@ -32,19 +33,7 @@ MonoBehaviour:
         - ActionType: 10
           Position: 5
           Value: 2
-          Duration: 0
-        - ActionType: 3
-          Position: 6
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 7
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 8
-          Value: 0
-          Duration: 0
+          Duration: 4
     - Length: 15
       Actions:
         Actions:
@@ -136,15 +125,7 @@ MonoBehaviour:
         - ActionType: 10
           Position: 7
           Value: 2
-          Duration: 0
-        - ActionType: 3
-          Position: 8
-          Value: 0
-          Duration: 0
-        - ActionType: 3
-          Position: 9
-          Value: 0
-          Duration: 0
+          Duration: 3
         - ActionType: 16
           Position: 11
           Value: 2
@@ -153,3 +134,17 @@ MonoBehaviour:
           Position: 13
           Value: 1
           Duration: 0
+    - Length: 4
+      Actions:
+        Actions:
+        - ActionType: 11
+          Position: 1
+          Value: 0
+          Duration: 4
+    - Length: 4
+      Actions:
+        Actions:
+        - ActionType: 12
+          Position: 1
+          Value: 1
+          Duration: 4

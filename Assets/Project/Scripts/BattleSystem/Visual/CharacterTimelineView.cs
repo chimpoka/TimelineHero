@@ -36,21 +36,16 @@ namespace TimelineHero.Battle
             return true;
         }
 
-        public void AddSkill(SkillView NewSkill, bool SmoothMotion, int Index = -1)
+        public void AddSkill(SkillView NewSkill, bool SmoothMotion)
         {
-            if (Index == -1)
-            {
-                Skills.Add(NewSkill);
-            }
-            else if (Index >= 0)
-            {
-                Skills.Insert(Index, NewSkill);
-            }
+            Skills.Add(NewSkill);
+            AddSkillInternal(NewSkill, SmoothMotion);
+        }
 
-            NewSkill.SetParent(GetTransform());
-            NewSkill.LocationType = SkillLocationType.Timeline;
-
-            ShrinkSkills(SmoothMotion);
+        public void InsertSkill(SkillView NewSkill, int Index, bool SmoothMotion)
+        {
+            Skills.Insert(Index, NewSkill);
+            AddSkillInternal(NewSkill, SmoothMotion);
         }
 
         public void RemoveSkill(SkillView SkillToRemove)
@@ -98,28 +93,55 @@ namespace TimelineHero.Battle
             return Length + NewSkill.Length <= MaxLength;
         }
 
-        public void RebuildSkillsWithRandomActions()
+        public void RebuildSkillsForPlayState()
         {
-            Dictionary<int, SkillView> skillsWithRandomActions = new Dictionary<int, SkillView>();
+            List<Skill> skills = GetSkills();
+
+            for (int i = 0; i < skills.Count; ++i)
+            {
+                if (skills[i].IsRandomSkill())
+                {
+                    RebuildRandomActionSkill(skills[i], i);
+                }
+                if (skills[i].IsAdrenalineSkill())
+                {
+                    RebuildAdrenalineSkill(skills, i);
+                }
+            }
+        }
+
+        private void RebuildRandomActionSkill(Skill SkillRef, int Index)
+        {
+            SkillView NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
+            NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithRandomActions(SkillRef));
+            ReplaceSkillAtIndex(Index, NewSkill);
+        }
+
+        private void RebuildAdrenalineSkill(List<Skill> SkillList, int Index)
+        {
+            SkillView NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
+            NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithAdrenaline(SkillList, Index));
+            ReplaceSkillAtIndex(Index, NewSkill);
+        }
+
+        private List<Skill> GetSkills()
+        {
+            List<Skill> skills = new List<Skill>();
 
             for (int i = 0; i < Skills.Count; ++i)
             {
-                Skill skill = Skills[i].GetSkill();
-
-                if (skill.RandomActionsCounter > 0)
-                {
-                    SkillView NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
-                    NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithRandomActions(skill));
-                    Skills[i].DestroyGameObject();
-                    skillsWithRandomActions.Add(i, NewSkill);
-                }
+                skills.Add(Skills[i].GetSkill());
             }
 
-            foreach (var skill in skillsWithRandomActions)
-            {
-                Skills.RemoveAt(skill.Key);
-                AddSkill(skill.Value, false, skill.Key);
-            }
+            return skills;
+        }
+
+        private void ReplaceSkillAtIndex(int Index, SkillView NewSkill)
+        {
+            Skills[Index].DestroyGameObject();
+            Skills.RemoveAt(Index);
+
+            InsertSkill(NewSkill, Index, false);
         }
 
         public void ClearTimeline()
@@ -129,6 +151,14 @@ namespace TimelineHero.Battle
                 Destroy(Skills[0].gameObject);
                 Skills.RemoveAt(0);
             }
+        }
+
+        private void AddSkillInternal(SkillView NewSkill, bool SmoothMotion)
+        {
+            NewSkill.SetParent(GetTransform());
+            NewSkill.LocationType = SkillLocationType.Timeline;
+
+            ShrinkSkills(SmoothMotion);
         }
 
         private void ShrinkSkills(bool SmoothMotion)
