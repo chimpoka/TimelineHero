@@ -12,10 +12,11 @@ namespace TimelineHero.Battle
             : base(BattleSceneControllerRef)
         {
             Hud.OnPlayBattleButtonEvent += SetNextState;
+            Hud.SetConstructState();
             BattleSceneControllerRef.BattleView.SetActive(true);
             BattleSceneControllerRef.BattleView.GetTimerView().ResetPosition();
-            BattleSceneControllerRef.BattleView.BattleTimeline.ClearAlliedTimeline();
-            Hud.SetConstructState();
+            BattleSceneControllerRef.BattleView.BattleBoard.ClearAlliedTimeline();
+            BattleSceneControllerRef.BattleView.PlayerBattleController.DrawCards(5, 0.3f);
         }
 
         private void SetNextState()

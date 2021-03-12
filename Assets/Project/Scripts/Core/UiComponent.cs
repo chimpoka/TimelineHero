@@ -40,11 +40,11 @@ namespace TimelineHero.CoreUI
 
         public void DOAnchorPos(Vector2 Position, float Duration = 1.0f)
         {
-            DOKill();
+            DOStop();
             tween = GetTransform().DOAnchorPos(Position, Duration);
         }
 
-        public void DOKill()
+        public void DOStop()
         {
             if (tween != null)
             {
@@ -54,7 +54,7 @@ namespace TimelineHero.CoreUI
 
         public void DestroyGameObject()
         {
-            DOKill();
+            DOStop();
             Destroy(gameObject);
         }
 

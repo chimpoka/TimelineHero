@@ -5,7 +5,7 @@ using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
-    public class BattleTimelineView : MonoBehaviour
+    public class Board : MonoBehaviour
     {
         private BattleSystem BattleSystemCached;
         private CharacterTimelineView EnemyTimeline;
@@ -69,7 +69,7 @@ namespace TimelineHero.Battle
 
             foreach (Skill skill in GetEnemySkills())
             {
-                SkillView skillView = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
+                Card skillView = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
                 skillView.SetSkill(skill);
                 enemyTimeline.AddSkill(skillView, false);
             }

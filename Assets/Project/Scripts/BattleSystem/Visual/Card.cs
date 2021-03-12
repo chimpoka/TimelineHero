@@ -13,9 +13,9 @@ namespace TimelineHero.Battle
         public TimelineStepView Prefab;
     }
 
-    public enum SkillLocationType { NoParent, Container, Timeline, Deck }
+    public enum CardLocationType { NoParent, Hand, Board, Deck }
 
-    public class SkillView : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler 
+    public class Card : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler 
     {
         [SerializeField]
         private RectTransform DelimeterPrefab;
@@ -24,14 +24,14 @@ namespace TimelineHero.Battle
 
         public int Length { get => SkillCached.Length; }
 
-        public delegate void SkillEventHandler(SkillView skill, PointerEventData eventData);
+        public delegate void SkillEventHandler(Card skill, PointerEventData eventData);
         public event SkillEventHandler OnPointerDownEvent;
         public event SkillEventHandler OnPointerUpEvent;
         public event SkillEventHandler OnBeginDragEvent;
         public event SkillEventHandler OnEndDragEvent;
         public event SkillEventHandler OnDragEvent;
 
-        public SkillLocationType LocationType;
+        public CardLocationType LocationType;
 
         private Skill SkillCached;
         private List<TimelineStepView> Steps;

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: AlliedPriest
   m_EditorClassIdentifier: 
   Health: 90
+  Adrenaline: 0
   Skills:
     Skills:
-    - Length: 3
+    - Name: Priest card name 0
+      Length: 3
       Actions:
         Actions:
         - ActionType: 1
@@ -38,7 +40,8 @@ MonoBehaviour:
           Position: 6
           Value: 3
           Duration: 0
-    - Length: 5
+    - Name: Priest card name 1
+      Length: 5
       Actions:
         Actions:
         - ActionType: 1
@@ -61,7 +64,8 @@ MonoBehaviour:
           Position: 5
           Value: 2
           Duration: 0
-    - Length: 5
+    - Name: Priest card name 2
+      Length: 5
       Actions:
         Actions:
         - ActionType: 1
@@ -84,14 +88,16 @@ MonoBehaviour:
           Position: 5
           Value: 3
           Duration: 0
-    - Length: 6
+    - Name: Priest card name 3
+      Length: 6
       Actions:
         Actions:
         - ActionType: 8
           Position: 2
           Value: 3
           Duration: 4
-    - Length: 6
+    - Name: Priest card name 4
+      Length: 6
       Actions:
         Actions:
         - ActionType: 14

@@ -8,7 +8,7 @@ namespace TimelineHero.Battle
 {
     public class CharacterTimelineView : UiComponent
     {
-        private List<SkillView> Skills;
+        private List<Card> Skills;
 
         public int Length { get => Skills.Aggregate(0, (total, next) => total += next.Length); }
         public int MaxLength { get => maxLength; set => maxLength = value; }
@@ -18,10 +18,10 @@ namespace TimelineHero.Battle
 
         private void Awake()
         {
-            Skills = new List<SkillView>();
+            Skills = new List<Card>();
         }
 
-        public bool TryAddSkill(SkillView NewSkill)
+        public bool TryAddSkill(Card NewSkill)
         {
             if (SkillUtils.IsOpeningSkill(NewSkill.GetSkill()) && Skills.Count > 0)
                 return false;
@@ -36,30 +36,30 @@ namespace TimelineHero.Battle
             return true;
         }
 
-        public void AddSkill(SkillView NewSkill, bool SmoothMotion)
+        public void AddSkill(Card NewSkill, bool SmoothMotion)
         {
             Skills.Add(NewSkill);
             AddSkillInternal(NewSkill, SmoothMotion);
         }
 
-        public void InsertSkill(SkillView NewSkill, int Index, bool SmoothMotion)
+        public void InsertSkill(Card NewSkill, int Index, bool SmoothMotion)
         {
             Skills.Insert(Index, NewSkill);
             AddSkillInternal(NewSkill, SmoothMotion);
         }
 
-        public void RemoveSkill(SkillView SkillToRemove)
+        public void RemoveCard(Card SkillToRemove)
         {
             Skills.Remove(SkillToRemove);
-            SkillToRemove.LocationType = SkillLocationType.NoParent;
+            SkillToRemove.LocationType = CardLocationType.NoParent;
 
             ShrinkSkills(true);
         }
 
         public Vector2 GetContentSize()
         {
-            float x = Skills.Aggregate<SkillView, float>(0, (total, next) => total += next.Size.x);
-            return new Vector2(x, SkillView.GetSkillStaticHeight());
+            float x = Skills.Aggregate<Card, float>(0, (total, next) => total += next.Size.x);
+            return new Vector2(x, Card.GetSkillStaticHeight());
         }
 
         public bool IsPositionInsideBounds(Vector2 Position)
@@ -72,7 +72,7 @@ namespace TimelineHero.Battle
         {
             int prevSkillsLength = 0;
 
-            foreach (SkillView skillView in Skills)
+            foreach (Card skillView in Skills)
             {
                 Skill skill = skillView.GetSkill();
 
@@ -88,7 +88,7 @@ namespace TimelineHero.Battle
             return new Action(CharacterActionType.Empty, Position, Skills.Last().GetSkill().Owner);
         }
 
-        public bool IsEnoughSpaceForSkill(SkillView NewSkill)
+        public bool IsEnoughSpaceForSkill(Card NewSkill)
         {
             return Length + NewSkill.Length <= MaxLength;
         }
@@ -112,14 +112,14 @@ namespace TimelineHero.Battle
 
         private void RebuildRandomActionSkill(Skill SkillRef, int Index)
         {
-            SkillView NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
+            Card NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
             NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithRandomActions(SkillRef));
             ReplaceSkillAtIndex(Index, NewSkill);
         }
 
         private void RebuildAdrenalineSkill(List<Skill> SkillList, int Index)
         {
-            SkillView NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
+            Card NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
             NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithAdrenaline(SkillList, Index));
             ReplaceSkillAtIndex(Index, NewSkill);
         }
@@ -136,7 +136,7 @@ namespace TimelineHero.Battle
             return skills;
         }
 
-        private void ReplaceSkillAtIndex(int Index, SkillView NewSkill)
+        private void ReplaceSkillAtIndex(int Index, Card NewSkill)
         {
             Skills[Index].DestroyGameObject();
             Skills.RemoveAt(Index);
@@ -153,10 +153,10 @@ namespace TimelineHero.Battle
             }
         }
 
-        private void AddSkillInternal(SkillView NewSkill, bool SmoothMotion)
+        private void AddSkillInternal(Card NewSkill, bool SmoothMotion)
         {
             NewSkill.SetParent(GetTransform());
-            NewSkill.LocationType = SkillLocationType.Timeline;
+            NewSkill.LocationType = CardLocationType.Board;
 
             ShrinkSkills(SmoothMotion);
         }
@@ -165,7 +165,7 @@ namespace TimelineHero.Battle
         {
             Vector2 skillPosition = Vector2.zero;
 
-            foreach (SkillView skill in Skills)
+            foreach (Card skill in Skills)
             {
                 if (SmoothMotion)
                 {

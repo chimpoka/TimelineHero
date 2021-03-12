@@ -6,28 +6,28 @@ using UnityEngine;
 
 namespace TimelineHero.Battle
 {
-    public class SkillContainerView : UiComponent
+    public class Hand : UiComponent
     {
         // Top, Bottom, Left, Right
         public Vector4 Border = new Vector4(20, 20, 20, 20);
         public Vector2 SkillOffset = new Vector2(10, 10);
 
-        private List<SkillView> Skills;
+        private List<Card> Skills;
 
-        public void AddSkill(SkillView Skill)
+        public void AddCard(Card Skill)
         {
-            Skills = Skills ?? new List<SkillView>();
+            Skills = Skills ?? new List<Card>();
 
             Skills.Add(Skill);
             Skill.SetParent(GetTransform());
-            Skill.LocationType = SkillLocationType.Container;
+            Skill.LocationType = CardLocationType.Hand;
             ShrinkSkills();
         }
 
-        public void RemoveSkill(SkillView Skill)
+        public void RemoveCard(Card Skill)
         {
             Skills.Remove(Skill);
-            Skill.LocationType = SkillLocationType.NoParent;
+            Skill.LocationType = CardLocationType.NoParent;
             ShrinkSkills();
         }
 
@@ -35,12 +35,12 @@ namespace TimelineHero.Battle
         {
             Vector2 newPosition = new Vector2(Border.y, Border.z);
 
-            foreach (SkillView skill in Skills)
+            foreach (Card skill in Skills)
             {
                 if (newPosition.x + skill.Size.x > Size.x)
                 {
                     newPosition.x = Border.z;
-                    newPosition.y += SkillView.GetSkillStaticHeight() + SkillOffset.y;
+                    newPosition.y += Card.GetSkillStaticHeight() + SkillOffset.y;
                 }
 
                 skill.DOAnchorPos(newPosition);

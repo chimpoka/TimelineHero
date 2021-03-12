@@ -62,14 +62,14 @@ namespace TimelineHero.Battle
 
         private void CreateAlliedCharacterStatuses()
         {
-            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleTimeline.GetAlliedTimeline().WorldBounds;
+            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().WorldBounds;
             Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
             CreateCharacterStatuses(BattleSceneControllerCached.Battle.GetAlliedCharacters(), statusPosition);
         }
 
         private void CreateEnemiesCharacterStatuses()
         {
-            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleTimeline.GetEnemyTimeline().WorldBounds;
+            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetEnemyTimeline().WorldBounds;
             Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
             CreateCharacterStatuses(BattleSceneControllerCached.Battle.GetEnemyCharacters(), statusPosition);
         }

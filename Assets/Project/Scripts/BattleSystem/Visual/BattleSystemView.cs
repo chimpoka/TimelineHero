@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TimelineHero.Core;
+using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
     public class BattleSystemView : MonoBehaviour
     {
-        public SkillContainerView BattleSkillContainer;
-        public BattleTimelineView BattleTimeline;
+        public Hand PlayerHand;
+        public Board BattleBoard;
+        public DrawDeck PlayerDrawDeck;
+        public BattleController PlayerBattleController;
+
         private BattleSystem BattleSystemCached;
-
-        BattleSkillController SkillController;
-
-        private void Awake()
-        {
-            float a = GetComponent<Canvas>().scaleFactor;
-        }
 
         public void Initialize(BattleSystem BattleSystemRef)
         {
@@ -24,23 +21,29 @@ namespace TimelineHero.Battle
 
             BattleSystemCached = BattleSystemRef;
 
-            BattleTimeline.Initialize(BattleSystemCached);
+            BattleBoard.Initialize(BattleSystemCached);
 
-            SkillController = new BattleSkillController();
-            SkillController.SetAlliedTimeline(BattleTimeline.GetAlliedTimeline());
-            SkillController.SetAlliedCharacters(BattleSystemCached.GetAlliedCharacters());
-            SkillController.SetSkillContainer(BattleSkillContainer);
-            SkillController.SpawnSkills();
+            PlayerDrawDeck = new DrawDeck();
+            List<Skill> AllAlliedSkills = new List<Skill>();
+            foreach (CharacterBase character in BattleSystemCached.GetAlliedCharacters())
+            {
+                AllAlliedSkills.AddRange(character.Skills);
+            }
+            PlayerDrawDeck.Initialize(AllAlliedSkills);
+
+            PlayerBattleController = new BattleController();
+            PlayerBattleController.Initialize(PlayerHand, PlayerDrawDeck, BattleBoard.GetAlliedTimeline());
+
         }
 
         public BattleTimelineTimerView GetTimerView()
         {
-            return BattleTimeline.GetTimerView();
+            return BattleBoard.GetTimerView();
         }
 
         public void SetActive(bool Active)
         {
-            SkillController.SetActive(Active);
+            PlayerBattleController.SetActive(Active);
         }
     }
 }

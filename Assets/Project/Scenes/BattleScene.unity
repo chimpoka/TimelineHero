@@ -946,8 +946,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46251f7f1c3333b4a875d7115b9f1faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BattleSkillContainer: {fileID: 1535933324}
-  BattleTimeline: {fileID: 1692974514}
+  PlayerHand: {fileID: 1535933324}
+  BattleBoard: {fileID: 1692974514}
 --- !u!1 &1136939473
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,7 +1135,7 @@ GameObject:
   - component: {fileID: 1535933322}
   - component: {fileID: 1535933324}
   m_Layer: 5
-  m_Name: SkillContainer
+  m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1224,7 +1224,7 @@ GameObject:
   - component: {fileID: 1692974515}
   - component: {fileID: 1692974514}
   m_Layer: 5
-  m_Name: BattleTimeline
+  m_Name: BattleBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1258,7 +1258,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1692974512}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94d339a8fd40aa74db82e8352ac9397f, type: 3}
+  m_Script: {fileID: 11500000, guid: 96ff0d1eb59eb40479f56106cf4577d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1692974515

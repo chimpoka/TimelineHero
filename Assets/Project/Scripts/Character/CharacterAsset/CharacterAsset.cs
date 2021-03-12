@@ -50,6 +50,7 @@ namespace TimelineHero.Character
     [System.Serializable]
     public class SkillAsset
     {
+        public string Name;
         public int Length;
         public ActionsList Actions;
     }
