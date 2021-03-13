@@ -49,8 +49,8 @@ namespace TimelineHero.Battle
 
         public void RebuildSkillsForPlayState()
         {
-            GetAlliedTimeline().RebuildSkillsForPlayState();
-            GetEnemyTimeline().RebuildSkillsForPlayState();
+            GetAlliedTimeline().RebuildCardsForPlayState();
+            GetEnemyTimeline().RebuildCardsForPlayState();
         }
 
         public void ClearAlliedTimeline()
@@ -71,7 +71,7 @@ namespace TimelineHero.Battle
             {
                 Card skillView = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
                 skillView.SetSkill(skill);
-                enemyTimeline.AddSkill(skillView, false);
+                enemyTimeline.AddCard(skillView, false);
             }
 
             enemyTimeline.MaxLength = enemyTimeline.Length;

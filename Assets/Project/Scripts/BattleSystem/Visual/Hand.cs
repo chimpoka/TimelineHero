@@ -40,7 +40,7 @@ namespace TimelineHero.Battle
                 if (newPosition.x + skill.Size.x > Size.x)
                 {
                     newPosition.x = Border.z;
-                    newPosition.y += Card.GetSkillStaticHeight() + SkillOffset.y;
+                    newPosition.y += Card.GetCardStaticHeight() + SkillOffset.y;
                 }
 
                 skill.DOAnchorPos(newPosition);

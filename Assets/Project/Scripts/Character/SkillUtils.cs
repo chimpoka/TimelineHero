@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TimelineHero.Battle;
 using UnityEngine;
 
 namespace TimelineHero.Character
@@ -100,6 +101,18 @@ namespace TimelineHero.Character
         public static bool IsClosingSkill(Skill SkillRef)
         {
             return SkillRef?.Actions?.Last().ActionType == CharacterActionType.Close;
+        }
+
+        public static List<Skill> GetSkillsFromCardsList(List<Card> Cards)
+        {
+            List<Skill> skills = new List<Skill>();
+
+            for (int i = 0; i < Cards.Count; ++i)
+            {
+                skills.Add(Cards[i].GetSkill());
+            }
+
+            return skills;
         }
     }
 }

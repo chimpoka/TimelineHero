@@ -11,6 +11,7 @@ namespace TimelineHero.Battle
         public Hand PlayerHand;
         public Board BattleBoard;
         public DrawDeck PlayerDrawDeck;
+        public DiscardDeck PlayerDiscardDeck;
         public BattleController PlayerBattleController;
 
         private BattleSystem BattleSystemCached;
@@ -31,8 +32,10 @@ namespace TimelineHero.Battle
             }
             PlayerDrawDeck.Initialize(AllAlliedSkills);
 
+            PlayerDiscardDeck = new DiscardDeck();
+
             PlayerBattleController = new BattleController();
-            PlayerBattleController.Initialize(PlayerHand, PlayerDrawDeck, BattleBoard.GetAlliedTimeline());
+            PlayerBattleController.Initialize(PlayerHand, PlayerDrawDeck, PlayerDiscardDeck, BattleBoard.GetAlliedTimeline());
 
         }
 

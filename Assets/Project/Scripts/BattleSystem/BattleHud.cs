@@ -13,6 +13,10 @@ namespace TimelineHero.Battle
         private Button PlayBattleButton;
         [SerializeField]
         private ActionExecutionView ActionExecution;
+        [SerializeField]
+        private DrawDeckButton DrawDeckButtonCached;
+        [SerializeField]
+        private DiscardDeckButton DiscardDeckButtonCached;
 
         public System.Action OnPlayBattleButtonEvent;
 
@@ -33,6 +37,9 @@ namespace TimelineHero.Battle
             CreateAlliedCharacterStatuses();
             CreateEnemiesCharacterStatuses();
             BattleSceneControllerCached.Battle.OnActionExecuted += ActionExecution.CreateActionEffect;
+
+            BattleSceneControllerCached.BattleView.PlayerDrawDeck.OnDeckSizeChanged += DrawDeckButtonCached.SetValue;
+            BattleSceneControllerCached.BattleView.PlayerDiscardDeck.OnDeckSizeChanged += DiscardDeckButtonCached.SetValue;
         }
 
         public void SetPlayState()

@@ -38,10 +38,11 @@ namespace TimelineHero.CoreUI
             GetTransform().anchorMax = new Vector2(0.5f, 0.5f);
         }
 
-        public void DOAnchorPos(Vector2 Position, float Duration = 1.0f)
+        public TweenerCore<Vector2, Vector2, VectorOptions> DOAnchorPos(Vector2 Position, float Duration = 1.0f)
         {
             DOStop();
             tween = GetTransform().DOAnchorPos(Position, Duration);
+            return tween;
         }
 
         public void DOStop()

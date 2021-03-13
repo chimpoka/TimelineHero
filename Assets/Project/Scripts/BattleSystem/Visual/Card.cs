@@ -47,7 +47,7 @@ namespace TimelineHero.Battle
             }
         }
 
-        static public float GetSkillStaticHeight()
+        static public float GetCardStaticHeight()
         {
             return GetTimelineStepStaticSize().y;
         }

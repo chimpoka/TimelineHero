@@ -9,23 +9,25 @@ namespace TimelineHero.Battle
     {
         public List<Skill> Skills;
 
-        public void Shuffle()
-        {
-            int n = Skills.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = Random.Range(0, n + 1);
-                Skill value = Skills[k];
-                Skills[k] = Skills[n];
-                Skills[n] = value;
-            }
-        }
+        public System.Action<int> OnDeckSizeChanged;
 
         public void Initialize(List<Skill> NewSkills)
         {
             Skills = NewSkills;
             Shuffle();
+            OnDeckSizeChanged?.Invoke(Skills.Count);
+        }
+
+        public void Add(Skill SkillToAdd)
+        {
+            Skills.Add(SkillToAdd);
+            OnDeckSizeChanged?.Invoke(Skills.Count);
+        }
+
+        public void Add(List<Skill> SkillsToAdd)
+        {
+            Skills.AddRange(SkillsToAdd);
+            OnDeckSizeChanged?.Invoke(Skills.Count);
         }
 
         public List<Card> Draw(int Count)
@@ -58,7 +60,22 @@ namespace TimelineHero.Battle
                 Cards.Add(Card);
             }
 
+            OnDeckSizeChanged?.Invoke(Skills.Count);
+
             return Cards;
+        }
+
+        private void Shuffle()
+        {
+            int n = Skills.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0, n + 1);
+                Skill value = Skills[k];
+                Skills[k] = Skills[n];
+                Skills[n] = value;
+            }
         }
     }
 }

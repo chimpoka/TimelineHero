@@ -11,29 +11,37 @@ namespace TimelineHero.Battle
     {
         private Hand HandCached;
         private DrawDeck DrawDeckCached;
+        private DiscardDeck DiscardDeckCached;
         private CharacterTimelineView AlliedTimelineCached;
 
         private bool IsActive;
 
-        public void Initialize(Hand HandRef, DrawDeck DrawDeckRef, CharacterTimelineView AlliedTimelineRef)
+        public void Initialize(Hand HandRef, DrawDeck DrawDeckRef, DiscardDeck DiscardDeckRef, CharacterTimelineView AlliedTimelineRef)
         {
             HandCached = HandRef;
             DrawDeckCached = DrawDeckRef;
+            DiscardDeckCached = DiscardDeckRef;
             AlliedTimelineCached = AlliedTimelineRef;
         }
 
         public void DrawCards(int Count, float Delay)
         {
-            HandCached.StartCoroutine(DrawCardsCoroutine(Count, Delay));
-        }
-
-        private IEnumerator DrawCardsCoroutine(int Count, float Delay)
-        {
             List<Card> Cards = DrawDeckCached.Draw(Count);
 
             if (Cards == null)
-                yield break;
+                return;
 
+            if (Cards.Count < Count)
+            {
+                DrawDeckCached.Add(DiscardDeckCached.RemoveAllFromDeck());
+                Cards.AddRange(DrawDeckCached.Draw(Count - Cards.Count));
+            }
+
+            HandCached.StartCoroutine(DrawCardsCoroutine(Cards, Delay));
+        }
+
+        private IEnumerator DrawCardsCoroutine(List<Card> Cards, float Delay)
+        {
             foreach (Card card in Cards)
             {
                 card.LocationType = CardLocationType.Hand;
@@ -44,6 +52,26 @@ namespace TimelineHero.Battle
                 card.OnDragEvent += OnCardDrag;
 
                 HandCached.AddCard(card);
+
+                yield return new WaitForSeconds(Delay);
+            }
+        }
+
+        public void DiscardCards(float Delay)
+        {
+            List<Card> cards = AlliedTimelineCached.RemoveCardsFromTimeline();
+            List<Skill> skills = SkillUtils.GetSkillsFromCardsList(cards);
+
+            DiscardDeckCached.Add(skills);
+
+            HandCached.StartCoroutine(DiscardCardsCoroutine(cards, Delay));
+        }
+
+        private IEnumerator DiscardCardsCoroutine(List<Card> Cards, float Delay)
+        {
+            foreach (Card card in Cards)
+            {
+                card.DOAnchorPos(new Vector2(-1000, -500), 1.5f).onComplete += card.DestroyGameObject;
 
                 yield return new WaitForSeconds(Delay);
             }
@@ -84,7 +112,7 @@ namespace TimelineHero.Battle
 
             if (AlliedTimelineCached.IsPositionInsideBounds(PlayerCard.WorldBounds.center))
             {
-                if (!AlliedTimelineCached.TryAddSkill(PlayerCard))
+                if (!AlliedTimelineCached.TryAddCard(PlayerCard))
                 {
                     HandCached.AddCard(PlayerCard);
                 }

@@ -15,8 +15,10 @@ namespace TimelineHero.Battle
             Hud.SetConstructState();
             BattleSceneControllerRef.BattleView.SetActive(true);
             BattleSceneControllerRef.BattleView.GetTimerView().ResetPosition();
-            BattleSceneControllerRef.BattleView.BattleBoard.ClearAlliedTimeline();
-            BattleSceneControllerRef.BattleView.PlayerBattleController.DrawCards(5, 0.3f);
+
+            GameInstance gi = GameInstance.Instance;
+            BattleSceneControllerRef.BattleView.PlayerBattleController.DiscardCards(gi.DelayBetweenCardAnimationsInSeconds);
+            BattleSceneControllerRef.BattleView.PlayerBattleController.DrawCards(gi.DrawCardCount, gi.DelayBetweenCardAnimationsInSeconds);
         }
 
         private void SetNextState()
