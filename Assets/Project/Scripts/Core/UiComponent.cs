@@ -38,13 +38,14 @@ namespace TimelineHero.CoreUI
             GetTransform().anchorMax = new Vector2(0.5f, 0.5f);
         }
 
-        public void DOAnchorPos(Vector2 Position, float Duration = 1.0f)
+        public TweenerCore<Vector2, Vector2, VectorOptions> DOAnchorPos(Vector2 Position, float Duration = 1.0f)
         {
-            DOKill();
+            DOStop();
             tween = GetTransform().DOAnchorPos(Position, Duration);
+            return tween;
         }
 
-        public void DOKill()
+        public void DOStop()
         {
             if (tween != null)
             {
@@ -54,7 +55,7 @@ namespace TimelineHero.CoreUI
 
         public void DestroyGameObject()
         {
-            DOKill();
+            DOStop();
             Destroy(gameObject);
         }
 
@@ -71,8 +72,8 @@ namespace TimelineHero.CoreUI
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = new Color(1, 0, 0, 0.5f);
-            Gizmos.DrawCube(new Vector3(WorldBounds.center.x, WorldBounds.center.y, 2000), new Vector3(0.2f, 0.2f, 0.2f));
+            //Gizmos.color = new Color(1, 0, 0, 0.5f);
+            //Gizmos.DrawCube(new Vector3(WorldBounds.center.x, WorldBounds.center.y, 2000), new Vector3(0.2f, 0.2f, 0.2f));
         }
     }
 }

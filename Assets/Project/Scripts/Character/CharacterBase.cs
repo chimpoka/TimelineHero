@@ -45,7 +45,20 @@ namespace TimelineHero.Character
             set
             {
                 block = value;
-                OnArmorChanged?.Invoke(this);
+                OnBlockChanged?.Invoke(this);
+            }
+        }
+
+        public int Adrenaline
+        {
+            get
+            {
+                return adrenaline;
+            }
+            set
+            {
+                adrenaline = value;
+                OnAdrenalineChanged?.Invoke(this);
             }
         }
 
@@ -59,7 +72,8 @@ namespace TimelineHero.Character
 
         public System.Action<CharacterBase> OnHealthChanged;
         public System.Action<CharacterBase> OnMaxHealthChanged;
-        public System.Action<CharacterBase> OnArmorChanged;
+        public System.Action<CharacterBase> OnBlockChanged;
+        public System.Action<CharacterBase> OnAdrenalineChanged;
         public System.Action<CharacterBase> OnDied;
         public List<Skill> Skills;
         public string Name;
@@ -67,12 +81,14 @@ namespace TimelineHero.Character
         private int health;
         private int maxHealth;
         private int block;
+        private int adrenaline;
 
         // Effects
         public bool HasActionPriority;
         public int StunDuration;
         public int BlockDuration;
         public int DodgeDuration;
+        public int ParryDuration;
 
         public int Hit(int Damage)
         {

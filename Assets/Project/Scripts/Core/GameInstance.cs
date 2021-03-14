@@ -6,24 +6,16 @@ using System.Collections.Generic;
 namespace TimelineHero.Core 
 {
     [CreateAssetMenu(menuName = "ScriptableObject/GameInstance")]
-    public class GameInstance : ScriptableObject
+    public class GameInstance : SingletonScriptableObject<GameInstance>
     {
-        static GameInstance _instance = null;
-        public static GameInstance Instance
-        {
-            get
-            {
-                _instance = _instance ?? Resources.LoadAll<GameInstance>("").FirstOrDefault();
-                return _instance;
-            }
-        }
+        public int DrawCardCount = 5;
+        public float DelayBetweenCardAnimationsInSeconds = 0.3f;
+        public float CanvasScaleFactor;
 
         [SerializeField]
         private List<CharacterAsset> AlliedCharactersAssets;
         [SerializeField]
         private List<CharacterAsset> EnemyCharactersAssets;
-
-        public float CanvasScaleFactor;
 
         public List<CharacterBase> GetAllies()
         {

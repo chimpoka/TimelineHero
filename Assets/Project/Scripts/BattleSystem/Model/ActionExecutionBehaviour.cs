@@ -45,14 +45,15 @@ namespace TimelineHero.Battle
 
         private List<ActionEffectData> PreExecute_Internal(Action AttackerAction)
         {
-            if (IsDead(AttackerAction.Owner))
-                return null;
-            
             List<ActionEffectData> actionsDataList = new List<ActionEffectData>();
+
+            if (IsDead(AttackerAction.Owner))
+                return actionsDataList;
 
             actionsDataList.Add(TryDecreaseStunDuration(AttackerAction.Owner));
             actionsDataList.Add(TryDecreaseBlockDuration(AttackerAction.Owner));
             actionsDataList.Add(TryDecreaseDodgeDuration(AttackerAction.Owner));
+            actionsDataList.Add(TryDecreaseParryDuration(AttackerAction.Owner));
 
             if (AttackerAction.Owner.StunDuration > 0)
             {
@@ -71,6 +72,10 @@ namespace TimelineHero.Battle
             {
                 actionsDataList.Add(DoAction_LuckDodge(AttackerAction));
             }
+            else if (AttackerAction.ActionType == CharacterActionType.Parry)
+            {
+                actionsDataList.Add(DoAction_Parry(AttackerAction));
+            }
 
             return actionsDataList;
         }
@@ -80,6 +85,10 @@ namespace TimelineHero.Battle
             if (AttackerAction.Owner.StunDuration > 0)
                 return null;
 
+            if (AttackerAction.ActionType == CharacterActionType.ImperviousAttack)
+            {
+                return DoAction_ImperviousAttack(AttackerAction, DefenderAction);
+            }
             if (AttackerAction.ActionType == CharacterActionType.Attack)
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
@@ -104,15 +113,24 @@ namespace TimelineHero.Battle
             {
                 return DoAction_SelfAttack(AttackerAction);
             }
+            if (AttackerAction.ActionType == CharacterActionType.AdrenalineAttack)
+            {
+                return DoAction_AdrenalineAttack(AttackerAction, DefenderAction);
+            }
+            if (AttackerAction.ActionType == CharacterActionType.AdrenalineDodge)
+            {
+                return DoAction_AdrenalineDodge(AttackerAction);
+            }
+            if (AttackerAction.ActionType == CharacterActionType.AdrenalineBlock)
+            {
+                return DoAction_AdrenalineBlock(AttackerAction);
+            }
 
             return null;
         }
 
         private List<ActionEffectData> SwapActionEffectData(List<ActionEffectData> Data)
         {
-            if (Data == null)
-                return null;
-
             for (int i = 0; i < Data.Count; ++i)
             {
                 Data[i]?.Swap();
@@ -162,11 +180,20 @@ namespace TimelineHero.Battle
             return null;
         }
 
-        private ActionEffectData DoAction_Attack(Action AttackerAction, Action DefenderAction)
+        private ActionEffectData TryDecreaseParryDuration(CharacterBase Character)
         {
-            if (DefenderAction.Owner.DodgeDuration > 0)
+            if (Character.ParryDuration > 0)
             {
-                return new ActionEffectData("", "Dodged!");
+                Character.ParryDuration--;
+            }
+            return null;
+        }
+
+        private ActionEffectData DoAction_ImperviousAttack(Action AttackerAction, Action DefenderAction)
+        {
+            if (DefenderAction.Owner.ParryDuration > 0)
+            {
+                return new ActionEffectData("", "Parry!");
             }
 
             int hitDamage = DefenderAction.Owner.Hit(AttackerAction.Value);
@@ -179,6 +206,16 @@ namespace TimelineHero.Battle
             }
 
             return data;
+        }
+
+        private ActionEffectData DoAction_Attack(Action AttackerAction, Action DefenderAction)
+        {
+            if (DefenderAction.Owner.DodgeDuration > 0)
+            {
+                return new ActionEffectData("", "Dodged!");
+            }
+
+            return DoAction_ImperviousAttack(AttackerAction, DefenderAction);
         }
 
         private ActionEffectData DoAction_SelfAttack(Action AttackerAction)
@@ -236,6 +273,51 @@ namespace TimelineHero.Battle
                 return DoAction_Dodge(AttackerAction);
             }
             return new ActionEffectData("Miss Dodge...", "");
+        }
+
+        private ActionEffectData DoAction_Parry(Action AttackerAction)
+        {
+            if (AttackerAction.Duration > 0)
+            {
+                AttackerAction.Owner.ParryDuration = AttackerAction.Duration;
+            }
+            return null;
+        }
+
+        private ActionEffectData DoAction_AdrenalineAttack(Action AttackerAction, Action DefenderAction)
+        {
+            if (AttackerAction.Owner.Adrenaline <= 0)
+            {
+                UnityEngine.Debug.LogError("No Adrenaline!");
+                return new ActionEffectData("Error: No Adrenaline!", "");
+            }
+
+            AttackerAction.Owner.Adrenaline--;
+            return DoAction_Attack(AttackerAction, DefenderAction);
+        }
+
+        private ActionEffectData DoAction_AdrenalineDodge(Action AttackerAction)
+        {
+            if (AttackerAction.Owner.Adrenaline <= 0)
+            {
+                UnityEngine.Debug.LogError("No Adrenaline!");
+                return new ActionEffectData("Error: No Adrenaline!", "");
+            }
+
+            AttackerAction.Owner.Adrenaline--;
+            return DoAction_Dodge(AttackerAction);
+        }
+
+        private ActionEffectData DoAction_AdrenalineBlock(Action AttackerAction)
+        {
+            if (AttackerAction.Owner.Adrenaline <= 0)
+            {
+                UnityEngine.Debug.LogError("No Adrenaline!");
+                return new ActionEffectData("Error: No Adrenaline!", "");
+            }
+
+            AttackerAction.Owner.Adrenaline--;
+            return DoAction_Block(AttackerAction);
         }
     }
 }

@@ -7,8 +7,9 @@ namespace TimelineHero.Character
     public enum CharacterActionType
     {
         Empty, Attack, Dodge, Stun, Block, BlockContinuance, Parry, LuckAttack, LuckDodge, LuckBlock,
-        AdrenalinAttack, AdrenalinDodge, AdrenalinBlock, RandomAttack, ImperviousAttack, SelfAttack,
-        SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled
+        AdrenalineAttack, AdrenalineDodge, AdrenalineBlock, RandomAttack, ImperviousAttack, SelfAttack,
+        SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled,
+        DodgeContinuance, AdrenalineCancelled
     }
 
     [System.Serializable]
@@ -41,5 +42,36 @@ namespace TimelineHero.Character
         public int Position;
         public int Value;
         public int Duration;
+
+        public bool IsAdrenalineAction()
+        {
+            return (ActionType == CharacterActionType.AdrenalineAttack ||
+                    ActionType == CharacterActionType.AdrenalineDodge ||
+                    ActionType == CharacterActionType.AdrenalineBlock);
+        }
+
+        public bool IsAttackAction()
+        {
+            return (ActionType == CharacterActionType.Attack ||
+                    ActionType == CharacterActionType.LuckAttack ||
+                    ActionType == CharacterActionType.RandomAttack ||
+                    ActionType == CharacterActionType.SelfRandomAttack ||
+                    ActionType == CharacterActionType.ImperviousAttack ||
+                    ActionType == CharacterActionType.AdrenalineAttack);
+        }
+
+        public bool IsDodgeAction()
+        {
+            return (ActionType == CharacterActionType.Dodge ||
+                    ActionType == CharacterActionType.AdrenalineDodge ||
+                    ActionType == CharacterActionType.LuckDodge);
+        }
+
+        public bool IsBlockAction()
+        {
+            return (ActionType == CharacterActionType.Block ||
+                    ActionType == CharacterActionType.LuckBlock ||
+                    ActionType == CharacterActionType.AdrenalineBlock);
+        }
     }
 }

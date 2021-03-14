@@ -6,6 +6,11 @@ namespace TimelineHero.Character
 {
     public class Skill
     {
+        public Skill()
+        {
+
+        }
+
         public Skill(List<Action> Actions, int Length, CharacterBase Owner)
         {
             this.Actions = Actions;
@@ -52,6 +57,47 @@ namespace TimelineHero.Character
             return new Action(CharacterActionType.Empty, Position, Owner);
         }
 
+        public int CountActionsByType(CharacterActionType Type)
+        {
+            int actionsCount = 0;
+
+            foreach(Action action in Actions)
+            {
+                if (action.ActionType == Type)
+                {
+                    actionsCount++;
+                }
+            }
+
+            return actionsCount;
+        }
+
+        public bool HasActionsWithType(CharacterActionType Type)
+        {
+            foreach (Action action in Actions)
+            {
+                if (action.ActionType == Type)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool IsAdrenalineSkill()
+        {
+            return (HasActionsWithType(CharacterActionType.AdrenalineAttack) ||
+                    HasActionsWithType(CharacterActionType.AdrenalineDodge) ||
+                    HasActionsWithType(CharacterActionType.AdrenalineBlock));
+        }
+
+        public bool IsRandomSkill()
+        {
+            return (HasActionsWithType(CharacterActionType.RandomAttack) ||
+                    HasActionsWithType(CharacterActionType.SelfRandomAttack));
+        }
+
         private void SplitCompositeActions()
         {
             AdditionalActions = AdditionalActions ?? new List<Action>();
@@ -60,21 +106,21 @@ namespace TimelineHero.Character
             {
                 for (int i = 1; i < action.Duration; ++i)
                 {
-                    if (action.ActionType == CharacterActionType.Attack ||
-                        action.ActionType == CharacterActionType.LuckAttack ||
-                        action.ActionType == CharacterActionType.RandomAttack ||
-                        action.ActionType == CharacterActionType.SelfRandomAttack)
+                    if (action.IsAttackAction())
                     {
                         AdditionalActions.Add(new Action(CharacterActionType.Stun, action.Position + i, Owner));
                     }
-                    else if (action.ActionType == CharacterActionType.Block)
+                    else if (action.IsBlockAction())
                     {
                         AdditionalActions.Add(new Action(CharacterActionType.BlockContinuance, action.Position + i, Owner, action.Value));
                     }
-                    else if (action.ActionType == CharacterActionType.Dodge ||
-                             action.ActionType == CharacterActionType.LuckDodge)
+                    else if (action.IsDodgeAction())
                     {
-                        AdditionalActions.Add(new Action(CharacterActionType.Dodge, action.Position + i, Owner));
+                        AdditionalActions.Add(new Action(CharacterActionType.DodgeContinuance, action.Position + i, Owner));
+                    }
+                    else if (action.ActionType == CharacterActionType.Parry)
+                    {
+                        AdditionalActions.Add(new Action(CharacterActionType.Parry, action.Position + i, Owner));
                     }
                 }
             }

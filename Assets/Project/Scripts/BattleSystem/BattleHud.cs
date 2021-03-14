@@ -13,6 +13,10 @@ namespace TimelineHero.Battle
         private Button PlayBattleButton;
         [SerializeField]
         private ActionExecutionView ActionExecution;
+        [SerializeField]
+        private DrawDeckButton DrawDeckButtonCached;
+        [SerializeField]
+        private DiscardDeckButton DiscardDeckButtonCached;
 
         public System.Action OnPlayBattleButtonEvent;
 
@@ -33,6 +37,9 @@ namespace TimelineHero.Battle
             CreateAlliedCharacterStatuses();
             CreateEnemiesCharacterStatuses();
             BattleSceneControllerCached.Battle.OnActionExecuted += ActionExecution.CreateActionEffect;
+
+            BattleSceneControllerCached.BattleView.PlayerDrawDeck.OnDeckSizeChanged += DrawDeckButtonCached.SetValue;
+            BattleSceneControllerCached.BattleView.PlayerDiscardDeck.OnDeckSizeChanged += DiscardDeckButtonCached.SetValue;
         }
 
         public void SetPlayState()
@@ -62,14 +69,14 @@ namespace TimelineHero.Battle
 
         private void CreateAlliedCharacterStatuses()
         {
-            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleTimeline.GetAlliedTimeline().WorldBounds;
+            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().WorldBounds;
             Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
             CreateCharacterStatuses(BattleSceneControllerCached.Battle.GetAlliedCharacters(), statusPosition);
         }
 
         private void CreateEnemiesCharacterStatuses()
         {
-            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleTimeline.GetEnemyTimeline().WorldBounds;
+            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetEnemyTimeline().WorldBounds;
             Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
             CreateCharacterStatuses(BattleSceneControllerCached.Battle.GetEnemyCharacters(), statusPosition);
         }
@@ -85,13 +92,20 @@ namespace TimelineHero.Battle
 
                 CharactersStatuses.Add(character, status);
                 character.OnHealthChanged += SetHealth;
+                character.OnAdrenalineChanged += SetAdrenaline;
                 SetHealth(character);
+                SetAdrenaline(character);
             }
         }
 
         private void SetHealth(CharacterBase Character)
         {
             CharactersStatuses[Character].SetHealth(Character.Health, Character.MaxHealth);
+        }
+
+        private void SetAdrenaline(CharacterBase Character)
+        {
+            CharactersStatuses[Character].SetAdrenaline(Character.Adrenaline);
         }
     }
 }

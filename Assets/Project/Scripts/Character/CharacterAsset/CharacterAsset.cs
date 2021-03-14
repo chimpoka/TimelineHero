@@ -8,6 +8,7 @@ namespace TimelineHero.Character
     public class CharacterAsset : ScriptableObject
     {
         public int Health;
+        public int Adrenaline;
         public SkillsList Skills = new SkillsList();
 
         public CharacterBase ToCharacter()
@@ -33,6 +34,7 @@ namespace TimelineHero.Character
             character.Skills = newSkillList;
             character.Health = Health;
             character.MaxHealth = Health;
+            character.Adrenaline = Adrenaline;
             character.Name = name;
 
             return character;
@@ -48,6 +50,7 @@ namespace TimelineHero.Character
     [System.Serializable]
     public class SkillAsset
     {
+        public string Name;
         public int Length;
         public ActionsList Actions;
     }
