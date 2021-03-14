@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TimelineHero.Core;
 using TimelineHero.Character;
+using TimelineHero.Config;
 
 namespace TimelineHero.Battle
 {
@@ -30,12 +31,12 @@ namespace TimelineHero.Battle
 
         private BattleTimelineTimer TimelineTimer;
         private ActionExecutionBehaviour ActionBehaviour;
-        private List<CharacterBase> AlliedCharacters;
-        private List<CharacterBase> EnemyCharacters;
+        private List<CharacterBase> AlliedCharacters = new List<CharacterBase>();
+        private List<CharacterBase> EnemyCharacters = new List<CharacterBase>();
 
         public List<CharacterBase> GetAlliedCharacters()
         {
-            if (AlliedCharacters == null || AlliedCharacters.Count == 0)
+            if (AlliedCharacters.Count == 0)
             {
                 AlliedCharacters = GameInstance.Instance.GetAllies();
             }
@@ -44,7 +45,7 @@ namespace TimelineHero.Battle
 
         public List<CharacterBase> GetEnemyCharacters()
         {
-            if (EnemyCharacters == null || EnemyCharacters.Count == 0)
+            if (EnemyCharacters.Count == 0)
             {
                 EnemyCharacters = GameInstance.Instance.GetEnemies();
             }

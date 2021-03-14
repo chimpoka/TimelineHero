@@ -17,6 +17,31 @@ namespace TimelineHero.Core
         [SerializeField]
         private List<CharacterAsset> EnemyCharactersAssets;
 
+        private Dictionary<string, CharacterBase> CharactersPool = new Dictionary<string, CharacterBase>();
+
+        public CharacterBase GetCharacter(string Name)
+        {
+            if (!CharactersPool.ContainsKey(Name))
+            {
+                CharacterAsset asset = AlliedCharactersAssets.Find(x => x.name == Name);
+                asset = asset ?? EnemyCharactersAssets.Find(x => x.name == Name);
+
+                if (asset == null)
+                {
+                    Debug.LogError("Character asset '" + Name + "' doesn't exist!");
+                }
+
+                CharactersPool[Name] = asset.ToCharacter();
+            }
+
+            return CharactersPool[Name];
+        }
+
+        public Skill GetSkill(string ChatacterName, string SkillName)
+        {
+            return GetCharacter(ChatacterName).GetSkill(SkillName);
+        }
+
         public List<CharacterBase> GetAllies()
         {
             return GetCharactersFromAssets(AlliedCharactersAssets);
@@ -29,13 +54,7 @@ namespace TimelineHero.Core
 
         private List<CharacterBase> GetCharactersFromAssets(List<CharacterAsset> Assets)
         {
-            List<CharacterBase> characters = new List<CharacterBase>();
-            foreach (CharacterAsset asset in Assets)
-            {
-                characters.Add(asset.ToCharacter());
-            }
-
-            return characters;
+            return Assets.Select(asset => asset.ToCharacter()).ToList();
         }
     }
 }

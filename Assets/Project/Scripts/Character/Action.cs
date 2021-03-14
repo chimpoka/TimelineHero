@@ -73,5 +73,11 @@ namespace TimelineHero.Character
                     ActionType == CharacterActionType.LuckBlock ||
                     ActionType == CharacterActionType.AdrenalineBlock);
         }
+
+        public bool IsRandomAction()
+        {
+            return (ActionType == CharacterActionType.RandomAttack ||
+                    ActionType == CharacterActionType.SelfRandomAttack);
+        }
     }
 }

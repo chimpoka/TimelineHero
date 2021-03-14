@@ -60,7 +60,7 @@ namespace TimelineHero.Battle
         public void DiscardCards(float Delay)
         {
             List<Card> cards = AlliedTimelineCached.RemoveCardsFromTimeline();
-            List<Skill> skills = SkillUtils.GetSkillsFromCardsList(cards);
+            List<Skill> skills = SkillUtils.GetOriginalSkillsFromCards(cards);
 
             DiscardDeckCached.Add(skills);
 

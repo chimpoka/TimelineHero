@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TimelineHero.Character
@@ -27,11 +28,13 @@ namespace TimelineHero.Character
                     newActionList.Add(newAction);
                 }
                 Skill newSkill = new Skill(newActionList, skillAsset.Length, character);
+                newSkill.Name = skillAsset.Name;
                 newSkill.Initialize();
                 newSkillList.Add(newSkill);
             }
 
             character.Skills = newSkillList;
+            character.SkillsDict = newSkillList.ToDictionary(skill => skill.Name ?? skill.ToString(), skill => skill);
             character.Health = Health;
             character.MaxHealth = Health;
             character.Adrenaline = Adrenaline;

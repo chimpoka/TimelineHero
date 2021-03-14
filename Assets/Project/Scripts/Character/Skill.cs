@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TimelineHero.Character
 {
     public class Skill
     {
-        public Skill()
+        public Skill(Skill OldSkill)
         {
-
+            this.Actions = OldSkill.Actions;
+            this.AdditionalActions = OldSkill.AdditionalActions; // ?
+            this.Length = OldSkill.Length;
+            this.Owner = OldSkill.Owner;
+            this.Name = OldSkill.Name;
         }
 
         public Skill(List<Action> Actions, int Length, CharacterBase Owner)
@@ -25,6 +30,7 @@ namespace TimelineHero.Character
         public List<Action> Actions;
         public int Length;
         public CharacterBase Owner;
+        public string Name;
 
         private List<Action> AdditionalActions;
         private int randomActionsCounter;
@@ -100,7 +106,7 @@ namespace TimelineHero.Character
 
         private void SplitCompositeActions()
         {
-            AdditionalActions = AdditionalActions ?? new List<Action>();
+            AdditionalActions = new List<Action>();
 
             foreach (Action action in Actions)
             {
@@ -128,14 +134,7 @@ namespace TimelineHero.Character
 
         private void CountRandomActions()
         {
-            foreach (Action action in Actions)
-            {
-                if (action.ActionType == CharacterActionType.RandomAttack ||
-                    action.ActionType == CharacterActionType.SelfRandomAttack)
-                {
-                    randomActionsCounter++;
-                }
-            }
+            randomActionsCounter = Actions.Aggregate(0, (total, action) => total += action.IsRandomAction() ? 1 : 0);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TimelineHero.Battle;
+using TimelineHero.Core;
 using UnityEngine;
 
 namespace TimelineHero.Character
@@ -12,7 +13,7 @@ namespace TimelineHero.Character
             int rand = Random.Range(0, OldSkill.RandomActionsCounter);
             int randIndex = 0;
 
-            Skill newSkill = new Skill(OldSkill.Actions, OldSkill.Length, OldSkill.Owner);
+            Skill newSkill = new Skill(OldSkill); //new Skill(OldSkill.Actions, OldSkill.Length, OldSkill.Owner);
 
             foreach (Action action in newSkill.Actions)
             {
@@ -103,16 +104,14 @@ namespace TimelineHero.Character
             return SkillRef?.Actions?.Last().ActionType == CharacterActionType.Close;
         }
 
-        public static List<Skill> GetSkillsFromCardsList(List<Card> Cards)
+        public static List<Skill> GetOriginalSkillsFromCards(List<Card> Cards)
         {
-            List<Skill> skills = new List<Skill>();
+            return Cards.Select(card => GetOriginalSkill(card.GetSkill())).ToList();
+        }
 
-            for (int i = 0; i < Cards.Count; ++i)
-            {
-                skills.Add(Cards[i].GetSkill());
-            }
-
-            return skills;
+        public static Skill GetOriginalSkill(Skill OldSkill)
+        {
+           return GameInstance.Instance.GetSkill(OldSkill.Owner.Name, OldSkill.Name);
         }
     }
 }

@@ -76,6 +76,7 @@ namespace TimelineHero.Character
         public System.Action<CharacterBase> OnAdrenalineChanged;
         public System.Action<CharacterBase> OnDied;
         public List<Skill> Skills;
+        public Dictionary<string, Skill> SkillsDict;
         public string Name;
 
         private int health;
@@ -100,6 +101,11 @@ namespace TimelineHero.Character
             int ActualDamage = Damage - Block;
             Health -= ActualDamage;
             return ActualDamage;
+        }
+
+        public Skill GetSkill(string Name)
+        {
+            return SkillsDict[Name];
         }
     }
 }
