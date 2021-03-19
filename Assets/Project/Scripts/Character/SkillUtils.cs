@@ -13,7 +13,7 @@ namespace TimelineHero.Character
             int rand = Random.Range(0, OldSkill.RandomActionsCounter);
             int randIndex = 0;
 
-            Skill newSkill = new Skill(OldSkill); //new Skill(OldSkill.Actions, OldSkill.Length, OldSkill.Owner);
+            Skill newSkill = OldSkill;
 
             foreach (Action action in newSkill.Actions)
             {
@@ -64,7 +64,7 @@ namespace TimelineHero.Character
                 return SkillList[Index];
             }
 
-            Skill newSkill = new Skill(SkillList[Index].Actions, SkillList[Index].Length, owner);
+            Skill newSkill = SkillList[Index];
 
             for (int i = 0; i < newSkill.Actions.Count; ++i)
             {
@@ -86,12 +86,7 @@ namespace TimelineHero.Character
 
         public static int CountAdrenalineActionsInSkill(Skill SkillRef)
         {
-            int result = 0;
-            result += SkillRef.CountActionsByType(CharacterActionType.AdrenalineAttack);
-            result += SkillRef.CountActionsByType(CharacterActionType.AdrenalineDodge);
-            result += SkillRef.CountActionsByType(CharacterActionType.AdrenalineBlock);
-
-            return result;
+            return SkillRef.Actions.Aggregate(0, (total, action) => total += action.IsAdrenalineAction() ? 1 : 0);
         }
 
         public static bool IsOpeningSkill(Skill SkillRef)

@@ -14,7 +14,7 @@ namespace TimelineHero.Battle
         public void Initialize(List<Skill> NewSkills)
         {
             Skills = NewSkills;
-            Shuffle();
+            //Shuffle();
             OnDeckSizeChanged?.Invoke(Skills.Count);
         }
 
@@ -33,7 +33,7 @@ namespace TimelineHero.Battle
         public List<Card> Draw(int Count)
         {
             if (Skills.Count == 0)
-                return null;
+                return new List<Card>();
 
             if (Skills.Count > 0 && Skills.Count < Count)
             {

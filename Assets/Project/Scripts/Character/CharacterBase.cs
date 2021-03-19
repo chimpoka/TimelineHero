@@ -105,7 +105,7 @@ namespace TimelineHero.Character
 
         public Skill GetSkill(string Name)
         {
-            return SkillsDict[Name];
+            return SkillsDict[Name].Clone();
         }
     }
 }

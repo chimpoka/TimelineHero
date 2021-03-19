@@ -53,11 +53,6 @@ namespace TimelineHero.Battle
             GetEnemyTimeline().RebuildCardsForPlayState();
         }
 
-        public void ClearAlliedTimeline()
-        {
-            GetAlliedTimeline().ClearTimeline();
-        }
-
         private List<Skill> GetEnemySkills()
         {
             return BattleSystemCached.GetEnemyCharacters()[0].Skills;

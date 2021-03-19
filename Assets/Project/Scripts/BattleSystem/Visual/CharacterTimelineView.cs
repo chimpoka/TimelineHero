@@ -144,15 +144,6 @@ namespace TimelineHero.Battle
             InsertCard(NewCard, Index, false);
         }
 
-        public void ClearTimeline()
-        {
-            while (Cards.Count != 0)
-            {
-                Destroy(Cards[0].gameObject);
-                Cards.RemoveAt(0);
-            }
-        }
-
         public List<Card> RemoveCardsFromTimeline()
         {
             List<Card> newCards = new List<Card>(Cards);

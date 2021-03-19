@@ -7,10 +7,12 @@ namespace TimelineHero.Character
 {
     public class Skill
     {
+        Skill() {}
+
         public Skill(Skill OldSkill)
         {
-            this.Actions = OldSkill.Actions;
-            this.AdditionalActions = OldSkill.AdditionalActions; // ?
+            this.Actions = new List<Action>(OldSkill.Actions);
+            this.AdditionalActions = new List<Action>(OldSkill.AdditionalActions); // ?
             this.Length = OldSkill.Length;
             this.Owner = OldSkill.Owner;
             this.Name = OldSkill.Name;
@@ -18,7 +20,7 @@ namespace TimelineHero.Character
 
         public Skill(List<Action> Actions, int Length, CharacterBase Owner)
         {
-            this.Actions = Actions;
+            this.Actions = new List<Action>(Actions);
             this.Length = Length;
             this.Owner = Owner;
 
@@ -35,6 +37,15 @@ namespace TimelineHero.Character
         private List<Action> AdditionalActions;
         private int randomActionsCounter;
 
+
+        public Skill Clone()
+        {
+            Skill newSkill = new Skill(this);
+            newSkill.Actions = Actions.Select(action => action.Clone()).ToList();
+            newSkill.AdditionalActions = AdditionalActions.Select(action => action.Clone()).ToList();
+
+            return newSkill;
+        }
 
         public void Initialize()
         {

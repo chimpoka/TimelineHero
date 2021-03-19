@@ -28,7 +28,7 @@ namespace TimelineHero.Battle
             List<Skill> AllAlliedSkills = new List<Skill>();
             foreach (CharacterBase character in BattleSystemCached.GetAlliedCharacters())
             {
-                AllAlliedSkills.AddRange(character.Skills);
+                AllAlliedSkills.AddRange(new List<Skill>(character.Skills));
             }
             PlayerDrawDeck.Initialize(AllAlliedSkills);
 

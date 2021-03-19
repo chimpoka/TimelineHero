@@ -9,8 +9,11 @@ namespace TimelineHero.Character
         Empty, Attack, Dodge, Stun, Block, BlockContinuance, Parry, LuckAttack, LuckDodge, LuckBlock,
         AdrenalineAttack, AdrenalineDodge, AdrenalineBlock, RandomAttack, ImperviousAttack, SelfAttack,
         SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled,
-        DodgeContinuance, AdrenalineCancelled
+        DodgeContinuance, AdrenalineCancelled, Key
     }
+
+    public enum ActionKeyForm { NoKey, Form1, Form2, Form3 }
+    public enum ActionKeyInputType { NoKey, In, Out }
 
     [System.Serializable]
     public class Action
@@ -35,6 +38,7 @@ namespace TimelineHero.Character
             this.Position = Position;
             this.Owner = Owner;
             this.Value = Value;
+            this.Duration = 0;
         }
 
         public CharacterActionType ActionType;
@@ -42,6 +46,13 @@ namespace TimelineHero.Character
         public int Position;
         public int Value;
         public int Duration;
+        public ActionKeyForm KeyForm = ActionKeyForm.NoKey;
+        public ActionKeyInputType KeyInputType = ActionKeyInputType.NoKey;
+
+        public Action Clone()
+        {
+            return new Action(this);
+        }
 
         public bool IsAdrenalineAction()
         {
