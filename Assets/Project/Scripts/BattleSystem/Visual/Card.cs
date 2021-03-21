@@ -13,9 +13,7 @@ namespace TimelineHero.Battle
         public TimelineStepView Prefab;
     }
 
-    public enum CardLocationType { NoParent, Hand, Board, Deck }
-
-    public class Card : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler 
+    public class Card : UiComponent
     {
         [SerializeField]
         private RectTransform DelimeterPrefab;
@@ -23,15 +21,6 @@ namespace TimelineHero.Battle
         private StepPrefabStruct[] Prefabs;
 
         public int Length { get => SkillCached.Length; }
-
-        public delegate void SkillEventHandler(Card skill, PointerEventData eventData);
-        public event SkillEventHandler OnPointerDownEvent;
-        public event SkillEventHandler OnPointerUpEvent;
-        public event SkillEventHandler OnBeginDragEvent;
-        public event SkillEventHandler OnEndDragEvent;
-        public event SkillEventHandler OnDragEvent;
-
-        public CardLocationType LocationType;
 
         private Skill SkillCached;
         private List<TimelineStepView> Steps;
@@ -62,13 +51,8 @@ namespace TimelineHero.Battle
         public void SetSkill(Skill NewSkill)
         {
             SkillCached = NewSkill;
-            CreateSteps(SkillCached.Length);
+            CreateSteps();
             CreateDelimeter();
-        }
-
-        public int GetLength()
-        {
-            return SkillCached.Length;
         }
 
         public Skill GetSkill()
@@ -76,24 +60,24 @@ namespace TimelineHero.Battle
             return SkillCached;
         }
 
-        private void CreateSteps(int Length)
+        private void CreateSteps()
         {
             Steps = new List<TimelineStepView>();
 
-            for (int i = 0; i < Length; ++i)
+            for (int i = 0; i < SkillCached.Length; ++i)
             {
                 Action action = SkillCached.GetActionInPosition(i);
                 action = action ?? new Action(CharacterActionType.Empty, i, SkillCached.Owner);
 
                 TimelineStepView step = Instantiate(PrefabsDictionary[action.ActionType]);
                 step.SetParent(GetTransform());
-                step.AnchoredPosition = new Vector2(i * step.Size.x, 0);
+                step.AnchoredPosition = new Vector2(i * GetTimelineStepStaticSize().x, 0);
                 step.SetValue(action.Value);
 
                 Steps.Add(step);
             }
 
-            Size = GetTimelineStepStaticSize() * new Vector2(Length, 1.0f);
+            Size = GetTimelineStepStaticSize() * new Vector2(SkillCached.VirtualLength, 1.0f);
         }
 
         private void CreateDelimeter()
@@ -103,32 +87,5 @@ namespace TimelineHero.Battle
             delimeter.localScale = Vector3.one;
             delimeter.anchoredPosition = Vector2.zero;
         }
-
-        #region SkillEvents
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            OnPointerDownEvent?.Invoke(this, eventData);
-        }
-
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            OnBeginDragEvent?.Invoke(this, eventData);
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            OnEndDragEvent?.Invoke(this, eventData);
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            OnDragEvent?.Invoke(this, eventData);
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            OnPointerUpEvent?.Invoke(this, eventData);
-        }
-        #endregion SkillEvents
     }
 }

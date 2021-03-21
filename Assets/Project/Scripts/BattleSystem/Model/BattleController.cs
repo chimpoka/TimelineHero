@@ -26,7 +26,7 @@ namespace TimelineHero.Battle
 
         public void DrawCards(int Count, float Delay)
         {
-            List<Card> Cards = DrawDeckCached.Draw(Count);
+            List<CardWrapper> Cards = DrawDeckCached.Draw(Count);
 
             if (Cards == null)
                 return;
@@ -40,11 +40,11 @@ namespace TimelineHero.Battle
             HandCached.StartCoroutine(DrawCardsCoroutine(Cards, Delay));
         }
 
-        private IEnumerator DrawCardsCoroutine(List<Card> Cards, float Delay)
+        private IEnumerator DrawCardsCoroutine(List<CardWrapper> Cards, float Delay)
         {
-            foreach (Card card in Cards)
+            foreach (CardWrapper card in Cards)
             {
-                card.LocationType = CardLocationType.Hand;
+                card.SetState(CardState.Hand);
 
                 card.OnPointerDownEvent += OnCardPointerDown;
                 card.OnPointerUpEvent += OnCardPointerUp;
@@ -59,7 +59,7 @@ namespace TimelineHero.Battle
 
         public void DiscardCards(float Delay)
         {
-            List<Card> cards = AlliedTimelineCached.RemoveCardsFromTimeline();
+            List<CardWrapper> cards = AlliedTimelineCached.RemoveCardsFromTimeline();
             List<Skill> skills = SkillUtils.GetOriginalSkillsFromCards(cards);
 
             DiscardDeckCached.Add(skills);
@@ -67,11 +67,11 @@ namespace TimelineHero.Battle
             HandCached.StartCoroutine(DiscardCardsCoroutine(cards, Delay));
         }
 
-        private IEnumerator DiscardCardsCoroutine(List<Card> Cards, float Delay)
+        private IEnumerator DiscardCardsCoroutine(List<CardWrapper> Cards, float Delay)
         {
-            foreach (Card card in Cards)
+            foreach (CardWrapper card in Cards)
             {
-                card.DOAnchorPos(new Vector2(-1000, -500), 1.5f).onComplete += card.DestroyGameObject;
+                card.DOAnchorPos(new Vector2(-1000, -500), 1.5f).onComplete += card.DestroyUiObject;
 
                 yield return new WaitForSeconds(Delay);
             }
@@ -83,7 +83,7 @@ namespace TimelineHero.Battle
         }
 
         #region CardEvents
-        public void OnCardPointerDown(Card PlayerCard, PointerEventData eventData)
+        public void OnCardPointerDown(CardWrapper PlayerCard, PointerEventData eventData)
         {
             if (!IsActive)
                 return;
@@ -92,11 +92,11 @@ namespace TimelineHero.Battle
 
             PlayerCard.AnchoredPosition += new Vector2(-6, 6);
 
-            if (PlayerCard.LocationType == CardLocationType.Hand)
+            if (PlayerCard.State == CardState.Hand)
             {
                 HandCached.RemoveCard(PlayerCard);
             }
-            else if (PlayerCard.LocationType == CardLocationType.Board)
+            else if (PlayerCard.State == CardState.BoardPrePlay)
             {
                 AlliedTimelineCached.RemoveCard(PlayerCard);
             }
@@ -105,7 +105,7 @@ namespace TimelineHero.Battle
             PlayerCard.GetTransform().SetSiblingIndex(PlayerCard.GetTransform().parent.childCount - 1);
         }
 
-        public void OnCardPointerUp(Card PlayerCard, PointerEventData eventData)
+        public void OnCardPointerUp(CardWrapper PlayerCard, PointerEventData eventData)
         {
             if (!IsActive)
                 return;
@@ -123,19 +123,19 @@ namespace TimelineHero.Battle
             }
         }
 
-        public void OnCardBeginDrag(Card PlayerCard, PointerEventData eventData)
+        public void OnCardBeginDrag(CardWrapper PlayerCard, PointerEventData eventData)
         {
             if (!IsActive)
                 return;
         }
 
-        public void OnCardEndDrag(Card PlayerCard, PointerEventData eventData)
+        public void OnCardEndDrag(CardWrapper PlayerCard, PointerEventData eventData)
         {
             if (!IsActive)
                 return;
         }
 
-        public void OnCardDrag(Card PlayerCard, PointerEventData eventData)
+        public void OnCardDrag(CardWrapper PlayerCard, PointerEventData eventData)
         {
             if (!IsActive)
                 return;

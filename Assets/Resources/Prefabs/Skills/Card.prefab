@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8050783345233232771}
   - component: {fileID: 8050783345233232768}
   m_Layer: 5
-  m_Name: Skill
+  m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,4 +161,21 @@ MonoBehaviour:
   - ActionType: 23
     Prefab: {fileID: 7995222646942269433, guid: b035132858c4fb84cbd854b0d7ee0e11,
       type: 3}
-  LocationType: 0
+  - ActionType: 24
+    Prefab: {fileID: 8434394297544314787, guid: 73d26002d8f30cd44a2ef22d95a42b20,
+      type: 3}
+  - ActionType: 25
+    Prefab: {fileID: 8434394297544314787, guid: 31305804708526e4b849494112945240,
+      type: 3}
+  - ActionType: 26
+    Prefab: {fileID: 8434394297544314787, guid: 776108e2204c5104b9954ff449264f4c,
+      type: 3}
+  - ActionType: 27
+    Prefab: {fileID: 8434394297544314787, guid: a92e9c1235009ce479f93f2cb33a086a,
+      type: 3}
+  - ActionType: 28
+    Prefab: {fileID: 8434394297544314787, guid: 6759533de4d2a38428f3996348b9117c,
+      type: 3}
+  - ActionType: 29
+    Prefab: {fileID: 8434394297544314787, guid: 494d4236aa09de6449c1d2d16be4d124,
+      type: 3}

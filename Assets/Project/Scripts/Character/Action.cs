@@ -9,11 +9,10 @@ namespace TimelineHero.Character
         Empty, Attack, Dodge, Stun, Block, BlockContinuance, Parry, LuckAttack, LuckDodge, LuckBlock,
         AdrenalineAttack, AdrenalineDodge, AdrenalineBlock, RandomAttack, ImperviousAttack, SelfAttack,
         SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled,
-        DodgeContinuance, AdrenalineCancelled, Key
+        DodgeContinuance, AdrenalineCancelled, KeyIn1, KeyIn2, KeyIn3, KeyOut1, KeyOut2, KeyOut3
     }
 
     public enum ActionKeyForm { NoKey, Form1, Form2, Form3 }
-    public enum ActionKeyInputType { NoKey, In, Out }
 
     [System.Serializable]
     public class Action
@@ -30,6 +29,8 @@ namespace TimelineHero.Character
             this.Owner = NewAction.Owner;
             this.Value = NewAction.Value;
             this.Duration = NewAction.Duration;
+
+            UpdateKeyForm();
         }
 
         public Action(CharacterActionType ActionType, int Position, CharacterBase Owner, int Value = 0)
@@ -39,6 +40,8 @@ namespace TimelineHero.Character
             this.Owner = Owner;
             this.Value = Value;
             this.Duration = 0;
+
+            UpdateKeyForm();
         }
 
         public CharacterActionType ActionType;
@@ -46,8 +49,8 @@ namespace TimelineHero.Character
         public int Position;
         public int Value;
         public int Duration;
+        [HideInInspector]
         public ActionKeyForm KeyForm = ActionKeyForm.NoKey;
-        public ActionKeyInputType KeyInputType = ActionKeyInputType.NoKey;
 
         public Action Clone()
         {
@@ -89,6 +92,45 @@ namespace TimelineHero.Character
         {
             return (ActionType == CharacterActionType.RandomAttack ||
                     ActionType == CharacterActionType.SelfRandomAttack);
+        }
+
+        public bool IsKeyInAction()
+        {
+            return (ActionType == CharacterActionType.KeyIn1 ||
+                    ActionType == CharacterActionType.KeyIn2 ||
+                    ActionType == CharacterActionType.KeyIn3);
+        }
+
+        public bool IsKeyOutAction()
+        {
+            return (ActionType == CharacterActionType.KeyOut1 ||
+                    ActionType == CharacterActionType.KeyOut2 ||
+                    ActionType == CharacterActionType.KeyOut3);
+        }
+
+        public bool IsKeyAction()
+        {
+            return IsKeyInAction() || IsKeyOutAction();
+        }
+
+        private void UpdateKeyForm()
+        {
+            if (ActionType == CharacterActionType.KeyIn1 || ActionType == CharacterActionType.KeyOut1)
+            {
+                KeyForm = ActionKeyForm.Form1;
+            }
+            else if (ActionType == CharacterActionType.KeyIn2 || ActionType == CharacterActionType.KeyOut2)
+            {
+                KeyForm = ActionKeyForm.Form2;
+            }
+            else if (ActionType == CharacterActionType.KeyIn3 || ActionType == CharacterActionType.KeyOut3)
+            {
+                KeyForm = ActionKeyForm.Form3;
+            }
+            else
+            {
+                KeyForm = ActionKeyForm.NoKey;
+            }
         }
     }
 }

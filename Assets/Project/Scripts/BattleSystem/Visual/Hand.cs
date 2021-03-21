@@ -10,24 +10,24 @@ namespace TimelineHero.Battle
     {
         // Top, Bottom, Left, Right
         public Vector4 Border = new Vector4(20, 20, 20, 20);
-        public Vector2 SkillOffset = new Vector2(10, 10);
+        public Vector2 CardOffset = new Vector2(10, 10);
 
-        private List<Card> Skills;
+        private List<CardWrapper> Cards;
 
-        public void AddCard(Card Skill)
+        public void AddCard(CardWrapper NewCard)
         {
-            Skills = Skills ?? new List<Card>();
+            Cards = Cards ?? new List<CardWrapper>();
 
-            Skills.Add(Skill);
-            Skill.SetParent(GetTransform());
-            Skill.LocationType = CardLocationType.Hand;
+            Cards.Add(NewCard);
+            NewCard.SetParent(GetTransform());
+            NewCard.State = CardState.Hand;
             ShrinkSkills();
         }
 
-        public void RemoveCard(Card Skill)
+        public void RemoveCard(CardWrapper CardToRemove)
         {
-            Skills.Remove(Skill);
-            Skill.LocationType = CardLocationType.NoParent;
+            Cards.Remove(CardToRemove);
+            CardToRemove.State = CardState.NoParent;
             ShrinkSkills();
         }
 
@@ -35,17 +35,17 @@ namespace TimelineHero.Battle
         {
             Vector2 newPosition = new Vector2(Border.y, Border.z);
 
-            foreach (Card skill in Skills)
+            foreach (CardWrapper card in Cards)
             {
-                if (newPosition.x + skill.Size.x > Size.x)
+                if (newPosition.x + card.Size.x > Size.x)
                 {
                     newPosition.x = Border.z;
-                    newPosition.y += Card.GetCardStaticHeight() + SkillOffset.y;
+                    newPosition.y += Card.GetCardStaticHeight() + CardOffset.y;
                 }
 
-                skill.DOAnchorPos(newPosition);
+                card.DOAnchorPos(newPosition);
                 
-                newPosition += new Vector2(skill.Size.x + SkillOffset.x, 0);
+                newPosition += new Vector2(card.Size.x + CardOffset.x, 0);
             }
         }
     }

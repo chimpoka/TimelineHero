@@ -8,7 +8,8 @@ namespace TimelineHero.Battle
     [CreateAssetMenu(menuName = "ScriptableObject/BattlePrefabs")]
     public class BattlePrefabsConfig : SingletonScriptableObject<BattlePrefabsConfig>
     {
-        public Card SkillPrefab;
+        public CardWrapper CardWrapperPrefab;
+        public Card CardPrefab;
         public CharacterTimelineView CharacterTimelinePrefab;
         public BattleTimelineTimerView TimerPrefab;
         public CharacterStatusView CharacterStatusPrefab;

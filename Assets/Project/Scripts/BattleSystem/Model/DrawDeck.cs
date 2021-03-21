@@ -30,10 +30,10 @@ namespace TimelineHero.Battle
             OnDeckSizeChanged?.Invoke(Skills.Count);
         }
 
-        public List<Card> Draw(int Count)
+        public List<CardWrapper> Draw(int Count)
         {
             if (Skills.Count == 0)
-                return new List<Card>();
+                return new List<CardWrapper>();
 
             if (Skills.Count > 0 && Skills.Count < Count)
             {
@@ -47,17 +47,21 @@ namespace TimelineHero.Battle
             return null;
         }
 
-        private List<Card> CreateCardsAndRemoveFromDeck(int Count)
+        private List<CardWrapper> CreateCardsAndRemoveFromDeck(int Count)
         {
-            List<Card> Cards = new List<Card>();
+            List<CardWrapper> Cards = new List<CardWrapper>();
 
             for (int i = 0; i < Count; ++i)
             {
-                Card Card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
-                Card.SetSkill(Skills[0]);
-                Card.WorldPosition = new Vector2(20, 2);
+                CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
+                cardWrapper.WorldPosition = new Vector2(20, 2);
+
+                Card card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
+                card.SetSkill(Skills[0]);
                 Skills.RemoveAt(0);
-                Cards.Add(Card);
+
+                cardWrapper.SetState(CardState.NoParent, card);
+                Cards.Add(cardWrapper);
             }
 
             OnDeckSizeChanged?.Invoke(Skills.Count);

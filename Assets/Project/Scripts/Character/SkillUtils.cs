@@ -8,14 +8,12 @@ namespace TimelineHero.Character
 {
     public class SkillUtils
     {
-        public static Skill GetRebuiltSkillWithRandomActions(Skill OldSkill)
+        public static void RebuildRandomActionSkill(Skill SkillRef)
         {
-            int rand = Random.Range(0, OldSkill.RandomActionsCounter);
+            int rand = Random.Range(0, SkillRef.RandomActionsCounter);
             int randIndex = 0;
 
-            Skill newSkill = OldSkill;
-
-            foreach (Action action in newSkill.Actions)
+            foreach (Action action in SkillRef.Actions)
             {
                 if (action.ActionType == CharacterActionType.RandomAttack)
                 {
@@ -28,24 +26,15 @@ namespace TimelineHero.Character
                     randIndex++;
                 }
             }
-
-            newSkill.Initialize();
-
-            return newSkill;
         }
 
-        public static Skill GetRebuiltSkillWithAdrenaline(List<Skill> SkillList, int Index)
+        public static void RebuildAdrenalineSkill(List<Skill> SkillList, int Index, Skill SkillRef)
         {
-            if (!SkillList[Index].IsAdrenalineSkill())
-            {
-                return SkillList[Index];
-            }
-
             Dictionary<CharacterBase, int> adrenalineActions = new Dictionary<CharacterBase, int>();
             
             for (int i = 0; i < Index; ++i)
             {
-                CharacterBase skillOwner = SkillList[Index].Owner;
+                CharacterBase skillOwner = SkillList[i].Owner;
                 if (!adrenalineActions.ContainsKey(skillOwner))
                 {
                     adrenalineActions[skillOwner] = 0;
@@ -61,27 +50,43 @@ namespace TimelineHero.Character
 
             if (CountAdrenalineActionsInSkill(SkillList[Index]) + adrenalineActions[owner] <= owner.Adrenaline)
             {
-                return SkillList[Index];
+                return;
             }
 
-            Skill newSkill = SkillList[Index];
-
-            for (int i = 0; i < newSkill.Actions.Count; ++i)
+            for (int i = 0; i < SkillRef.Actions.Count; ++i)
             {
-                if (newSkill.Actions[i].IsAdrenalineAction())
+                if (SkillRef.Actions[i].IsAdrenalineAction())
                 {
                     adrenalineActions[owner]++;
 
                     if (adrenalineActions[owner] > owner.Adrenaline)
                     {
-                        newSkill.Actions[i].ActionType = CharacterActionType.AdrenalineCancelled;
+                        SkillRef.Actions[i].ActionType = CharacterActionType.AdrenalineCancelled;
                     }
                 }
             }
+        }
 
-            newSkill.Initialize();
+        public static void RebuildKeyOutSkill(List<Skill> SkillList, int Index, Skill SkillRef)
+        {
+            if (SkillList.Count <= Index + 1)
+                return;
 
-            return newSkill;
+            Skill left = SkillRef;
+            Skill right = SkillList[Index + 1];
+
+            if (!AreSkillsKeysMatch(left, right))
+                return;
+
+            left.VirtualLength -= Mathf.Min(left.CountKeyOutActions(), right.CountKeyInActions());
+        }
+
+        public static bool AreSkillsKeysMatch(Skill Left, Skill Right)
+        {
+            if (!Left.IsKeyOutSkill() || !Right.IsKeyInSkill())
+                return false;
+
+            return Left.GetKeyOutForm() != Right.GetKeyInForm();
         }
 
         public static int CountAdrenalineActionsInSkill(Skill SkillRef)
@@ -99,9 +104,9 @@ namespace TimelineHero.Character
             return SkillRef?.Actions?.Last().ActionType == CharacterActionType.Close;
         }
 
-        public static List<Skill> GetOriginalSkillsFromCards(List<Card> Cards)
+        public static List<Skill> GetOriginalSkillsFromCards(List<CardWrapper> Cards)
         {
-            return Cards.Select(card => GetOriginalSkill(card.GetSkill())).ToList();
+            return Cards.Select(card => card.GetSkill()).ToList();
         }
 
         public static Skill GetOriginalSkill(Skill OldSkill)

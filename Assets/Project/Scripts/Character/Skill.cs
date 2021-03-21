@@ -14,6 +14,7 @@ namespace TimelineHero.Character
             this.Actions = new List<Action>(OldSkill.Actions);
             this.AdditionalActions = new List<Action>(OldSkill.AdditionalActions); // ?
             this.Length = OldSkill.Length;
+            this.VirtualLength = OldSkill.Length;
             this.Owner = OldSkill.Owner;
             this.Name = OldSkill.Name;
         }
@@ -22,6 +23,7 @@ namespace TimelineHero.Character
         {
             this.Actions = new List<Action>(Actions);
             this.Length = Length;
+            this.VirtualLength = Length;
             this.Owner = Owner;
 
             //Initialize();
@@ -31,6 +33,7 @@ namespace TimelineHero.Character
 
         public List<Action> Actions;
         public int Length;
+        public int VirtualLength;
         public CharacterBase Owner;
         public string Name;
 
@@ -53,53 +56,63 @@ namespace TimelineHero.Character
             SplitCompositeActions();
         }
 
+        public bool NeedsPreBattleRebuild()
+        {
+            return IsAdrenalineSkill() || IsKeyOutSkill();
+        }
+
+        public bool NeedsBattleRebuild()
+        {
+            return IsAdrenalineSkill() || IsKeyOutSkill() || IsRandomSkill();
+        }
+
         public Action GetActionInPosition(int Position)
         {
-            foreach (Action action in Actions)
-            {
-                if (action.Position == Position)
-                {
-                    return action;
-                }
-            }
+            Action main = Actions.Find((action) => action.Position == Position);
 
-            foreach (Action action in AdditionalActions)
-            {
-                if (action.Position == Position)
-                {
-                    return action;
-                }
-            }
+            if (main != null)
+                return main;
+
+            Action additional = AdditionalActions.Find((action) => action.Position == Position);
+
+            if (additional != null)
+                return additional;
 
             return new Action(CharacterActionType.Empty, Position, Owner);
         }
 
         public int CountActionsByType(CharacterActionType Type)
         {
-            int actionsCount = 0;
-
-            foreach(Action action in Actions)
-            {
-                if (action.ActionType == Type)
-                {
-                    actionsCount++;
-                }
-            }
-
-            return actionsCount;
+            return Actions.Aggregate(0, (total, action) => action.ActionType == Type ? 1 : 0);
         }
 
         public bool HasActionsWithType(CharacterActionType Type)
         {
-            foreach (Action action in Actions)
-            {
-                if (action.ActionType == Type)
-                {
-                    return true;
-                }
-            }
+            return Actions.Find((action) => action.ActionType == Type) != null;
+        }
 
-            return false;
+        public ActionKeyForm GetKeyOutForm()
+        {
+            Action keyAction = Actions.Find((action) => action.IsKeyOutAction());
+            return keyAction != null ? keyAction.KeyForm : ActionKeyForm.NoKey;
+        }
+
+        public ActionKeyForm GetKeyInForm()
+        {
+            Action keyAction = Actions.Find((action) => action.IsKeyInAction());
+            return keyAction != null ? keyAction.KeyForm : ActionKeyForm.NoKey;
+        }
+
+        public int CountKeyInActions()
+        {
+            Action keyAction = Actions.Find((action) => action.IsKeyInAction());
+            return keyAction != null ? keyAction.Duration : 0;
+        }
+
+        public int CountKeyOutActions()
+        {
+            Action keyAction = Actions.Find((action) => action.IsKeyOutAction());
+            return keyAction != null ? keyAction.Duration : 0;
         }
 
         public bool IsAdrenalineSkill()
@@ -113,6 +126,25 @@ namespace TimelineHero.Character
         {
             return (HasActionsWithType(CharacterActionType.RandomAttack) ||
                     HasActionsWithType(CharacterActionType.SelfRandomAttack));
+        }
+
+        public bool IsKeyInSkill()
+        {
+            return (HasActionsWithType(CharacterActionType.KeyIn1) ||
+                    HasActionsWithType(CharacterActionType.KeyIn2) ||
+                    HasActionsWithType(CharacterActionType.KeyIn3));
+        }
+
+        public bool IsKeyOutSkill()
+        {
+            return (HasActionsWithType(CharacterActionType.KeyOut1) ||
+                    HasActionsWithType(CharacterActionType.KeyOut2) ||
+                    HasActionsWithType(CharacterActionType.KeyOut3));
+        }
+        
+        private void CountRandomActions()
+        {
+            randomActionsCounter = Actions.Aggregate(0, (total, action) => total += action.IsRandomAction() ? 1 : 0);
         }
 
         private void SplitCompositeActions()
@@ -139,13 +171,12 @@ namespace TimelineHero.Character
                     {
                         AdditionalActions.Add(new Action(CharacterActionType.Parry, action.Position + i, Owner));
                     }
+                    else if (action.IsKeyAction())
+                    {
+                        AdditionalActions.Add(new Action(action.ActionType, action.Position + i, Owner));
+                    }
                 }
             }
-        }
-
-        private void CountRandomActions()
-        {
-            randomActionsCounter = Actions.Aggregate(0, (total, action) => total += action.IsRandomAction() ? 1 : 0);
         }
     }
 }

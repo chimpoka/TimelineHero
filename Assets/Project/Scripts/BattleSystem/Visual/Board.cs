@@ -47,10 +47,10 @@ namespace TimelineHero.Battle
             BattleSystemCached.ExecuteActions(alliedAction, enemyAction);
         }
 
-        public void RebuildSkillsForPlayState()
+        public void OnStartPlayState()
         {
-            GetAlliedTimeline().RebuildCardsForPlayState();
-            GetEnemyTimeline().RebuildCardsForPlayState();
+            GetAlliedTimeline().OnStartPlayState();
+            GetEnemyTimeline().OnStartPlayState();
         }
 
         private List<Skill> GetEnemySkills()
@@ -64,9 +64,12 @@ namespace TimelineHero.Battle
 
             foreach (Skill skill in GetEnemySkills())
             {
-                Card skillView = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
-                skillView.SetSkill(skill);
-                enemyTimeline.AddCard(skillView, false);
+                CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
+                Card card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
+                card.SetSkill(skill);
+                cardWrapper.SetState(CardState.NoParent, card);
+                cardWrapper.SetState(CardState.BoardPrePlay, card);
+                enemyTimeline.AddCard(cardWrapper, false);
             }
 
             enemyTimeline.MaxLength = enemyTimeline.Length;

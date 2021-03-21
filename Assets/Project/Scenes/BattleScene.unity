@@ -1480,7 +1480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Border: {x: 30, y: 30, z: 30, w: 30}
-  SkillOffset: {x: 30, y: 30}
+  CardOffset: {x: 10, y: 10}
 --- !u!1 &1692974512
 GameObject:
   m_ObjectHideFlags: 0

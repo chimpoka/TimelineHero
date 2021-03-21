@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f4ecec13ef337a4dafaed4dac399884, type: 3}
   m_Name: BattlePrefabs
   m_EditorClassIdentifier: 
-  SkillPrefab: {fileID: 8050783345233232768, guid: 3c16d13a69eae594a91de58072b8d6a4,
+  CardWrapperPrefab: {fileID: 4394612562440709934, guid: 5ef5618d11d6c6e40b97f2cfbbc992be,
+    type: 3}
+  CardPrefab: {fileID: 8050783345233232768, guid: 3c16d13a69eae594a91de58072b8d6a4,
     type: 3}
   CharacterTimelinePrefab: {fileID: 7342823222223138986, guid: 9525449e0eef91145903f0d1bebdaf2c,
     type: 3}

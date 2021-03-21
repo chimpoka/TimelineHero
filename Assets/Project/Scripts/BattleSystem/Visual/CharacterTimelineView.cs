@@ -8,7 +8,8 @@ namespace TimelineHero.Battle
 {
     public class CharacterTimelineView : UiComponent
     {
-        private List<Card> Cards;
+        private List<CardWrapper> Cards;
+        private List<Action> ActualBattleActions = new List<Action>();
 
         public int Length { get => Cards.Aggregate(0, (total, next) => total += next.Length); }
         public int MaxLength { get => maxLength; set => maxLength = value; }
@@ -18,10 +19,10 @@ namespace TimelineHero.Battle
 
         private void Awake()
         {
-            Cards = new List<Card>();
+            Cards = new List<CardWrapper>();
         }
 
-        public bool TryAddCard(Card NewCard)
+        public bool TryAddCard(CardWrapper NewCard)
         {
             if (SkillUtils.IsOpeningSkill(NewCard.GetSkill()) && Cards.Count > 0)
                 return false;
@@ -36,29 +37,29 @@ namespace TimelineHero.Battle
             return true;
         }
 
-        public void AddCard(Card NewCard, bool SmoothMotion)
+        public void AddCard(CardWrapper NewCard, bool SmoothMotion)
         {
             Cards.Add(NewCard);
             AddCardInternal(NewCard, SmoothMotion);
         }
 
-        public void InsertCard(Card NewCard, int Index, bool SmoothMotion)
+        public void InsertCard(CardWrapper NewCard, int Index, bool SmoothMotion)
         {
             Cards.Insert(Index, NewCard);
             AddCardInternal(NewCard, SmoothMotion);
         }
 
-        public void RemoveCard(Card CardToRemove)
+        public void RemoveCard(CardWrapper CardToRemove)
         {
             Cards.Remove(CardToRemove);
-            CardToRemove.LocationType = CardLocationType.NoParent;
-
+            CardToRemove.SetState(CardState.NoParent);
+            RebuildPreBattleCards();
             ShrinkCards(true);
         }
 
         public Vector2 GetContentSize()
         {
-            float x = Cards.Aggregate<Card, float>(0, (total, next) => total += next.Size.x);
+            float x = Cards.Aggregate<CardWrapper, float>(0, (total, next) => total += next.Size.x);
             return new Vector2(x, Card.GetCardStaticHeight());
         }
 
@@ -70,101 +71,130 @@ namespace TimelineHero.Battle
 
         public Action GetActionInPosition(int Position)
         {
-            int prevSkillsLength = 0;
-
-            foreach (Card card in Cards)
+            if (Position >= ActualBattleActions.Count)
             {
-                Skill skill = card.GetSkill();
-
-                if (Position >= skill.Length + prevSkillsLength)
-                {
-                    prevSkillsLength += skill.Length;
-                    continue;
-                }
-
-                return skill.GetActionInPosition(Position - prevSkillsLength);
+                return new Action(CharacterActionType.Empty, Position, Cards.Last().GetSkill().Owner);
             }
 
-            return new Action(CharacterActionType.Empty, Position, Cards.Last().GetSkill().Owner);
+            return ActualBattleActions[Position];
         }
 
-        public bool IsEnoughSpaceForCard(Card NewCard)
+        public bool IsEnoughSpaceForCard(CardWrapper NewCard)
         {
             return Length + NewCard.Length <= MaxLength;
         }
 
-        public void RebuildCardsForPlayState()
+        public void OnStartPlayState()
         {
-            List<Skill> skills = GetSkills();
-
-            for (int i = 0; i < skills.Count; ++i)
-            {
-                if (skills[i].IsRandomSkill())
-                {
-                    RebuildRandomActionSkill(skills[i], i);
-                }
-                if (skills[i].IsAdrenalineSkill())
-                {
-                    RebuildAdrenalineSkill(skills, i);
-                }
-            }
-        }
-
-        private void RebuildRandomActionSkill(Skill SkillRef, int Index)
-        {
-            Card NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
-            NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithRandomActions(SkillRef));
-            ReplaceCardAtIndex(Index, NewSkill);
-        }
-
-        private void RebuildAdrenalineSkill(List<Skill> SkillList, int Index)
-        {
-            Card NewSkill = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.SkillPrefab);
-            NewSkill.SetSkill(SkillUtils.GetRebuiltSkillWithAdrenaline(SkillList, Index));
-            ReplaceCardAtIndex(Index, NewSkill);
+            RebuildBattleCards();
+            CreateActualActions();
         }
 
         private List<Skill> GetSkills()
         {
-            List<Skill> skills = new List<Skill>();
-
-            for (int i = 0; i < Cards.Count; ++i)
-            {
-                skills.Add(Cards[i].GetSkill());
-            }
-
-            return skills;
+            return Cards.Select(card => card.GetSkill()).ToList();
         }
 
-        private void ReplaceCardAtIndex(int Index, Card NewCard)
+        public List<CardWrapper> RemoveCardsFromTimeline()
         {
-            Cards[Index].DestroyGameObject();
-            Cards.RemoveAt(Index);
-
-            InsertCard(NewCard, Index, false);
-        }
-
-        public List<Card> RemoveCardsFromTimeline()
-        {
-            List<Card> newCards = new List<Card>(Cards);
+            List<CardWrapper> newCards = new List<CardWrapper>(Cards);
             Cards.Clear();
 
             return newCards;
         }
 
-        private void AddCardInternal(Card NewCard, bool SmoothMotion)
+        private void AddCardInternal(CardWrapper NewCard, bool SmoothMotion)
         {
             NewCard.SetParent(GetTransform());
-            NewCard.LocationType = CardLocationType.Board;
-
+            RebuildPreBattleCards();
             ShrinkCards(SmoothMotion);
+        }
+
+        private void RebuildPreBattleCards()
+        {
+            List<Skill> skills = GetSkills();
+
+            for (int i = 0; i < Cards.Count; ++i)
+            {
+                if (!skills[i].NeedsPreBattleRebuild())
+                {
+                    Cards[i].SetState(CardState.BoardPrePlay, Cards[i].HandCard);
+                    continue;
+                }
+
+                Skill newSkill = skills[i].Clone();
+
+                if (newSkill.IsAdrenalineSkill())
+                {
+                    SkillUtils.RebuildAdrenalineSkill(skills, i, newSkill);
+                }
+                if (skills[i].IsKeyOutSkill())
+                {
+                    SkillUtils.RebuildKeyOutSkill(skills, i, newSkill);
+                }
+
+                newSkill.Initialize();
+
+                Card newCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
+                newCard.SetSkill(newSkill);
+                Cards[i].SetState(CardState.BoardPrePlay, newCard);
+            }
+        }
+
+        private void RebuildBattleCards()
+        {
+            List<Skill> skills = GetSkills();
+            
+            for (int i = 0; i < Cards.Count; ++i)
+            {
+                if (!skills[i].NeedsBattleRebuild())
+                {
+                    Cards[i].SetState(CardState.BoardPlay, Cards[i].HandCard);
+                    continue;
+                }
+
+                Skill newSkill = skills[i].Clone();
+
+                if (newSkill.IsAdrenalineSkill())
+                {
+                    SkillUtils.RebuildAdrenalineSkill(skills, i, newSkill);
+                }
+                if (skills[i].IsKeyOutSkill())
+                {
+                    SkillUtils.RebuildKeyOutSkill(skills, i, newSkill);
+                }
+                if (skills[i].IsRandomSkill())
+                {
+                    SkillUtils.RebuildRandomActionSkill(newSkill);
+                }
+
+                newSkill.Initialize();
+
+                Card newCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
+                newCard.SetSkill(newSkill);
+                Cards[i].SetState(CardState.BoardPlay, newCard);
+            }
+        }
+
+        private void CreateActualActions()
+        {
+            ActualBattleActions.Clear();
+
+            foreach (CardWrapper card in Cards)
+            {
+                Skill skill = card.BoardBattleCard.GetSkill();
+                for (int i = 0; i < skill.VirtualLength; ++i)
+                {
+                    ActualBattleActions.Add(skill.GetActionInPosition(i));
+                }
+            }
         }
 
         private void ShrinkCards(bool SmoothMotion)
         {
             Vector2 cardPosition = Vector2.zero;
 
-            foreach (Card card in Cards)
+            foreach (CardWrapper card in Cards)
             {
                 if (SmoothMotion)
                 {

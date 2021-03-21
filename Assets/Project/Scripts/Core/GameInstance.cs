@@ -10,6 +10,7 @@ namespace TimelineHero.Core
     {
         public int DrawCardCount = 5;
         public float DelayBetweenCardAnimationsInSeconds = 0.3f;
+        [HideInInspector]
         public float CanvasScaleFactor;
 
         [SerializeField]

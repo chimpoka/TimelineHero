@@ -53,7 +53,7 @@ namespace TimelineHero.CoreUI
             }
         }
 
-        public void DestroyGameObject()
+        public void DestroyUiObject()
         {
             DOStop();
             Destroy(gameObject);
