@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a3a3174b3caf204a8fec1e994a1aba8, type: 3}
-  m_Name: AlliedAdrenalineGuy
+  m_Name: AlliedAdrenalineAndKeys
   m_EditorClassIdentifier: 
   Health: 15
   Adrenaline: 3
@@ -119,6 +119,20 @@ MonoBehaviour:
       Length: 4
       Actions:
         Actions:
+        - ActionType: 26
+          Position: 1
+          Value: 0
+          Duration: 2
+          KeyForm: 0
+    - Name: keyOut2In3
+      Length: 8
+      Actions:
+        Actions:
+        - ActionType: 28
+          Position: 7
+          Value: 0
+          Duration: 2
+          KeyForm: 0
         - ActionType: 26
           Position: 1
           Value: 0
