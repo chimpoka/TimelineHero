@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3a3174b3caf204a8fec1e994a1aba8, type: 3}
+  m_Name: AlliedAdrenalineGuy
+  m_EditorClassIdentifier: 
+  Health: 15
+  Adrenaline: 3
+  Skills:
+    Skills:
+    - Name: ad0
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 10
+          Position: 1
+          Value: 1
+          Duration: 0
+          KeyForm: 0
+    - Name: ad1
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 10
+          Position: 2
+          Value: 1
+          Duration: 0
+          KeyForm: 0
+    - Name: ad2
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 11
+          Position: 1
+          Value: 1
+          Duration: 3
+          KeyForm: 0
+    - Name: ad3
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 11
+          Position: 2
+          Value: 1
+          Duration: 3
+          KeyForm: 0
+    - Name: ad4
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 12
+          Position: 1
+          Value: 1
+          Duration: 3
+          KeyForm: 0
+    - Name: ad5
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 12
+          Position: 2
+          Value: 1
+          Duration: 3
+          KeyForm: 0
+    - Name: keyOut1
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 27
+          Position: 3
+          Value: 0
+          Duration: 2
+          KeyForm: 0
+    - Name: keyOut2
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 28
+          Position: 3
+          Value: 0
+          Duration: 2
+          KeyForm: 0
+    - Name: keyOut3
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 29
+          Position: 2
+          Value: 0
+          Duration: 3
+          KeyForm: 0
+    - Name: keyIn1
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 24
+          Position: 1
+          Value: 0
+          Duration: 2
+          KeyForm: 0
+    - Name: keyIn2
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 25
+          Position: 1
+          Value: 0
+          Duration: 3
+          KeyForm: 0
+    - Name: keyIn3
+      Length: 4
+      Actions:
+        Actions:
+        - ActionType: 26
+          Position: 1
+          Value: 0
+          Duration: 2
+          KeyForm: 0
