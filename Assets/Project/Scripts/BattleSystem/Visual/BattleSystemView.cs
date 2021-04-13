@@ -30,7 +30,7 @@ namespace TimelineHero.Battle
             {
                 AllAlliedSkills.AddRange(new List<Skill>(character.Skills));
             }
-            PlayerDrawDeck.Initialize(AllAlliedSkills);
+            PlayerDrawDeck.Add(AllAlliedSkills);
 
             PlayerDiscardDeck = new DiscardDeck();
 

@@ -1,32 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TimelineHero.Character;
+using TimelineHero.Core;
 using UnityEngine;
 
 namespace TimelineHero.Battle
 {
     public class DrawDeck
     {
-        public List<Skill> Skills;
+        public List<Skill> Skills = new List<Skill>();
 
         public System.Action<int> OnDeckSizeChanged;
-
-        public void Initialize(List<Skill> NewSkills)
-        {
-            Skills = NewSkills;
-            //Shuffle();
-            OnDeckSizeChanged?.Invoke(Skills.Count);
-        }
-
-        public void Add(Skill SkillToAdd)
-        {
-            Skills.Add(SkillToAdd);
-            OnDeckSizeChanged?.Invoke(Skills.Count);
-        }
 
         public void Add(List<Skill> SkillsToAdd)
         {
             Skills.AddRange(SkillsToAdd);
+
+            if (GameInstance.Instance.ShuffleDrawDeck)
+            {
+                Shuffle();
+            }
+
             OnDeckSizeChanged?.Invoke(Skills.Count);
         }
 

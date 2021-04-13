@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DrawCardCount: 4
   DelayBetweenCardAnimationsInSeconds: 0.3
-  CanvasScaleFactor: 1.0000001
+  ShuffleDrawDeck: 1
+  CanvasScaleFactor: 1
   AlliedCharactersAssets:
   - {fileID: 11400000, guid: 0391772ab5d4578429f800a7712b5ab9, type: 2}
   EnemyCharactersAssets:

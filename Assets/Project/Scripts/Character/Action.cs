@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace TimelineHero.Character
 {
@@ -47,8 +48,31 @@ namespace TimelineHero.Character
         public CharacterActionType ActionType;
         public CharacterBase Owner;
         public int Position;
+
+        [HideIf("@this.ActionType == CharacterActionType.Dodge" +
+             " || this.ActionType == CharacterActionType.Parry" +
+             " || this.ActionType == CharacterActionType.LuckDodge" +
+             " || this.ActionType == CharacterActionType.AdrenalineDodge" +
+             " || this.ActionType == CharacterActionType.Open" +
+             " || this.ActionType == CharacterActionType.Close" +
+             " || this.ActionType == CharacterActionType.KeyIn1" +
+             " || this.ActionType == CharacterActionType.KeyIn2" +
+             " || this.ActionType == CharacterActionType.KeyIn3" +
+             " || this.ActionType == CharacterActionType.KeyOut1" +
+             " || this.ActionType == CharacterActionType.KeyOut2" +
+             " || this.ActionType == CharacterActionType.KeyOut3")]
         public int Value;
+
+        [HideIf("@this.ActionType == CharacterActionType.Open" +
+             " || this.ActionType == CharacterActionType.Close" +
+             " || this.ActionType == CharacterActionType.KeyIn1" +
+             " || this.ActionType == CharacterActionType.KeyIn2" +
+             " || this.ActionType == CharacterActionType.KeyIn3" +
+             " || this.ActionType == CharacterActionType.KeyOut1" +
+             " || this.ActionType == CharacterActionType.KeyOut2" +
+             " || this.ActionType == CharacterActionType.KeyOut3")]
         public int Duration;
+
         [HideInInspector]
         public ActionKeyForm KeyForm = ActionKeyForm.NoKey;
 
