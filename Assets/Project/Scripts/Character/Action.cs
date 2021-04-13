@@ -49,28 +49,28 @@ namespace TimelineHero.Character
         public CharacterBase Owner;
         public int Position;
 
-        [HideIf("@this.ActionType == CharacterActionType.Dodge" +
-             " || this.ActionType == CharacterActionType.Parry" +
-             " || this.ActionType == CharacterActionType.LuckDodge" +
-             " || this.ActionType == CharacterActionType.AdrenalineDodge" +
-             " || this.ActionType == CharacterActionType.Open" +
-             " || this.ActionType == CharacterActionType.Close" +
-             " || this.ActionType == CharacterActionType.KeyIn1" +
-             " || this.ActionType == CharacterActionType.KeyIn2" +
-             " || this.ActionType == CharacterActionType.KeyIn3" +
-             " || this.ActionType == CharacterActionType.KeyOut1" +
-             " || this.ActionType == CharacterActionType.KeyOut2" +
-             " || this.ActionType == CharacterActionType.KeyOut3")]
+        [ShowIf("@this.ActionType == CharacterActionType.Attack" +
+             " || this.ActionType == CharacterActionType.Block" +
+             " || this.ActionType == CharacterActionType.LuckAttack" +
+             " || this.ActionType == CharacterActionType.LuckBlock" +
+             " || this.ActionType == CharacterActionType.AdrenalineAttack" +
+             " || this.ActionType == CharacterActionType.AdrenalineBlock" +
+             " || this.ActionType == CharacterActionType.RandomAttack" +
+             " || this.ActionType == CharacterActionType.ImperviousAttack" +
+             " || this.ActionType == CharacterActionType.SelfAttack" +
+             " || this.ActionType == CharacterActionType.SelfLuckAttack" +
+             " || this.ActionType == CharacterActionType.SelfRandomAttack")]
         public int Value;
 
-        [HideIf("@this.ActionType == CharacterActionType.Open" +
+        [HideIf("@this.ActionType == CharacterActionType.Empty" +
+             " || this.ActionType == CharacterActionType.Stun" +
+             " || this.ActionType == CharacterActionType.BlockContinuance" +
+             " || this.ActionType == CharacterActionType.Open" +
              " || this.ActionType == CharacterActionType.Close" +
-             " || this.ActionType == CharacterActionType.KeyIn1" +
-             " || this.ActionType == CharacterActionType.KeyIn2" +
-             " || this.ActionType == CharacterActionType.KeyIn3" +
-             " || this.ActionType == CharacterActionType.KeyOut1" +
-             " || this.ActionType == CharacterActionType.KeyOut2" +
-             " || this.ActionType == CharacterActionType.KeyOut3")]
+             " || this.ActionType == CharacterActionType.RandomAttackCancelled" +
+             " || this.ActionType == CharacterActionType.SelfRandomAttackCancelled" +
+             " || this.ActionType == CharacterActionType.DodgeContinuance" +
+             " || this.ActionType == CharacterActionType.AdrenalineCancelled")]
         public int Duration;
 
         [HideInInspector]
