@@ -96,7 +96,7 @@ namespace TimelineHero.Character
 
         public static bool IsOpeningSkill(Skill SkillRef)
         {
-            return SkillRef.Actions[0].ActionType == CharacterActionType.Open;
+            return SkillRef?.Actions?.First().ActionType == CharacterActionType.Open;
         }
 
         public static bool IsClosingSkill(Skill SkillRef)

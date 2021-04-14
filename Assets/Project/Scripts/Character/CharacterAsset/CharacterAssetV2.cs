@@ -4,24 +4,25 @@ using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+
 namespace TimelineHero.Character
 {
-    [CreateAssetMenu(menuName = "ScriptableObject/Character")]
-    public class CharacterAsset : ScriptableObject
+    [CreateAssetMenu(menuName = "ScriptableObject/CharacterV2")]
+    public class CharacterAssetV2 : ScriptableObject
     {
         public int Health;
         public int Adrenaline;
-        public SkillsList Skills = new SkillsList();
+        public List<SkillAssetV2> Skills = new List<SkillAssetV2>();
 
         public CharacterBase ToCharacter()
         {
             CharacterBase character = new CharacterBase();
 
             List<Skill> newSkillList = new List<Skill>();
-            foreach (SkillAsset skillAsset in Skills.Skills)
+            foreach (SkillAssetV2 skillAsset in Skills)
             {
                 List<Action> newActionList = new List<Action>();
-                foreach (Action action in skillAsset.Actions.Actions)
+                foreach (Action action in skillAsset.Actions)
                 {
                     Action newAction = new Action(action);
                     newAction.Owner = character;
@@ -45,24 +46,13 @@ namespace TimelineHero.Character
         }
     }
 
-    [System.Serializable]
-    public class SkillsList
-    {
-        public List<SkillAsset> Skills;
-    }
 
     [System.Serializable]
-    public class SkillAsset
+    public class SkillAssetV2
     {
         [GUIColor(0.0f, 1.0f, 0.0f, 1.0f)]
         public string Name;
         public int Length;
-        public ActionsList Actions;
-    }
-
-    [System.Serializable]
-    public class ActionsList
-    {
         public List<Action> Actions;
     }
 }

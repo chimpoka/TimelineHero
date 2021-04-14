@@ -47,6 +47,13 @@ namespace TimelineHero.Character
 
         public CharacterActionType ActionType;
         public CharacterBase Owner;
+
+        [HideIf("@this.ActionType == CharacterActionType.Stun" +
+             " || this.ActionType == CharacterActionType.BlockContinuance" +
+             " || this.ActionType == CharacterActionType.RandomAttackCancelled" +
+             " || this.ActionType == CharacterActionType.SelfRandomAttackCancelled" +
+             " || this.ActionType == CharacterActionType.DodgeContinuance" +
+             " || this.ActionType == CharacterActionType.AdrenalineCancelled")]
         public int Position;
 
         [ShowIf("@this.ActionType == CharacterActionType.Attack" +
