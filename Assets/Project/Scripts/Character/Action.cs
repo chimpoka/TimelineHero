@@ -48,7 +48,8 @@ namespace TimelineHero.Character
         public CharacterActionType ActionType;
         public CharacterBase Owner;
 
-        [HideIf("@this.ActionType == CharacterActionType.Stun" +
+        [HideIf("@this.ActionType == CharacterActionType.Empty" +
+             " || this.ActionType == CharacterActionType.Stun" +
              " || this.ActionType == CharacterActionType.BlockContinuance" +
              " || this.ActionType == CharacterActionType.RandomAttackCancelled" +
              " || this.ActionType == CharacterActionType.SelfRandomAttackCancelled" +

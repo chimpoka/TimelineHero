@@ -63,6 +63,7 @@ namespace TimelineHero.Character
     [System.Serializable]
     public class ActionsList
     {
+        [ListDrawerSettings(Expanded = false)]
         public List<Action> Actions;
     }
 }
