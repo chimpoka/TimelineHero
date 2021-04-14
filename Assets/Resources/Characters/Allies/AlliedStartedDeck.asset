@@ -9,526 +9,495 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a3a3174b3caf204a8fec1e994a1aba8, type: 3}
+  m_Script: {fileID: 11500000, guid: ab3c69236974df242b1fad3d5c5ca4c7, type: 3}
   m_Name: AlliedStartedDeck
   m_EditorClassIdentifier: 
   Health: 9
   Adrenaline: 5
   Skills:
-    Skills:
-    - Name: "\u041D\u0430\u043F\u0430\u0434\u0435\u043D\u0438\u0435"
-      Length: 8
-      Actions:
-        Actions:
-        - ActionType: 1
-          Position: 2
-          Value: 1
-          Duration: 4
-          KeyForm: 0
-        - ActionType: 28
-          Position: 7
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-    - Name: "\u0421\u043A\u0440\u044B\u0442\u0430\u044F \u0430\u0442\u0430\u043A\u0430"
-      Length: 7
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 1
-          Position: 4
-          Value: 1
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 29
-          Position: 5
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-    - Name: "\u041D\u0430\u0431\u043B\u044E\u0434\u0435\u043D\u0438\u0435"
-      Length: 5
-      Actions:
-        Actions:
-        - ActionType: 29
-          Position: 4
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-    - Name: "\u041E\u0431\u043E\u0440\u043E\u043D\u0430"
-      Length: 10
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-        - ActionType: 4
-          Position: 4
-          Value: 2
-          Duration: 5
-          KeyForm: 0
-        - ActionType: 27
-          Position: 10
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u041E\u0431\u043E\u0440\u043E\u043D\u0430 \u21162"
-      Length: 10
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-        - ActionType: 4
-          Position: 4
-          Value: 2
-          Duration: 5
-          KeyForm: 0
-        - ActionType: 27
-          Position: 10
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0420\u0435\u0448\u0430\u044E\u0449\u0438\u0439 \u0443\u0434\u0430\u0440"
-      Length: 9
-      Actions:
-        Actions:
-        - ActionType: 24
-          Position: 1
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-        - ActionType: 10
-          Position: 3
-          Value: 4
-          Duration: 4
-          KeyForm: 0
-        - ActionType: 16
-          Position: 8
-          Value: 1
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 19
-          Position: 9
-          Value: 0
-          Duration: 0
-          KeyForm: 0
-    - Name: "\u041F\u0438\u0440\u0443\u044D\u0442"
-      Length: 10
-      Actions:
-        Actions:
-        - ActionType: 8
-          Position: 2
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 6
-          Position: 5
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 1
-          Position: 7
-          Value: 2
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 29
-          Position: 9
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-    - Name: "\u0412\u043D\u0435\u0437\u0430\u043F\u043D\u044B\u0439 \u0443\u043A\u043E\u043B"
-      Length: 7
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 14
-          Position: 4
-          Value: 1
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 29
-          Position: 7
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0411\u044B\u0442\u044C \u043D\u0430\u0441\u0442\u043E\u0440\u043E\u0436\u0435"
-      Length: 10
-      Actions:
-        Actions:
-        - ActionType: 18
-          Position: 1
-          Value: 0
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 12
-          Position: 3
-          Value: 3
-          Duration: 6
-          KeyForm: 0
-        - ActionType: 27
-          Position: 10
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0421\u0442\u0438\u0441\u043D\u0443\u0442\u044C \u0437\u0443\u0431\u044B"
-      Length: 8
-      Actions:
-        Actions:
-        - ActionType: 24
-          Position: 1
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 17
-          Position: 3
-          Value: 1
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 9
-          Position: 4
-          Value: 2
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 13
-          Position: 7
-          Value: 3
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 28
-          Position: 8
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0421\u043C\u0435\u043D\u0430 \u043F\u043E\u0437\u0438\u0446\u0438\u0438"
-      Length: 6
-      Actions:
-        Actions:
-        - ActionType: 11
-          Position: 2
-          Value: 0
-          Duration: 4
-          KeyForm: 0
-        - ActionType: 28
-          Position: 6
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0420\u0438\u0441\u043A\u043E\u0432\u0430\u043D\u043D\u0430\u044F \u0430\u0442\u0430\u043A\u0430"
-      Length: 7
-      Actions:
-        Actions:
-        - ActionType: 13
-          Position: 1
-          Value: 4
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 17
-          Position: 5
-          Value: 2
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 27
-          Position: 7
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0412\u043D\u0435\u0437\u0430\u043F\u043D\u0430\u044F \u0430\u0442\u0430\u043A\u0430"
-      Length: 9
-      Actions:
-        Actions:
-        - ActionType: 18
-          Position: 1
-          Value: 0
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 10
-          Position: 2
-          Value: 3
-          Duration: 5
-          KeyForm: 0
-        - ActionType: 27
-          Position: 7
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-    - Name: "\u0412\u043D\u0435\u0437\u0430\u043F\u043D\u0430\u044F \u0430\u0442\u0430\u043A\u0430
-        \u21162"
-      Length: 9
-      Actions:
-        Actions:
-        - ActionType: 18
-          Position: 1
-          Value: 0
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 10
-          Position: 2
-          Value: 3
-          Duration: 5
-          KeyForm: 0
-        - ActionType: 27
-          Position: 7
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-    - Name: "\u041D\u0430\u0442\u0438\u0441\u043A"
-      Length: 9
-      Actions:
-        Actions:
-        - ActionType: 26
-          Position: 1
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 7
-          Position: 3
-          Value: 2
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 7
-          Position: 6
-          Value: 1
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 29
-          Position: 9
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0423\u0434\u0430\u0440 \u0449\u0438\u0442\u043E\u043C"
-      Length: 10
-      Actions:
-        Actions:
-        - ActionType: 24
-          Position: 1
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 4
-          Position: 4
-          Value: 4
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 10
-          Position: 7
-          Value: 1
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 28
-          Position: 8
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-    - Name: "\u0422\u044F\u0436\u0451\u043B\u044B\u0439 \u0443\u0434\u0430\u0440"
-      Length: 7
-      Actions:
-        Actions:
-        - ActionType: 18
-          Position: 1
-          Value: 0
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 1
-          Position: 2
-          Value: 2
-          Duration: 4
-          KeyForm: 0
-        - ActionType: 29
-          Position: 7
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u041A\u0443\u0432\u044B\u0440\u043E\u043A"
-      Length: 9
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-        - ActionType: 2
-          Position: 3
-          Value: 0
-          Duration: 5
-          KeyForm: 0
-        - ActionType: 27
-          Position: 8
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-    - Name: "\u041B\u043E\u0436\u043D\u044B\u0439 \u0432\u044B\u043F\u0430\u0434"
-      Length: 7
-      Actions:
-        Actions:
-        - ActionType: 13
-          Position: 1
-          Value: 1
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 2
-          Position: 2
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 13
-          Position: 5
-          Value: 3
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 28
-          Position: 6
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-    - Name: "\u0425\u0438\u0442\u0440\u043E\u0441\u0442\u044C"
-      Length: 9
-      Actions:
-        Actions:
-        - ActionType: 2
-          Position: 2
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 7
-          Position: 6
-          Value: 2
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 29
-          Position: 9
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0423\u043A\u043E\u043B \u0438 \u043E\u0442\u0441\u043A\u043E\u043A"
-      Length: 10
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 14
-          Position: 4
-          Value: 2
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 12
-          Position: 8
-          Value: 2
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 28
-          Position: 10
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u041C\u0435\u043B\u044C\u043D\u0438\u0446\u0430"
-      Length: 10
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-        - ActionType: 6
-          Position: 2
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-        - ActionType: 7
-          Position: 3
-          Value: 1
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 6
-          Position: 5
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-        - ActionType: 7
-          Position: 6
-          Value: 1
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 6
-          Position: 8
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-        - ActionType: 7
-          Position: 9
-          Value: 2
-          Duration: 0
-          KeyForm: 0
-        - ActionType: 27
-          Position: 10
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u041E\u0442\u0440\u0430\u0436\u0435\u043D\u0438\u0435"
-      Length: 12
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 4
-          Position: 3
-          Value: 2
-          Duration: 4
-          KeyForm: 0
-        - ActionType: 4
-          Position: 8
-          Value: 3
-          Duration: 3
-          KeyForm: 0
-        - ActionType: 29
-          Position: 11
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-    - Name: "\u0420\u0430\u0437\u043C\u0430\u0445"
-      Length: 10
-      Actions:
-        Actions:
-        - ActionType: 25
-          Position: 1
-          Value: 0
-          Duration: 2
-          KeyForm: 0
-        - ActionType: 1
-          Position: 3
-          Value: 1
-          Duration: 6
-          KeyForm: 0
-        - ActionType: 28
-          Position: 10
-          Value: 0
-          Duration: 1
-          KeyForm: 0
-    - Name: "\u0416\u0434\u0430\u0442\u044C"
-      Length: 4
-      Actions:
-        Actions:
-        - ActionType: 0
-          Position: 0
-          Value: 0
-          Duration: 0
-          KeyForm: 0
+  - Name: "\u041D\u0430\u043F\u0430\u0434\u0435\u043D\u0438\u0435"
+    Length: 8
+    Actions:
+    - ActionType: 1
+      Position: 2
+      Value: 1
+      Duration: 4
+      KeyForm: 0
+    - ActionType: 28
+      Position: 7
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+  - Name: "\u0421\u043A\u0440\u044B\u0442\u0430\u044F \u0430\u0442\u0430\u043A\u0430"
+    Length: 7
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 1
+      Position: 4
+      Value: 1
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 29
+      Position: 5
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+  - Name: "\u041D\u0430\u0431\u043B\u044E\u0434\u0435\u043D\u0438\u0435"
+    Length: 5
+    Actions:
+    - ActionType: 29
+      Position: 4
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+  - Name: "\u041E\u0431\u043E\u0440\u043E\u043D\u0430"
+    Length: 10
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+    - ActionType: 4
+      Position: 4
+      Value: 2
+      Duration: 5
+      KeyForm: 0
+    - ActionType: 27
+      Position: 10
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u041E\u0431\u043E\u0440\u043E\u043D\u0430 \u21162"
+    Length: 10
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+    - ActionType: 4
+      Position: 4
+      Value: 2
+      Duration: 5
+      KeyForm: 0
+    - ActionType: 27
+      Position: 10
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0420\u0435\u0448\u0430\u044E\u0449\u0438\u0439 \u0443\u0434\u0430\u0440"
+    Length: 9
+    Actions:
+    - ActionType: 24
+      Position: 1
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+    - ActionType: 10
+      Position: 3
+      Value: 4
+      Duration: 4
+      KeyForm: 0
+    - ActionType: 16
+      Position: 8
+      Value: 1
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 19
+      Position: 9
+      Value: 0
+      Duration: 0
+      KeyForm: 0
+  - Name: "\u041F\u0438\u0440\u0443\u044D\u0442"
+    Length: 10
+    Actions:
+    - ActionType: 8
+      Position: 2
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 6
+      Position: 5
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 1
+      Position: 7
+      Value: 2
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 29
+      Position: 9
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+  - Name: "\u0412\u043D\u0435\u0437\u0430\u043F\u043D\u044B\u0439 \u0443\u043A\u043E\u043B"
+    Length: 7
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 14
+      Position: 4
+      Value: 1
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 29
+      Position: 7
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0411\u044B\u0442\u044C \u043D\u0430\u0441\u0442\u043E\u0440\u043E\u0436\u0435"
+    Length: 10
+    Actions:
+    - ActionType: 18
+      Position: 1
+      Value: 0
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 12
+      Position: 3
+      Value: 3
+      Duration: 6
+      KeyForm: 0
+    - ActionType: 27
+      Position: 10
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0421\u0442\u0438\u0441\u043D\u0443\u0442\u044C \u0437\u0443\u0431\u044B"
+    Length: 8
+    Actions:
+    - ActionType: 24
+      Position: 1
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 17
+      Position: 3
+      Value: 1
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 9
+      Position: 4
+      Value: 2
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 13
+      Position: 7
+      Value: 3
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 28
+      Position: 8
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0421\u043C\u0435\u043D\u0430 \u043F\u043E\u0437\u0438\u0446\u0438\u0438"
+    Length: 6
+    Actions:
+    - ActionType: 11
+      Position: 2
+      Value: 0
+      Duration: 4
+      KeyForm: 0
+    - ActionType: 28
+      Position: 6
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0420\u0438\u0441\u043A\u043E\u0432\u0430\u043D\u043D\u0430\u044F \u0430\u0442\u0430\u043A\u0430"
+    Length: 7
+    Actions:
+    - ActionType: 13
+      Position: 1
+      Value: 4
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 17
+      Position: 5
+      Value: 2
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 27
+      Position: 7
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0412\u043D\u0435\u0437\u0430\u043F\u043D\u0430\u044F \u0430\u0442\u0430\u043A\u0430"
+    Length: 9
+    Actions:
+    - ActionType: 18
+      Position: 1
+      Value: 0
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 10
+      Position: 2
+      Value: 3
+      Duration: 5
+      KeyForm: 0
+    - ActionType: 27
+      Position: 7
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+  - Name: "\u0412\u043D\u0435\u0437\u0430\u043F\u043D\u0430\u044F \u0430\u0442\u0430\u043A\u0430
+      \u21162"
+    Length: 9
+    Actions:
+    - ActionType: 18
+      Position: 1
+      Value: 0
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 10
+      Position: 2
+      Value: 3
+      Duration: 5
+      KeyForm: 0
+    - ActionType: 27
+      Position: 7
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+  - Name: "\u041D\u0430\u0442\u0438\u0441\u043A"
+    Length: 9
+    Actions:
+    - ActionType: 26
+      Position: 1
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 7
+      Position: 3
+      Value: 2
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 7
+      Position: 6
+      Value: 1
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 29
+      Position: 9
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0423\u0434\u0430\u0440 \u0449\u0438\u0442\u043E\u043C"
+    Length: 10
+    Actions:
+    - ActionType: 24
+      Position: 1
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 4
+      Position: 4
+      Value: 4
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 10
+      Position: 7
+      Value: 1
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 28
+      Position: 8
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+  - Name: "\u0422\u044F\u0436\u0451\u043B\u044B\u0439 \u0443\u0434\u0430\u0440"
+    Length: 7
+    Actions:
+    - ActionType: 18
+      Position: 1
+      Value: 0
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 1
+      Position: 2
+      Value: 2
+      Duration: 4
+      KeyForm: 0
+    - ActionType: 29
+      Position: 7
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u041A\u0443\u0432\u044B\u0440\u043E\u043A"
+    Length: 9
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+    - ActionType: 2
+      Position: 3
+      Value: 0
+      Duration: 5
+      KeyForm: 0
+    - ActionType: 27
+      Position: 8
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+  - Name: "\u041B\u043E\u0436\u043D\u044B\u0439 \u0432\u044B\u043F\u0430\u0434"
+    Length: 7
+    Actions:
+    - ActionType: 13
+      Position: 1
+      Value: 1
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 2
+      Position: 2
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 13
+      Position: 5
+      Value: 3
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 28
+      Position: 6
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+  - Name: "\u0425\u0438\u0442\u0440\u043E\u0441\u0442\u044C"
+    Length: 9
+    Actions:
+    - ActionType: 2
+      Position: 2
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 7
+      Position: 6
+      Value: 2
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 29
+      Position: 9
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0423\u043A\u043E\u043B \u0438 \u043E\u0442\u0441\u043A\u043E\u043A"
+    Length: 10
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 14
+      Position: 4
+      Value: 2
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 12
+      Position: 8
+      Value: 2
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 28
+      Position: 10
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u041C\u0435\u043B\u044C\u043D\u0438\u0446\u0430"
+    Length: 10
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+    - ActionType: 6
+      Position: 2
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+    - ActionType: 7
+      Position: 3
+      Value: 1
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 6
+      Position: 5
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+    - ActionType: 7
+      Position: 6
+      Value: 1
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 6
+      Position: 8
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+    - ActionType: 7
+      Position: 9
+      Value: 2
+      Duration: 0
+      KeyForm: 0
+    - ActionType: 27
+      Position: 10
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u041E\u0442\u0440\u0430\u0436\u0435\u043D\u0438\u0435"
+    Length: 12
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 4
+      Position: 3
+      Value: 2
+      Duration: 4
+      KeyForm: 0
+    - ActionType: 4
+      Position: 8
+      Value: 3
+      Duration: 3
+      KeyForm: 0
+    - ActionType: 29
+      Position: 11
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+  - Name: "\u0420\u0430\u0437\u043C\u0430\u0445"
+    Length: 10
+    Actions:
+    - ActionType: 25
+      Position: 1
+      Value: 0
+      Duration: 2
+      KeyForm: 0
+    - ActionType: 1
+      Position: 3
+      Value: 1
+      Duration: 6
+      KeyForm: 0
+    - ActionType: 28
+      Position: 10
+      Value: 0
+      Duration: 1
+      KeyForm: 0
+  - Name: "\u0416\u0434\u0430\u0442\u044C"
+    Length: 4
+    Actions: []

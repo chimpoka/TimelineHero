@@ -96,12 +96,18 @@ namespace TimelineHero.Character
 
         public static bool IsOpeningSkill(Skill SkillRef)
         {
-            return SkillRef?.Actions?.First().ActionType == CharacterActionType.Open;
+            if (SkillRef.Actions.Count == 0)
+                return false;
+
+            return SkillRef.Actions.First().ActionType == CharacterActionType.Open;
         }
 
         public static bool IsClosingSkill(Skill SkillRef)
         {
-            return SkillRef?.Actions?.Last().ActionType == CharacterActionType.Close;
+            if (SkillRef == null || SkillRef.Actions.Count == 0)
+                return false;
+
+            return SkillRef.Actions.Last().ActionType == CharacterActionType.Close;
         }
 
         public static List<Skill> GetOriginalSkillsFromCards(List<CardWrapper> Cards)

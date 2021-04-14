@@ -15,9 +15,9 @@ namespace TimelineHero.Core
         public float CanvasScaleFactor;
 
         [SerializeField]
-        private List<CharacterAssetV2> AlliedCharactersAssets;
+        private List<CharacterAsset> AlliedCharactersAssets;
         [SerializeField]
-        private List<CharacterAssetV2> EnemyCharactersAssets;
+        private List<CharacterAsset> EnemyCharactersAssets;
 
         private Dictionary<string, CharacterBase> CharactersPool = new Dictionary<string, CharacterBase>();
 
@@ -25,7 +25,7 @@ namespace TimelineHero.Core
         {
             if (!CharactersPool.ContainsKey(Name))
             {
-                CharacterAssetV2 asset = AlliedCharactersAssets.Find(x => x.name == Name);
+                CharacterAsset asset = AlliedCharactersAssets.Find(x => x.name == Name);
                 asset = asset ?? EnemyCharactersAssets.Find(x => x.name == Name);
 
                 if (asset == null)
@@ -54,7 +54,7 @@ namespace TimelineHero.Core
             return GetCharactersFromAssets(EnemyCharactersAssets);
         }
 
-        private List<CharacterBase> GetCharactersFromAssets(List<CharacterAssetV2> Assets)
+        private List<CharacterBase> GetCharactersFromAssets(List<CharacterAsset> Assets)
         {
             return Assets.Select(asset => asset.ToCharacter()).ToList();
         }
