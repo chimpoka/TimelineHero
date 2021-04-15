@@ -13,6 +13,11 @@ namespace TimelineHero.Character
         DodgeContinuance, AdrenalineCancelled, KeyIn1, KeyIn2, KeyIn3, KeyOut1, KeyOut2, KeyOut3
     }
 
+    public enum CharacterAttackType
+    {
+        Hand, Weapon, Bullet
+    }
+
     public enum ActionKeyForm { NoKey, Form1, Form2, Form3 }
 
     [System.Serializable]
@@ -45,9 +50,13 @@ namespace TimelineHero.Character
             UpdateKeyForm();
         }
 
-        public CharacterActionType ActionType;
         public CharacterBase Owner;
 
+        [HideLabel]
+        [HorizontalGroup("Split", 130)]
+        public CharacterActionType ActionType;
+
+        [VerticalGroup("Split/Right")]
         [HideIf("@this.ActionType == CharacterActionType.Empty" +
              " || this.ActionType == CharacterActionType.Stun" +
              " || this.ActionType == CharacterActionType.BlockContinuance" +
@@ -57,6 +66,7 @@ namespace TimelineHero.Character
              " || this.ActionType == CharacterActionType.AdrenalineCancelled")]
         public int Position;
 
+        [VerticalGroup("Split/Right")]
         [ShowIf("@this.ActionType == CharacterActionType.Attack" +
              " || this.ActionType == CharacterActionType.Block" +
              " || this.ActionType == CharacterActionType.LuckAttack" +
@@ -70,6 +80,7 @@ namespace TimelineHero.Character
              " || this.ActionType == CharacterActionType.SelfRandomAttack")]
         public int Value;
 
+        [VerticalGroup("Split/Right")]
         [HideIf("@this.ActionType == CharacterActionType.Empty" +
              " || this.ActionType == CharacterActionType.Stun" +
              " || this.ActionType == CharacterActionType.BlockContinuance" +
@@ -80,6 +91,17 @@ namespace TimelineHero.Character
              " || this.ActionType == CharacterActionType.DodgeContinuance" +
              " || this.ActionType == CharacterActionType.AdrenalineCancelled")]
         public int Duration;
+
+        [ShowIf("@this.ActionType == CharacterActionType.Attack" +
+             " || this.ActionType == CharacterActionType.LuckAttack" +
+             " || this.ActionType == CharacterActionType.AdrenalineAttack" +
+             " || this.ActionType == CharacterActionType.RandomAttack" +
+             " || this.ActionType == CharacterActionType.ImperviousAttack" +
+             " || this.ActionType == CharacterActionType.SelfAttack" +
+             " || this.ActionType == CharacterActionType.SelfLuckAttack" +
+             " || this.ActionType == CharacterActionType.SelfRandomAttack")]
+        [HideInInspector]
+        public List<CharacterAttackType> AttackTypes;
 
         [HideInInspector]
         public ActionKeyForm KeyForm = ActionKeyForm.NoKey;

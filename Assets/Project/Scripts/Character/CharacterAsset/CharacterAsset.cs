@@ -12,14 +12,15 @@ namespace TimelineHero.Character
     {
         public int Health;
         public int Adrenaline;
-        public List<SkillAssetV2> Skills = new List<SkillAssetV2>();
+        [ListDrawerSettings(ShowPaging = false)]
+        public List<SkillAsset> Skills = new List<SkillAsset>();
 
         public CharacterBase ToCharacter()
         {
             CharacterBase character = new CharacterBase();
 
             List<Skill> newSkillList = new List<Skill>();
-            foreach (SkillAssetV2 skillAsset in Skills)
+            foreach (SkillAsset skillAsset in Skills)
             {
                 List<Action> newActionList = new List<Action>();
                 foreach (Action action in skillAsset.Actions)
@@ -48,7 +49,7 @@ namespace TimelineHero.Character
 
 
     [System.Serializable]
-    public class SkillAssetV2
+    public class SkillAsset
     {
         [GUIColor(0.0f, 1.0f, 0.0f, 1.0f)]
         public string Name;
