@@ -10,7 +10,7 @@ namespace TimelineHero.Character
     {
         public static void RebuildRandomActionSkill(Skill InOutSkillRef)
         {
-            int rand = Random.Range(0, InOutSkillRef.RandomActionsCounter);
+            int rand = Random.Range(0, InOutSkillRef.CountRandomActions());
             int randIndex = 0;
 
             foreach (Action action in InOutSkillRef.Actions)

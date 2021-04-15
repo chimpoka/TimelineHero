@@ -29,8 +29,6 @@ namespace TimelineHero.Character
             //Initialize();
         }
 
-        public int RandomActionsCounter { get => randomActionsCounter; }
-
         public List<Action> Actions;
         public int Length;
         public int VirtualLength;
@@ -52,7 +50,6 @@ namespace TimelineHero.Character
 
         public void Initialize()
         {
-            CountRandomActions();
             SplitCompositeActions();
         }
 
@@ -142,9 +139,9 @@ namespace TimelineHero.Character
                     HasActionsWithType(CharacterActionType.KeyOut3));
         }
         
-        private void CountRandomActions()
+        public int CountRandomActions()
         {
-            randomActionsCounter = Actions.Aggregate(0, (total, action) => total += action.IsRandomAction() ? 1 : 0);
+            return Actions.Aggregate(0, (total, action) => total += action.IsRandomAction() ? 1 : 0);
         }
 
         private void SplitCompositeActions()
