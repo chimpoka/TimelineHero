@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace TimelineHero.Battle
 {
-    public enum CardState { NoParent, Hand, BoardPrePlay, BoardPlay }
+    public enum CardState { Hand, BoardPrePlay, BoardPlay }
 
     public class CardWrapper : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
@@ -25,89 +25,56 @@ namespace TimelineHero.Battle
         public event CardEventHandler OnEndDragEvent;
         public event CardEventHandler OnDragEvent;
 
-        public void SetState(CardState NewState, Card NewCard = null)
+        public void SetState(CardState NewState, Card NewCard)
         {
-            if (NewState == CardState.NoParent)
+            ClearCards();
+
+            if (NewState == CardState.Hand)
             {
-                SetHandCard(NewCard);
-            }
-            else if (NewState == CardState.Hand)
-            {
-                SetHandCard(NewCard);
+                HandCard = NewCard;
             }
             else if (NewState == CardState.BoardPrePlay)
             {
-                SetBoardPreBattleCard(NewCard);
+                BoardPreBattleCard = NewCard;
             }
             else if (NewState == CardState.BoardPlay)
             {
-                SetBoardBattleCard(NewCard);
+                BoardBattleCard = NewCard;
             }
 
-            if (NewCard != null)
-            {
-                NewCard.AnchoredPosition = Vector2.zero;
-            }
+            NewCard.SetParent(GetTransform());
+            Size = NewCard.Size;
+            NewCard.gameObject.SetActive(true);
+            NewCard.AnchoredPosition = Vector2.zero;
 
             State = NewState;
         }
 
-        public void SetHandCard(Card NewCard)
+        private void ClearCard(Card CardRef)
         {
-            if (NewCard != null)
+            if (CardRef != null && CardRef != HandCard)
             {
-                HandCard = NewCard;
-                NewCard.SetParent(GetTransform());
+                if (CardRef != HandCard)
+                {
+                    CardRef.DestroyUiObject();
+                }
+                else
+                {
+                    CardRef = null;
+                }
             }
-
-            Size = HandCard.Size;
-
-            if (BoardPreBattleCard != null)
-            {
-                BoardPreBattleCard.gameObject.SetActive(false);
-            }
-
-            HandCard.gameObject.SetActive(true);
         }
 
-        public void SetBoardPreBattleCard(Card NewCard)
+        private void ClearCards()
         {
-            if (NewCard == null)
-                return;
-
-            if (BoardPreBattleCard != null && BoardPreBattleCard != HandCard)
-            { 
-                BoardPreBattleCard.DestroyUiObject();
-            }
-
-            BoardPreBattleCard = NewCard;
-            NewCard.SetParent(GetTransform());
-            Size = NewCard.Size;
-
-            if (HandCard != null)
-            {
-                HandCard.gameObject.SetActive(false);
-            }
-
-            BoardPreBattleCard.gameObject.SetActive(true);
-        }
-
-        public void SetBoardBattleCard(Card NewCard)
-        {
-            if (NewCard == null)
-                return;
-
-            BoardBattleCard = NewCard;
-            NewCard.SetParent(GetTransform());
-
-            HandCard.gameObject.SetActive(false);
-            BoardPreBattleCard.gameObject.SetActive(false);
-            BoardBattleCard.gameObject.SetActive(true);
+            HandCard?.gameObject.SetActive(false);
+            ClearCard(BoardPreBattleCard);
+            ClearCard(BoardBattleCard);
         }
 
         public int GetLength()
         {
-            if (State == CardState.NoParent || State == CardState.Hand)
+            if (State == CardState.Hand)
             {
                 return HandCard.Length;
             }

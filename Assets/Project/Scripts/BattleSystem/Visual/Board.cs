@@ -47,6 +47,11 @@ namespace TimelineHero.Battle
             BattleSystemCached.ExecuteActions(alliedAction, enemyAction);
         }
 
+        public void OnStartConstructState()
+        {
+            GetEnemyTimeline().RebuildPreBattleCards();
+        }
+
         public void OnStartPlayState()
         {
             GetAlliedTimeline().OnStartPlayState();
@@ -67,8 +72,7 @@ namespace TimelineHero.Battle
                 CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
                 Card card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
                 card.SetSkill(skill);
-                cardWrapper.SetState(CardState.NoParent, card);
-                cardWrapper.SetState(CardState.BoardPrePlay, card);
+                cardWrapper.SetState(CardState.Hand, card);
                 enemyTimeline.AddCard(cardWrapper, false);
             }
 

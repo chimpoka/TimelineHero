@@ -12,22 +12,18 @@ namespace TimelineHero.Battle
         public Vector4 Border = new Vector4(20, 20, 20, 20);
         public Vector2 CardOffset = new Vector2(10, 10);
 
-        private List<CardWrapper> Cards;
+        private List<CardWrapper> Cards = new List<CardWrapper>();
 
         public void AddCard(CardWrapper NewCard)
         {
-            Cards = Cards ?? new List<CardWrapper>();
-
             Cards.Add(NewCard);
             NewCard.SetParent(GetTransform());
-            NewCard.State = CardState.Hand;
             ShrinkSkills();
         }
 
         public void RemoveCard(CardWrapper CardToRemove)
         {
             Cards.Remove(CardToRemove);
-            CardToRemove.State = CardState.NoParent;
             ShrinkSkills();
         }
 

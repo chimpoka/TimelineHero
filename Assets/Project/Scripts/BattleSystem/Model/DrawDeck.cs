@@ -54,7 +54,7 @@ namespace TimelineHero.Battle
                 card.SetSkill(Skills[0]);
                 Skills.RemoveAt(0);
 
-                cardWrapper.SetState(CardState.NoParent, card);
+                cardWrapper.SetState(CardState.Hand, card);
                 Cards.Add(cardWrapper);
             }
 

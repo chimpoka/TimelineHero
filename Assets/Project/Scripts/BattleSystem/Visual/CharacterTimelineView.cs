@@ -52,7 +52,7 @@ namespace TimelineHero.Battle
         public void RemoveCard(CardWrapper CardToRemove)
         {
             Cards.Remove(CardToRemove);
-            CardToRemove.SetState(CardState.NoParent);
+            CardToRemove.SetState(CardState.Hand, CardToRemove.HandCard);
             RebuildPreBattleCards();
             ShrinkCards(true);
         }
@@ -110,7 +110,7 @@ namespace TimelineHero.Battle
             ShrinkCards(SmoothMotion);
         }
 
-        private void RebuildPreBattleCards()
+        public void RebuildPreBattleCards()
         {
             List<Skill> skills = GetSkills();
 
@@ -141,7 +141,7 @@ namespace TimelineHero.Battle
             }
         }
 
-        private void RebuildBattleCards()
+        public void RebuildBattleCards()
         {
             List<Skill> skills = GetSkills();
             

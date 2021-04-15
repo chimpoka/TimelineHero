@@ -44,8 +44,6 @@ namespace TimelineHero.Battle
         {
             foreach (CardWrapper card in Cards)
             {
-                card.SetState(CardState.Hand);
-
                 card.OnPointerDownEvent += OnCardPointerDown;
                 card.OnPointerUpEvent += OnCardPointerUp;
                 card.OnBeginDragEvent += OnCardBeginDrag;

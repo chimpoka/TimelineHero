@@ -8,12 +8,12 @@ namespace TimelineHero.Character
 {
     public class SkillUtils
     {
-        public static void RebuildRandomActionSkill(Skill SkillRef)
+        public static void RebuildRandomActionSkill(Skill InOutSkillRef)
         {
-            int rand = Random.Range(0, SkillRef.RandomActionsCounter);
+            int rand = Random.Range(0, InOutSkillRef.RandomActionsCounter);
             int randIndex = 0;
 
-            foreach (Action action in SkillRef.Actions)
+            foreach (Action action in InOutSkillRef.Actions)
             {
                 if (action.ActionType == CharacterActionType.RandomAttack)
                 {
@@ -28,7 +28,7 @@ namespace TimelineHero.Character
             }
         }
 
-        public static void RebuildAdrenalineSkill(List<Skill> SkillList, int Index, Skill SkillRef)
+        public static void RebuildAdrenalineSkill(List<Skill> SkillList, int Index, Skill InOutSkillRef)
         {
             Dictionary<CharacterBase, int> adrenalineActions = new Dictionary<CharacterBase, int>();
             
@@ -53,26 +53,26 @@ namespace TimelineHero.Character
                 return;
             }
 
-            for (int i = 0; i < SkillRef.Actions.Count; ++i)
+            for (int i = 0; i < InOutSkillRef.Actions.Count; ++i)
             {
-                if (SkillRef.Actions[i].IsAdrenalineAction())
+                if (InOutSkillRef.Actions[i].IsAdrenalineAction())
                 {
                     adrenalineActions[owner]++;
 
                     if (adrenalineActions[owner] > owner.Adrenaline)
                     {
-                        SkillRef.Actions[i].ActionType = CharacterActionType.AdrenalineCancelled;
+                        InOutSkillRef.Actions[i].ActionType = CharacterActionType.AdrenalineCancelled;
                     }
                 }
             }
         }
 
-        public static void RebuildKeyOutSkill(List<Skill> SkillList, int Index, Skill SkillRef)
+        public static void RebuildKeyOutSkill(List<Skill> SkillList, int Index, Skill InOutSkillRef)
         {
             if (SkillList.Count <= Index + 1)
                 return;
 
-            Skill left = SkillRef;
+            Skill left = InOutSkillRef;
             Skill right = SkillList[Index + 1];
 
             if (!AreSkillsKeysMatch(left, right))
