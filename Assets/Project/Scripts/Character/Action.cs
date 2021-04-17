@@ -106,9 +106,10 @@ namespace TimelineHero.Character
 
         [HideInInspector]
         public ActionKeyForm KeyForm = ActionKeyForm.NoKey;
-
         [HideInInspector]
         public bool DisabledInPlayState = false;
+        [HideInInspector]
+        public bool SuccessfulAction = true;
 
         public Action Clone()
         {

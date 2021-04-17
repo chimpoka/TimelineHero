@@ -27,61 +27,70 @@ namespace TimelineHero.Battle
     {
         public List<ActionEffectData> Execute(Action AlliedAction, Action EnemyAction)
         {
-            List<ActionEffectData> actionsDataList = new List<ActionEffectData>();
+            List<ActionEffectData> effectsDataList = new List<ActionEffectData>();
 
-            actionsDataList.AddRange(PreExecute_Internal(AlliedAction));
-            actionsDataList.AddRange(SwapActionEffectData(PreExecute_Internal(EnemyAction)));
+            effectsDataList.AddRange(PreExecute_Internal(AlliedAction));
+            effectsDataList.AddRange(SwapActionEffectData(PreExecute_Internal(EnemyAction)));
 
             if (IsDead(AlliedAction.Owner) || IsDead(EnemyAction.Owner))
             {
-                return actionsDataList;
+                return effectsDataList;
             }
 
-            actionsDataList.Add(Execute_Internal(AlliedAction, EnemyAction));
-            actionsDataList.Add(Execute_Internal(EnemyAction, AlliedAction)?.Swap());
+            effectsDataList.Add(Execute_Internal(AlliedAction, EnemyAction));
+            effectsDataList.Add(Execute_Internal(EnemyAction, AlliedAction)?.Swap());
 
-            return actionsDataList;
+            effectsDataList.Add(PostExecute_Internal(AlliedAction, EnemyAction));
+            effectsDataList.Add(PostExecute_Internal(EnemyAction, AlliedAction)?.Swap());
+
+            return effectsDataList;
         }
 
         private List<ActionEffectData> PreExecute_Internal(Action AttackerAction)
         {
-            List<ActionEffectData> actionsDataList = new List<ActionEffectData>();
+            List<ActionEffectData> effectsDataList = new List<ActionEffectData>();
 
             if (IsDead(AttackerAction.Owner))
-                return actionsDataList;
+                return effectsDataList;
 
-            actionsDataList.Add(TryDecreaseStunDuration(AttackerAction.Owner));
-            actionsDataList.Add(TryDecreaseBlockDuration(AttackerAction.Owner));
-            actionsDataList.Add(TryDecreaseDodgeDuration(AttackerAction.Owner));
-            actionsDataList.Add(TryDecreaseParryDuration(AttackerAction.Owner));
+            effectsDataList.Add(TryDecreaseStunDuration(AttackerAction.Owner));
+            effectsDataList.Add(TryDecreaseBlockDuration(AttackerAction.Owner));
+            effectsDataList.Add(TryDecreaseDodgeDuration(AttackerAction.Owner));
+            effectsDataList.Add(TryDecreaseParryDuration(AttackerAction.Owner));
 
             if (AttackerAction.Owner.StunDuration > 0)
-            {
-                return actionsDataList;
-            }
+                return effectsDataList;
 
             if (AttackerAction.ActionType == CharacterActionType.Block)
             {
-                actionsDataList.Add(DoAction_Block(AttackerAction));
+                effectsDataList.Add(DoAction_Block(AttackerAction));
             }
-            if (AttackerAction.ActionType == CharacterActionType.LuckBlock)
+            else if (AttackerAction.ActionType == CharacterActionType.LuckBlock)
             {
-                actionsDataList.Add(DoAction_LuckBlock(AttackerAction));
+                effectsDataList.Add(DoAction_LuckBlock(AttackerAction));
+            }
+            else if (AttackerAction.ActionType == CharacterActionType.AdrenalineBlock)
+            {
+                effectsDataList.Add(DoAction_AdrenalineBlock(AttackerAction));
             }
             else if (AttackerAction.ActionType == CharacterActionType.Dodge)
             {
-                actionsDataList.Add(DoAction_Dodge(AttackerAction));
+                effectsDataList.Add(DoAction_Dodge(AttackerAction));
             }
             else if (AttackerAction.ActionType == CharacterActionType.LuckDodge)
             {
-                actionsDataList.Add(DoAction_LuckDodge(AttackerAction));
+                effectsDataList.Add(DoAction_LuckDodge(AttackerAction));
+            }
+            else if (AttackerAction.ActionType == CharacterActionType.AdrenalineDodge)
+            {
+                effectsDataList.Add(DoAction_AdrenalineDodge(AttackerAction));
             }
             else if (AttackerAction.ActionType == CharacterActionType.Parry)
             {
-                actionsDataList.Add(DoAction_Parry(AttackerAction));
+                effectsDataList.Add(DoAction_Parry(AttackerAction));
             }
 
-            return actionsDataList;
+            return effectsDataList;
         }
 
         private ActionEffectData Execute_Internal(Action AttackerAction, Action DefenderAction)
@@ -93,41 +102,50 @@ namespace TimelineHero.Battle
             {
                 return DoAction_ImperviousAttack(AttackerAction, DefenderAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.Attack)
+            else if(AttackerAction.ActionType == CharacterActionType.Attack)
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.LuckAttack)
+            else if (AttackerAction.ActionType == CharacterActionType.LuckAttack)
             {
                 return DoAction_LuckAttack(AttackerAction, DefenderAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.SelfAttack)
+            else if (AttackerAction.ActionType == CharacterActionType.SelfAttack)
             {
                 return DoAction_SelfAttack(AttackerAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.SelfLuckAttack)
+            else if (AttackerAction.ActionType == CharacterActionType.SelfLuckAttack)
             {
                 return DoAction_SelfLuckAttack(AttackerAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.RandomAttack)
+            else if (AttackerAction.ActionType == CharacterActionType.RandomAttack)
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.SelfRandomAttack)
+            else if (AttackerAction.ActionType == CharacterActionType.SelfRandomAttack)
             {
                 return DoAction_SelfAttack(AttackerAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.AdrenalineAttack)
+            else if (AttackerAction.ActionType == CharacterActionType.AdrenalineAttack)
             {
                 return DoAction_AdrenalineAttack(AttackerAction, DefenderAction);
             }
-            if (AttackerAction.ActionType == CharacterActionType.AdrenalineDodge)
+
+            return null;
+        }
+
+        private ActionEffectData PostExecute_Internal(Action AttackerAction, Action DefenderAction)
+        {
+            if (!AttackerAction.SuccessfulAction)
+                return null;
+
+            if (AttackerAction.IsAttackAction())
             {
-                return DoAction_AdrenalineDodge(AttackerAction);
-            }
-            if (AttackerAction.ActionType == CharacterActionType.AdrenalineBlock)
-            {
-                return DoAction_AdrenalineBlock(AttackerAction);
+                if (AttackerAction.Duration > 0)
+                {
+                    DefenderAction.Owner.StunDuration = AttackerAction.Duration;
+                    return new ActionEffectData("", "        Stun!");
+                }
             }
 
             return null;
@@ -197,17 +215,12 @@ namespace TimelineHero.Battle
         {
             if (DefenderAction.Owner.ParryDuration > 0)
             {
+                AttackerAction.SuccessfulAction = false;
                 return new ActionEffectData("", "Parry!");
             }
 
             int hitDamage = DefenderAction.Owner.Hit(AttackerAction.Value);
             ActionEffectData data = new ActionEffectData("", (-hitDamage).ToString());
-
-            if (AttackerAction.Duration > 0)
-            {
-                DefenderAction.Owner.StunDuration = AttackerAction.Duration;
-                data.EnemyText += " Stun!";
-            }
 
             return data;
         }
@@ -216,6 +229,7 @@ namespace TimelineHero.Battle
         {
             if (DefenderAction.Owner.DodgeDuration > 0)
             {
+                AttackerAction.SuccessfulAction = false;
                 return new ActionEffectData("", "Dodged!");
             }
 
@@ -234,6 +248,8 @@ namespace TimelineHero.Battle
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
             }
+
+            AttackerAction.SuccessfulAction = false;
             return new ActionEffectData("Miss", "");
         }
 
@@ -243,6 +259,8 @@ namespace TimelineHero.Battle
             {
                 return DoAction_SelfAttack(AttackerAction);
             }
+
+            AttackerAction.SuccessfulAction = false;
             return new ActionEffectData("Miss...", "");
         }
 
