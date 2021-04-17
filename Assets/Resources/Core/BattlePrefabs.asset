@@ -22,3 +22,4 @@ MonoBehaviour:
     type: 3}
   CharacterStatusPrefab: {fileID: 446106145192331737, guid: b3cc404ee5104074195c63e64cd06b1d,
     type: 3}
+  DissolveMaterial: {fileID: 2100000, guid: 6346f6e44abd1844695e9c55fe46221c, type: 2}
