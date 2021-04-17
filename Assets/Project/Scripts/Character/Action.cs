@@ -54,7 +54,7 @@ namespace TimelineHero.Character
         public CharacterBase Owner;
 
         [HideLabel]
-        [HorizontalGroup("Split", 130)]
+        [HorizontalGroup("Split", 120, LabelWidth = 70)]
         public CharacterActionType ActionType;
 
         [VerticalGroup("Split/Right")]
@@ -93,7 +93,9 @@ namespace TimelineHero.Character
              " || this.ActionType == CharacterActionType.AdrenalineCancelled")]
         public int Duration;
 
+        [VerticalGroup("Split/Right")]
         [ShowIf("@this.ActionType == CharacterActionType.Attack" +
+             " || this.ActionType == CharacterActionType.Parry" +
              " || this.ActionType == CharacterActionType.LuckAttack" +
              " || this.ActionType == CharacterActionType.AdrenalineAttack" +
              " || this.ActionType == CharacterActionType.RandomAttack" +
@@ -101,8 +103,7 @@ namespace TimelineHero.Character
              " || this.ActionType == CharacterActionType.SelfAttack" +
              " || this.ActionType == CharacterActionType.SelfLuckAttack" +
              " || this.ActionType == CharacterActionType.SelfRandomAttack")]
-        [HideInInspector]
-        public List<CharacterAttackType> AttackTypes;
+        public CharacterAttackType AttackType;
 
         [HideInInspector]
         public ActionKeyForm KeyForm = ActionKeyForm.NoKey;

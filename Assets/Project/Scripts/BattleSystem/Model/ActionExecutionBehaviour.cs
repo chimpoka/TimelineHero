@@ -213,10 +213,10 @@ namespace TimelineHero.Battle
 
         private ActionEffectData DoAction_ImperviousAttack(Action AttackerAction, Action DefenderAction)
         {
-            if (DefenderAction.Owner.ParryDuration > 0)
+            if (DefenderAction.Owner.ParryDuration > 0 && AttackerAction.AttackType == DefenderAction.AttackType)
             {
                 AttackerAction.SuccessfulAction = false;
-                return new ActionEffectData("", "Parry!");
+                return new ActionEffectData("", "Parry! " + DefenderAction.AttackType.ToString());
             }
 
             int hitDamage = DefenderAction.Owner.Hit(AttackerAction.Value);
