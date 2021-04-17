@@ -30,10 +30,14 @@ namespace TimelineHero.Battle
             if (SkillUtils.IsClosingSkill(Cards.LastOrDefault()?.GetSkill()))
                 return false;
 
-            if (!IsEnoughSpaceForCard(NewCard))
-                return false;
-
             AddCard(NewCard, true);
+
+            if (Length > MaxLength)
+            {
+                RemoveCard(NewCard);
+                return false;
+            }
+
             return true;
         }
 
@@ -175,7 +179,7 @@ namespace TimelineHero.Battle
             foreach (CardWrapper card in Cards)
             {
                 Skill skill = card.BoardBattleCard.GetSkill();
-                for (int i = 0; i < skill.BoardLength; ++i)
+                for (int i = 0; i < skill.Length; ++i)
                 {
                     ActualBattleActions.Add(skill.GetActionInPosition(i));
                 }

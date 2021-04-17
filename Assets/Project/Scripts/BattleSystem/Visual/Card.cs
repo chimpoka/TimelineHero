@@ -21,10 +21,12 @@ namespace TimelineHero.Battle
         [SerializeField]
         private StepPrefabStruct[] Prefabs;
 
-        public int Length { get => SkillCached.HandLength; }
+        public int Length { get => SkillCached.Length; }
+
+        [HideInInspector]
+        public List<TimelineStepView> Steps;
 
         private Skill SkillCached;
-        public List<TimelineStepView> Steps;
 
         static private Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
 
@@ -85,7 +87,7 @@ namespace TimelineHero.Battle
         {
             Steps = new List<TimelineStepView>();
 
-            for (int i = 0; i < SkillCached.HandLength; ++i)
+            for (int i = 0; i < SkillCached.Length; ++i)
             {
                 Action action = SkillCached.GetActionInPosition(i);
                 action = action ?? new Action(CharacterActionType.Empty, i, SkillCached.Owner);
@@ -99,7 +101,7 @@ namespace TimelineHero.Battle
                 Steps.Add(step);
             }
 
-            Size = GetTimelineStepStaticSize() * new Vector2(SkillCached.BoardLength, 1.0f);
+            Size = GetTimelineStepStaticSize() * new Vector2(SkillCached.Length, 1.0f);
         }
 
         private void CreateDelimeter()

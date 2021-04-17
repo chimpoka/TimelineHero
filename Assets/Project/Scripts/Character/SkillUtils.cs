@@ -81,7 +81,7 @@ namespace TimelineHero.Character
             if (!AreSkillsKeysMatch(left, right))
                 return;
 
-            left.BoardLength -= Mathf.Min(left.CountKeyOutActions(), right.CountKeyInActions());
+            left.Length -= Mathf.Min(left.CountKeyOutActions(), right.CountKeyInActions());
         }
 
         public static void RebuildLuckSkill(Skill InOutSkillRef)

@@ -13,8 +13,7 @@ namespace TimelineHero.Character
         {
             this.Actions = new List<Action>(OldSkill.Actions);
             this.AdditionalActions = new List<Action>(OldSkill.AdditionalActions); // ?
-            this.HandLength = OldSkill.HandLength;
-            this.BoardLength = OldSkill.HandLength;
+            this.Length = OldSkill.Length;
             this.Owner = OldSkill.Owner;
             this.Name = OldSkill.Name;
         }
@@ -22,16 +21,14 @@ namespace TimelineHero.Character
         public Skill(List<Action> Actions, int Length, CharacterBase Owner)
         {
             this.Actions = new List<Action>(Actions);
-            this.HandLength = Length;
-            this.BoardLength = Length;
+            this.Length = Length;
             this.Owner = Owner;
 
             //Initialize();
         }
 
         public List<Action> Actions;
-        public int HandLength;
-        public int BoardLength;
+        public int Length;
         public CharacterBase Owner;
         public string Name;
 
