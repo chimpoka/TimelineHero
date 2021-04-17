@@ -27,27 +27,48 @@ namespace TimelineHero.Battle
 
         public void SetState(CardState NewState, Card NewCard)
         {
-            ClearCards();
-
-            if (NewState == CardState.Hand)
-            {
-                HandCard = NewCard;
-            }
-            else if (NewState == CardState.BoardPrePlay)
-            {
-                BoardPreBattleCard = NewCard;
-            }
-            else if (NewState == CardState.BoardPlay)
-            {
-                BoardBattleCard = NewCard;
-            }
-
             NewCard.SetParent(GetTransform());
             Size = NewCard.Size;
             NewCard.gameObject.SetActive(true);
             NewCard.AnchoredPosition = Vector2.zero;
 
+            if (NewState == CardState.Hand)
+            {
+                ClearCards();
+                HandCard = NewCard;
+            }
+            else if (NewState == CardState.BoardPrePlay)
+            {
+                ClearCards();
+                BoardPreBattleCard = NewCard;
+            }
+            else if (NewState == CardState.BoardPlay)
+            {
+                BoardBattleCard = NewCard;
+                // Move to background
+                BoardBattleCard.GetTransform().SetSiblingIndex(1);
+                SkillUtils.CopyCardStats(BoardBattleCard, BoardPreBattleCard);
+                BoardPreBattleCard.PlayAnimation();
+            }
+
             State = NewState;
+        }
+
+        public int GetLength()
+        {
+            if (State == CardState.Hand)
+            {
+                return HandCard.Length;
+            }
+            if (State == CardState.BoardPrePlay)
+            {
+                return BoardPreBattleCard.Length;
+            }
+            if (State == CardState.BoardPlay)
+            {
+                return BoardBattleCard.Length;
+            }
+            return 0;
         }
 
         private void ClearCard(Card CardRef)
@@ -67,26 +88,8 @@ namespace TimelineHero.Battle
 
         private void ClearCards()
         {
-            HandCard?.gameObject.SetActive(false);
             ClearCard(BoardPreBattleCard);
             ClearCard(BoardBattleCard);
-        }
-
-        public int GetLength()
-        {
-            if (State == CardState.Hand)
-            {
-                return HandCard.Length;
-            }
-            if (State == CardState.BoardPrePlay)
-            {
-                return BoardPreBattleCard.Length;
-            }
-            if (State == CardState.BoardPlay)
-            {
-                return BoardBattleCard.Length;
-            }
-            return 0;
         }
 
         public Skill GetSkill()

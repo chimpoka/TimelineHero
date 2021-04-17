@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TimelineHero.Character;
 using TimelineHero.CoreUI;
+using DG.Tweening;
 
 namespace TimelineHero.Battle
 {
@@ -20,10 +21,10 @@ namespace TimelineHero.Battle
         [SerializeField]
         private StepPrefabStruct[] Prefabs;
 
-        public int Length { get => SkillCached.Length; }
+        public int Length { get => SkillCached.HandLength; }
 
         private Skill SkillCached;
-        private List<TimelineStepView> Steps;
+        public List<TimelineStepView> Steps;
 
         static private Dictionary<CharacterActionType, TimelineStepView> PrefabsDictionary;
 
@@ -60,11 +61,31 @@ namespace TimelineHero.Battle
             return SkillCached;
         }
 
+        public void PlayAnimation()
+        {
+            float duration = 5.0f;
+
+            foreach (TimelineStepView step in Steps)
+            {
+                if (step.DisabledInPlayState)
+                {
+                    step.PlayAnimation(duration);
+                }
+            }
+
+            DOTween.To(() => 0, x => { }, 1, duration).onComplete += DestroyUiObject;
+        }
+
+        public void PlayAnimationAtPosition()
+        {
+
+        }
+
         private void CreateSteps()
         {
             Steps = new List<TimelineStepView>();
 
-            for (int i = 0; i < SkillCached.Length; ++i)
+            for (int i = 0; i < SkillCached.HandLength; ++i)
             {
                 Action action = SkillCached.GetActionInPosition(i);
                 action = action ?? new Action(CharacterActionType.Empty, i, SkillCached.Owner);
@@ -73,11 +94,12 @@ namespace TimelineHero.Battle
                 step.SetParent(GetTransform());
                 step.AnchoredPosition = new Vector2(i * GetTimelineStepStaticSize().x, 0);
                 step.SetValue(action.Value);
+                step.DisabledInPlayState = action.DisabledInPlayState;
 
                 Steps.Add(step);
             }
 
-            Size = GetTimelineStepStaticSize() * new Vector2(SkillCached.VirtualLength, 1.0f);
+            Size = GetTimelineStepStaticSize() * new Vector2(SkillCached.BoardLength, 1.0f);
         }
 
         private void CreateDelimeter()

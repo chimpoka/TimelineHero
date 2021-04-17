@@ -116,12 +116,6 @@ namespace TimelineHero.Battle
 
             for (int i = 0; i < Cards.Count; ++i)
             {
-                if (!skills[i].NeedsPreBattleRebuild())
-                {
-                    Cards[i].SetState(CardState.BoardPrePlay, Cards[i].HandCard);
-                    continue;
-                }
-
                 Skill newSkill = skills[i].Clone();
 
                 if (newSkill.IsAdrenalineSkill())
@@ -147,12 +141,6 @@ namespace TimelineHero.Battle
             
             for (int i = 0; i < Cards.Count; ++i)
             {
-                if (!skills[i].NeedsBattleRebuild())
-                {
-                    Cards[i].SetState(CardState.BoardPlay, Cards[i].HandCard);
-                    continue;
-                }
-
                 Skill newSkill = skills[i].Clone();
 
                 if (newSkill.IsAdrenalineSkill())
@@ -167,7 +155,11 @@ namespace TimelineHero.Battle
                 {
                     SkillUtils.RebuildRandomActionSkill(newSkill);
                 }
-
+                if (skills[i].IsLuckSkill())
+                {
+                    SkillUtils.RebuildLuckSkill(newSkill);
+                }
+                
                 newSkill.Initialize();
 
                 Card newCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
@@ -183,7 +175,7 @@ namespace TimelineHero.Battle
             foreach (CardWrapper card in Cards)
             {
                 Skill skill = card.BoardBattleCard.GetSkill();
-                for (int i = 0; i < skill.VirtualLength; ++i)
+                for (int i = 0; i < skill.BoardLength; ++i)
                 {
                     ActualBattleActions.Add(skill.GetActionInPosition(i));
                 }

@@ -13,5 +13,6 @@ namespace TimelineHero.Battle
         public CharacterTimelineView CharacterTimelinePrefab;
         public BattleTimelineTimerView TimerPrefab;
         public CharacterStatusView CharacterStatusPrefab;
+        public Material DissolveMaterial;
     }
 }

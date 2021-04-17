@@ -64,6 +64,10 @@ namespace TimelineHero.Battle
             {
                 actionsDataList.Add(DoAction_Block(AttackerAction));
             }
+            if (AttackerAction.ActionType == CharacterActionType.LuckBlock)
+            {
+                actionsDataList.Add(DoAction_LuckBlock(AttackerAction));
+            }
             else if (AttackerAction.ActionType == CharacterActionType.Dodge)
             {
                 actionsDataList.Add(DoAction_Dodge(AttackerAction));
@@ -226,8 +230,7 @@ namespace TimelineHero.Battle
 
         private ActionEffectData DoAction_LuckAttack(Action AttackerAction, Action DefenderAction)
         {
-            bool success = UnityEngine.Random.value < 0.6f; // Fair random :)
-            if (success)
+            if (!AttackerAction.DisabledInPlayState)
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
             }
@@ -236,8 +239,7 @@ namespace TimelineHero.Battle
 
         private ActionEffectData DoAction_SelfLuckAttack(Action AttackerAction)
         {
-            bool success = UnityEngine.Random.value < 0.6f; // Fair random :)
-            if (success)
+            if (!AttackerAction.DisabledInPlayState)
             {
                 return DoAction_SelfAttack(AttackerAction);
             }
@@ -255,6 +257,15 @@ namespace TimelineHero.Battle
             return null;
         }
 
+        private ActionEffectData DoAction_LuckBlock(Action AttackerAction)
+        {
+            if (!AttackerAction.DisabledInPlayState)
+            {
+                return DoAction_Block(AttackerAction);
+            }
+            return new ActionEffectData("Miss Block...", "");
+        }
+
         private ActionEffectData DoAction_Dodge(Action AttackerAction)
         {
             if (AttackerAction.Duration > 0)
@@ -267,8 +278,7 @@ namespace TimelineHero.Battle
 
         private ActionEffectData DoAction_LuckDodge(Action AttackerAction)
         {
-            bool success = UnityEngine.Random.value < 0.6f; // Fair random :)
-            if (success)
+            if (!AttackerAction.DisabledInPlayState)
             {
                 return DoAction_Dodge(AttackerAction);
             }

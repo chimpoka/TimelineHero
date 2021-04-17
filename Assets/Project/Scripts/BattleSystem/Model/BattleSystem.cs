@@ -59,7 +59,7 @@ namespace TimelineHero.Battle
 
         public int GetTimelineLength()
         {
-            return GetEnemyCharacters()[0].Skills.Aggregate(0, (total, next) => total += next.Length);
+            return GetEnemyCharacters()[0].Skills.Aggregate(0, (total, next) => total += next.HandLength);
         }
 
         public void StartBattleTimer()

@@ -13,8 +13,8 @@ namespace TimelineHero.Character
         {
             this.Actions = new List<Action>(OldSkill.Actions);
             this.AdditionalActions = new List<Action>(OldSkill.AdditionalActions); // ?
-            this.Length = OldSkill.Length;
-            this.VirtualLength = OldSkill.Length;
+            this.HandLength = OldSkill.HandLength;
+            this.BoardLength = OldSkill.HandLength;
             this.Owner = OldSkill.Owner;
             this.Name = OldSkill.Name;
         }
@@ -22,20 +22,20 @@ namespace TimelineHero.Character
         public Skill(List<Action> Actions, int Length, CharacterBase Owner)
         {
             this.Actions = new List<Action>(Actions);
-            this.Length = Length;
-            this.VirtualLength = Length;
+            this.HandLength = Length;
+            this.BoardLength = Length;
             this.Owner = Owner;
 
             //Initialize();
         }
 
         public List<Action> Actions;
-        public int Length;
-        public int VirtualLength;
+        public int HandLength;
+        public int BoardLength;
         public CharacterBase Owner;
         public string Name;
 
-        private List<Action> AdditionalActions;
+        private List<Action> AdditionalActions = new List<Action>();
         private int randomActionsCounter;
 
 
@@ -125,6 +125,14 @@ namespace TimelineHero.Character
                     HasActionsWithType(CharacterActionType.SelfRandomAttack));
         }
 
+        public bool IsLuckSkill()
+        {
+            return (HasActionsWithType(CharacterActionType.LuckAttack) ||
+                    HasActionsWithType(CharacterActionType.LuckBlock) ||
+                    HasActionsWithType(CharacterActionType.LuckDodge) ||
+                    HasActionsWithType(CharacterActionType.SelfLuckAttack));
+        }
+
         public bool IsKeyInSkill()
         {
             return (HasActionsWithType(CharacterActionType.KeyIn1) ||
@@ -146,8 +154,6 @@ namespace TimelineHero.Character
 
         private void SplitCompositeActions()
         {
-            AdditionalActions = new List<Action>();
-
             foreach (Action action in Actions)
             {
                 for (int i = 1; i < action.Duration; ++i)

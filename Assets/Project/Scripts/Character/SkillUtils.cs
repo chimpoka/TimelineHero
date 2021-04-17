@@ -18,11 +18,13 @@ namespace TimelineHero.Character
                 if (action.ActionType == CharacterActionType.RandomAttack)
                 {
                     action.ActionType = rand == randIndex ? CharacterActionType.Attack : CharacterActionType.RandomAttackCancelled;
+                    action.DisabledInPlayState = true;
                     randIndex++;
                 }
                 else if (action.ActionType == CharacterActionType.SelfRandomAttack)
                 {
                     action.ActionType = rand == randIndex ? CharacterActionType.SelfAttack : CharacterActionType.SelfRandomAttackCancelled;
+                    action.DisabledInPlayState = true;
                     randIndex++;
                 }
             }
@@ -62,6 +64,7 @@ namespace TimelineHero.Character
                     if (adrenalineActions[owner] > owner.Adrenaline)
                     {
                         InOutSkillRef.Actions[i].ActionType = CharacterActionType.AdrenalineCancelled;
+                        InOutSkillRef.Actions[i].DisabledInPlayState = true;
                     }
                 }
             }
@@ -78,7 +81,28 @@ namespace TimelineHero.Character
             if (!AreSkillsKeysMatch(left, right))
                 return;
 
-            left.VirtualLength -= Mathf.Min(left.CountKeyOutActions(), right.CountKeyInActions());
+            left.BoardLength -= Mathf.Min(left.CountKeyOutActions(), right.CountKeyInActions());
+        }
+
+        public static void RebuildLuckSkill(Skill InOutSkillRef)
+        {
+            foreach(Action action in InOutSkillRef.Actions)
+            {
+                if (action.IsLuckAction())
+                {
+                    RebuildLuckAction(action);
+                }
+            }
+        }
+
+        public static void RebuildLuckAction(Action InOutActionRef)
+        {
+            bool success = UnityEngine.Random.value < 0.6f; // Fair random :)
+            if (success)
+                return;
+
+            InOutActionRef.ActionType = CharacterActionType.LuckCancelled;
+            InOutActionRef.DisabledInPlayState = true;
         }
 
         public static bool AreSkillsKeysMatch(Skill Left, Skill Right)
@@ -118,6 +142,14 @@ namespace TimelineHero.Character
         public static Skill GetOriginalSkill(Skill OldSkill)
         {
            return GameInstance.Instance.GetSkill(OldSkill.Owner.Name, OldSkill.Name);
+        }
+
+        public static void CopyCardStats(Card FromCard, Card ToCard)
+        {
+            for (int i = 0; i < FromCard.Steps.Count; ++i)
+            {
+                ToCard.Steps[i].DisabledInPlayState = FromCard.Steps[i].DisabledInPlayState;
+            }
         }
     }
 }

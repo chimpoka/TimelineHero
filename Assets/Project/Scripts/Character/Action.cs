@@ -10,7 +10,8 @@ namespace TimelineHero.Character
         Empty, Attack, Dodge, Stun, Block, BlockContinuance, Parry, LuckAttack, LuckDodge, LuckBlock,
         AdrenalineAttack, AdrenalineDodge, AdrenalineBlock, RandomAttack, ImperviousAttack, SelfAttack,
         SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled,
-        DodgeContinuance, AdrenalineCancelled, KeyIn1, KeyIn2, KeyIn3, KeyOut1, KeyOut2, KeyOut3
+        DodgeContinuance, AdrenalineCancelled, KeyIn1, KeyIn2, KeyIn3, KeyOut1, KeyOut2, KeyOut3, 
+        LuckCancelled
     }
 
     public enum CharacterAttackType
@@ -106,6 +107,9 @@ namespace TimelineHero.Character
         [HideInInspector]
         public ActionKeyForm KeyForm = ActionKeyForm.NoKey;
 
+        [HideInInspector]
+        public bool DisabledInPlayState = false;
+
         public Action Clone()
         {
             return new Action(this);
@@ -146,6 +150,14 @@ namespace TimelineHero.Character
         {
             return (ActionType == CharacterActionType.RandomAttack ||
                     ActionType == CharacterActionType.SelfRandomAttack);
+        }
+
+        public bool IsLuckAction()
+        {
+            return (ActionType == CharacterActionType.LuckAttack ||
+                    ActionType == CharacterActionType.LuckBlock ||
+                    ActionType == CharacterActionType.LuckDodge||
+                    ActionType == CharacterActionType.SelfLuckAttack);
         }
 
         public bool IsKeyInAction()

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7896588756400426523}
   - component: {fileID: 8434394297544314787}
   m_Layer: 5
-  m_Name: TimelineStepRandomAttack
+  m_Name: TimelineStepLuckCancelled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,13 +59,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9ceb260d19ad6f540952e3787fbd8865, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c982ccb08660c6b4a870498a0755e382, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

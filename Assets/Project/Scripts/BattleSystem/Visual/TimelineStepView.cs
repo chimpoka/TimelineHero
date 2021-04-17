@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using TimelineHero.CoreUI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TimelineHero.Battle
 {
@@ -10,6 +12,8 @@ namespace TimelineHero.Battle
     {
         [SerializeField]
         private TextMeshProUGUI ValueText;
+        [HideInInspector]
+        public bool DisabledInPlayState = false;
 
         public void SetValue(int Value)
         {
@@ -17,6 +21,12 @@ namespace TimelineHero.Battle
             {
                 ValueText.text = Value.ToString();
             }
+        }
+
+        public void PlayAnimation(float Duration)
+        {
+            GetComponent<Image>().material = new Material(BattlePrefabsConfig.Instance.DissolveMaterial);
+            GetComponent<Image>().material.DOFloat(0.1f, "_Fade", Duration).SetEase(Ease.Unset);
         }
     }
 }
