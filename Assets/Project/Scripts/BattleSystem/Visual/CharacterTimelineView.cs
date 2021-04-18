@@ -24,6 +24,9 @@ namespace TimelineHero.Battle
 
         public bool TryAddCard(CardWrapper NewCard)
         {
+            if (Cards.Contains(NewCard))
+                return false;
+
             if (SkillUtils.IsOpeningSkill(NewCard.GetSkill()) && Cards.Count > 0)
                 return false;
 
@@ -39,6 +42,122 @@ namespace TimelineHero.Battle
             }
 
             return true;
+        }
+
+        public bool TryInsertCard(CardWrapper NewCard, int index)
+        {
+            if (Cards.Contains(NewCard))
+                return false;
+
+            InsertCard(NewCard, index, true);
+
+            return true;
+        }
+
+        public bool TryInsertVisibleCard(CardWrapper NewCard)
+        {
+            CardWrapper invisibleCard = Cards.Find(card => card.gameObject.activeInHierarchy == false);
+            int index = Cards.IndexOf(invisibleCard);
+            TryRemoveCard(invisibleCard);
+            TryInsertCard(NewCard, index);
+
+            return true;
+        }
+
+        public bool TryInsertInvisibleCard(CardWrapper NewCard)
+        {
+            CardWrapper invisibleCard = Cards.Find(card => card.gameObject.activeInHierarchy == false);
+            if (!invisibleCard)
+            {
+                invisibleCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
+                Card cardCopy = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
+                cardCopy.SetSkill(NewCard.GetSkill());
+                invisibleCard.SetState(CardState.Hand, cardCopy);
+                invisibleCard.gameObject.SetActive(false);
+            }
+
+            if (Cards.Count == 0)
+            {
+                TryAddCard(invisibleCard);
+                return true;
+            }
+
+            float newCardPos = NewCard.WorldBounds.min.x;
+            float cardEndPos = WorldBounds.min.x;
+
+            float timelineLenght = Cards.Aggregate(0.0f, (total, next) => total += next != invisibleCard ? next.WorldBounds.size.x : 0.0f);
+            if (newCardPos > cardEndPos + timelineLenght)
+            {
+                TryRemoveCard(invisibleCard);
+                TryAddCard(invisibleCard);
+                return true;
+            }
+
+            int i = 0;
+            foreach (CardWrapper card in Cards)
+            {
+                
+                if (card == invisibleCard)
+                {
+                    continue;
+                }
+
+                float cardStartPos = cardEndPos;
+                cardEndPos += card.WorldBounds.size.x;
+                if (newCardPos < cardEndPos)
+                {
+                    int index;
+                    if (newCardPos < cardStartPos + (cardEndPos - cardStartPos) / 2)
+                    {
+                        index = i;
+                    }
+                    else
+                    {
+                        index = i + 1;
+                    }
+                    print(index);
+                    if (!Cards.Find(x => x.gameObject.activeInHierarchy == false))
+                    {
+                        TryInsertCard(invisibleCard, index);
+                    }
+                    else if (Cards.IndexOf(invisibleCard) != index)
+                    {
+                        if (index >= Cards.Count)
+                        {
+                            TryRemoveCard(invisibleCard);
+                            TryAddCard(invisibleCard);
+                        }
+                        else
+                        {
+                            TryRemoveCard(invisibleCard);
+                            TryInsertCard(invisibleCard, index);
+                        }
+                    }
+
+                    return true;
+                }
+
+                i++;
+            }
+
+            return false;
+        }
+
+        public bool TryRemoveInvisibleCard()
+        {
+            CardWrapper invisibleCard = Cards.Find(card => card.gameObject.activeInHierarchy == false);
+            return TryRemoveCard(invisibleCard);
+        }
+
+        public bool TryRemoveCard(CardWrapper NewCard)
+        {
+            if (Cards.Contains(NewCard))
+            {
+                RemoveCard(NewCard);
+                return true;
+            }
+
+            return false;
         }
 
         public void AddCard(CardWrapper NewCard, bool SmoothMotion)

@@ -88,7 +88,8 @@ namespace TimelineHero.Battle
 
             PlayerCard.DOStop();
 
-            PlayerCard.AnchoredPosition += new Vector2(-6, 6);
+            PlayerCard.SetParent(HandCached.transform.parent);
+            PlayerCard.AnchoredPosition = eventData.position - PlayerCard.Size / 2;
 
             if (PlayerCard.State == CardState.Hand)
             {
@@ -98,9 +99,6 @@ namespace TimelineHero.Battle
             {
                 AlliedTimelineCached.RemoveCard(PlayerCard);
             }
-
-            // Move to foreground
-            PlayerCard.GetTransform().SetSiblingIndex(PlayerCard.GetTransform().parent.childCount - 1);
         }
 
         public void OnCardPointerUp(CardWrapper PlayerCard, PointerEventData eventData)
@@ -108,12 +106,13 @@ namespace TimelineHero.Battle
             if (!IsActive)
                 return;
 
-            if (AlliedTimelineCached.IsPositionInsideBounds(PlayerCard.WorldBounds.center))
+            if (AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition))
             {
-                if (!AlliedTimelineCached.TryAddCard(PlayerCard))
-                {
-                    HandCached.AddCard(PlayerCard);
-                }
+                AlliedTimelineCached.TryInsertVisibleCard(PlayerCard);
+                //if (!AlliedTimelineCached.TryAddCard(PlayerCard))
+                //{
+                //    HandCached.AddCard(PlayerCard);
+                //}
             }
             else
             {
@@ -138,7 +137,19 @@ namespace TimelineHero.Battle
             if (!IsActive)
                 return;
 
-            PlayerCard.AnchoredPosition += eventData.delta / GameInstance.Instance.CanvasScaleFactor;
+            PlayerCard.WorldCenterPosition = eventData.pointerCurrentRaycast.worldPosition;
+            
+            if (AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition))
+            {
+                AlliedTimelineCached.TryInsertInvisibleCard(PlayerCard);
+            }
+            else
+            {
+                if (AlliedTimelineCached.TryRemoveInvisibleCard())
+                {
+                    PlayerCard.DOStop();
+                }
+            }
         }
         #endregion CardEvents
     }
