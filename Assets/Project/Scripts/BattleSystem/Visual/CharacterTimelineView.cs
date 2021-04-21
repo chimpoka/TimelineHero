@@ -28,7 +28,7 @@ namespace TimelineHero.Battle
             if (Cards.Contains(NewCard))
                 return false;
 
-            if (SkillUtils.IsOpeningSkill(NewCard.GetSkill()) && Cards.Count > 0)
+            if (Cards.Count > 0 && SkillUtils.IsOpeningSkill(NewCard.GetSkill()))
                 return false;
 
             if (SkillUtils.IsClosingSkill(Cards.LastOrDefault()?.GetSkill()))
@@ -76,6 +76,56 @@ namespace TimelineHero.Battle
             return true;
         }
 
+#region GhostCardInsertion
+        public bool TryInsertInvisibleCard(CardWrapper NewCard)
+        {
+            if (Cards.Count == 0)
+            {
+                return TryAddCard(CreateInvisibleCard(NewCard));
+            }
+
+            float newCardStartPosition = NewCard.WorldBounds.min.x;
+            float previousCardEndPosition = WorldBounds.min.x;
+            float previousCardHandMinusPreBattleSize = 0;
+
+            CardWrapper invisibleCard = GetInvisibleCard();
+            int i = 0;
+            foreach (CardWrapper card in Cards)
+            {
+                if (card == invisibleCard)
+                {
+                    previousCardEndPosition += previousCardHandMinusPreBattleSize;
+                    continue;
+                }
+
+                float currentCardStartPosition = previousCardEndPosition;
+                float currentHandCardEndPosition = currentCardStartPosition + card.HandCard.WorldBounds.size.x;
+                float currentHandCardCenterPosition = currentCardStartPosition + card.HandCard.WorldBounds.extents.x;
+
+                if (newCardStartPosition < currentHandCardEndPosition)
+                {
+                    int index = newCardStartPosition < currentHandCardCenterPosition ? i : i + 1;
+
+                    invisibleCard = invisibleCard ?? CreateInvisibleCard(NewCard);
+                    TryRemoveCard(invisibleCard);
+                    if (!TryInsertCard(invisibleCard, index))
+                    {
+                        invisibleCard.DestroyUiObject();
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                previousCardEndPosition += card.WorldBounds.size.x;
+                previousCardHandMinusPreBattleSize = card.HandCard.WorldBounds.size.x - card.WorldBounds.size.x;
+
+                i++;
+            }
+
+            return false;
+        }
+
         public bool TryInsertVisibleCard(CardWrapper NewCard)
         {
             CardWrapper invisibleCard = GetInvisibleCard();
@@ -106,54 +156,6 @@ namespace TimelineHero.Battle
             return invisibleCard;
         }
 
-        public bool TryInsertInvisibleCard(CardWrapper NewCard)
-        {
-            if (Cards.Count == 0)
-            {
-                return TryAddCard(CreateInvisibleCard(NewCard));
-            }
-
-            float newCardStartPosition = NewCard.WorldBounds.min.x;
-            float previousCardEndPosition = WorldBounds.min.x;
-            float previousCardHandMinusPreBattleSize = 0;
-
-            int i = 0;
-            foreach (CardWrapper card in Cards)
-            {
-                if (card == GetInvisibleCard())
-                {
-                    previousCardEndPosition += previousCardHandMinusPreBattleSize;
-                    continue;
-                }
-
-                float currentCardStartPosition = previousCardEndPosition;
-                float currentHandCardEndPosition = currentCardStartPosition + card.HandCard.WorldBounds.size.x;
-                float currentHandCardCenterPosition = currentCardStartPosition + card.HandCard.WorldBounds.extents.x;
-
-                if (newCardStartPosition < currentHandCardEndPosition)
-                {
-                    int index = newCardStartPosition < currentHandCardCenterPosition ? i : i + 1;
-
-                    CardWrapper invisibleCard = GetInvisibleCard() ?? CreateInvisibleCard(NewCard);
-                    TryRemoveCard(invisibleCard);
-                    if (!TryInsertCard(invisibleCard, index))
-                    {
-                        invisibleCard.DestroyUiObject();
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                previousCardEndPosition += card.WorldBounds.size.x;
-                previousCardHandMinusPreBattleSize = card.HandCard.WorldBounds.size.x - card.WorldBounds.size.x;
-
-                i++;
-            }
-
-            return false;
-        }
-
         public bool TryRemoveInvisibleCard()
         {
             CardWrapper invisibleCard = GetInvisibleCard();
@@ -164,20 +166,17 @@ namespace TimelineHero.Battle
             RemoveCard(invisibleCard);
             invisibleCard.DestroyUiObject();
 
-            TryRemoveInvisibleCard();
-
             return true;
         }
+#endregion GhostCardInsertion
 
         public bool TryRemoveCard(CardWrapper NewCard)
         {
-            if (Cards.Contains(NewCard))
-            {
-                RemoveCard(NewCard);
-                return true;
-            }
+            if (!Cards.Contains(NewCard))
+                return false;
 
-            return false;
+            RemoveCard(NewCard);
+            return true;
         }
 
         public void AddCard(CardWrapper NewCard, bool SmoothMotion)

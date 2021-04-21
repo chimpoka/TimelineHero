@@ -107,14 +107,8 @@ namespace TimelineHero.Battle
             if (!IsActive)
                 return;
 
-            if (AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition))
-            {
-                if (!AlliedTimelineCached.TryInsertVisibleCard(PlayerCard))
-                {
-                    HandCached.AddCard(PlayerCard);
-                }
-            }
-            else
+            if (!AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition) ||
+                !AlliedTimelineCached.TryInsertVisibleCard(PlayerCard))
             {
                 HandCached.AddCard(PlayerCard);
             }
