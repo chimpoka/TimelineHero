@@ -97,6 +97,12 @@ namespace TimelineHero.Battle
             return HandCard.GetSkill();
         }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = new Color(1, 0, 0, 0.5f);
+            Gizmos.DrawCube(new Vector3(WorldBounds.center.x, WorldBounds.center.y, 2000), new Vector3(WorldBounds.size.x, WorldBounds.size.y, 0.2f));
+        }
+
         #region SkillEvents
         public void OnPointerDown(PointerEventData eventData)
         {

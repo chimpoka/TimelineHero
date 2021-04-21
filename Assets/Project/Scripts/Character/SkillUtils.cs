@@ -120,7 +120,7 @@ namespace TimelineHero.Character
 
         public static bool IsOpeningSkill(Skill SkillRef)
         {
-            if (SkillRef.Actions.Count == 0)
+            if (SkillRef == null || SkillRef.Actions.Count == 0)
                 return false;
 
             return SkillRef.Actions.First().ActionType == CharacterActionType.Open;

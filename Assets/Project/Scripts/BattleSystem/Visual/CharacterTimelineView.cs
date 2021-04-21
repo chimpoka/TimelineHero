@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using TimelineHero.CoreUI;
 using TimelineHero.Character;
+using DG.Tweening;
 
 namespace TimelineHero.Battle
 {
@@ -46,96 +47,106 @@ namespace TimelineHero.Battle
 
         public bool TryInsertCard(CardWrapper NewCard, int index)
         {
+            if (index > Cards.Count)
+                return false;
+
             if (Cards.Contains(NewCard))
                 return false;
 
+            if (index > 0 && SkillUtils.IsOpeningSkill(NewCard.GetSkill()))
+                return false;
+
+            if (index < Cards.Count && SkillUtils.IsClosingSkill(NewCard.GetSkill()))
+                return false;
+
+            if (index == 0 && SkillUtils.IsOpeningSkill(Cards.FirstOrDefault()?.GetSkill()))
+                return false;
+
+            if (index == Cards.Count && SkillUtils.IsClosingSkill(Cards.LastOrDefault()?.GetSkill()))
+                return false;
+
             InsertCard(NewCard, index, true);
+
+            if (Length > MaxLength)
+            {
+                RemoveCard(NewCard);
+                return false;
+            }
 
             return true;
         }
 
         public bool TryInsertVisibleCard(CardWrapper NewCard)
         {
-            CardWrapper invisibleCard = Cards.Find(card => card.gameObject.activeInHierarchy == false);
-            int index = Cards.IndexOf(invisibleCard);
-            TryRemoveCard(invisibleCard);
-            TryInsertCard(NewCard, index);
+            CardWrapper invisibleCard = GetInvisibleCard();
 
-            return true;
+            if (invisibleCard == null)
+            {
+                return TryAddCard(NewCard);
+            }
+
+            int index = Cards.IndexOf(invisibleCard);
+            TryRemoveInvisibleCard();
+            return TryInsertCard(NewCard, index);
+        }
+
+        CardWrapper GetInvisibleCard()
+        {
+            return Cards.Find(card => card.gameObject.activeInHierarchy == false);
+        }
+
+        private CardWrapper CreateInvisibleCard(CardWrapper FromCard)
+        {
+            CardWrapper invisibleCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
+            Card cardCopy = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
+            cardCopy.SetSkill(FromCard.GetSkill());
+            invisibleCard.SetState(CardState.Hand, cardCopy);
+            invisibleCard.gameObject.SetActive(false);
+
+            return invisibleCard;
         }
 
         public bool TryInsertInvisibleCard(CardWrapper NewCard)
         {
-            CardWrapper invisibleCard = Cards.Find(card => card.gameObject.activeInHierarchy == false);
-            if (!invisibleCard)
-            {
-                invisibleCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
-                Card cardCopy = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
-                cardCopy.SetSkill(NewCard.GetSkill());
-                invisibleCard.SetState(CardState.Hand, cardCopy);
-                invisibleCard.gameObject.SetActive(false);
-            }
-
             if (Cards.Count == 0)
             {
-                TryAddCard(invisibleCard);
-                return true;
+                return TryAddCard(CreateInvisibleCard(NewCard));
             }
 
-            float newCardPos = NewCard.WorldBounds.min.x;
-            float cardEndPos = WorldBounds.min.x;
-
-            float timelineLenght = Cards.Aggregate(0.0f, (total, next) => total += next != invisibleCard ? next.WorldBounds.size.x : 0.0f);
-            if (newCardPos > cardEndPos + timelineLenght)
-            {
-                TryRemoveCard(invisibleCard);
-                TryAddCard(invisibleCard);
-                return true;
-            }
+            float newCardStartPosition = NewCard.WorldBounds.min.x;
+            float previousCardEndPosition = WorldBounds.min.x;
+            float previousCardHandMinusPreBattleSize = 0;
 
             int i = 0;
             foreach (CardWrapper card in Cards)
             {
-                
-                if (card == invisibleCard)
+                if (card == GetInvisibleCard())
                 {
+                    previousCardEndPosition += previousCardHandMinusPreBattleSize;
                     continue;
                 }
 
-                float cardStartPos = cardEndPos;
-                cardEndPos += card.WorldBounds.size.x;
-                if (newCardPos < cardEndPos)
+                float currentCardStartPosition = previousCardEndPosition;
+                float currentHandCardEndPosition = currentCardStartPosition + card.HandCard.WorldBounds.size.x;
+                float currentHandCardCenterPosition = currentCardStartPosition + card.HandCard.WorldBounds.extents.x;
+
+                if (newCardStartPosition < currentHandCardEndPosition)
                 {
-                    int index;
-                    if (newCardPos < cardStartPos + (cardEndPos - cardStartPos) / 2)
+                    int index = newCardStartPosition < currentHandCardCenterPosition ? i : i + 1;
+
+                    CardWrapper invisibleCard = GetInvisibleCard() ?? CreateInvisibleCard(NewCard);
+                    TryRemoveCard(invisibleCard);
+                    if (!TryInsertCard(invisibleCard, index))
                     {
-                        index = i;
-                    }
-                    else
-                    {
-                        index = i + 1;
-                    }
-                    print(index);
-                    if (!Cards.Find(x => x.gameObject.activeInHierarchy == false))
-                    {
-                        TryInsertCard(invisibleCard, index);
-                    }
-                    else if (Cards.IndexOf(invisibleCard) != index)
-                    {
-                        if (index >= Cards.Count)
-                        {
-                            TryRemoveCard(invisibleCard);
-                            TryAddCard(invisibleCard);
-                        }
-                        else
-                        {
-                            TryRemoveCard(invisibleCard);
-                            TryInsertCard(invisibleCard, index);
-                        }
+                        invisibleCard.DestroyUiObject();
+                        return false;
                     }
 
                     return true;
                 }
+
+                previousCardEndPosition += card.WorldBounds.size.x;
+                previousCardHandMinusPreBattleSize = card.HandCard.WorldBounds.size.x - card.WorldBounds.size.x;
 
                 i++;
             }
@@ -145,8 +156,17 @@ namespace TimelineHero.Battle
 
         public bool TryRemoveInvisibleCard()
         {
-            CardWrapper invisibleCard = Cards.Find(card => card.gameObject.activeInHierarchy == false);
-            return TryRemoveCard(invisibleCard);
+            CardWrapper invisibleCard = GetInvisibleCard();
+
+            if (invisibleCard == null)
+                return false;
+
+            RemoveCard(invisibleCard);
+            invisibleCard.DestroyUiObject();
+
+            TryRemoveInvisibleCard();
+
+            return true;
         }
 
         public bool TryRemoveCard(CardWrapper NewCard)
@@ -313,7 +333,7 @@ namespace TimelineHero.Battle
             {
                 if (SmoothMotion)
                 {
-                    card.DOAnchorPos(cardPosition);
+                    card.DOAnchorPos(cardPosition, 0.5f).SetEase(Ease.Unset);
                 }
                 else
                 {

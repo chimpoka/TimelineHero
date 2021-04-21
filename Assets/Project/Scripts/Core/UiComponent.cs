@@ -88,10 +88,10 @@ namespace TimelineHero.CoreUI
             return bounds;
         }
 
-        private void OnDrawGizmos()
-        {
-            //Gizmos.color = new Color(1, 0, 0, 0.5f);
-            //Gizmos.DrawCube(new Vector3(WorldBounds.center.x, WorldBounds.center.y, 2000), new Vector3(0.2f, 0.2f, 0.2f));
-        }
+        //private void OnDrawGizmos()
+        //{
+        //    Gizmos.color = new Color(1, 0, 0, 0.5f);
+        //    Gizmos.DrawCube(new Vector3(WorldBounds.center.x, WorldBounds.center.y, 2000), new Vector3(WorldBounds.size.x, WorldBounds.size.y, 0.2f));
+        //}
     }
 }
