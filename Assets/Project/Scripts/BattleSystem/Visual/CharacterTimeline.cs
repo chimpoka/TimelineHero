@@ -168,7 +168,6 @@ namespace TimelineHero.Battle
                     SkillUtils.RebuildKeyOutSkill(skills, i, newSkill);
                 }
 
-                //newSkill.Initialize();
                 Cards[i].SetState(CardState.BoardPrePlay, newSkill);
             }
         }
@@ -197,8 +196,7 @@ namespace TimelineHero.Battle
                 {
                     SkillUtils.RebuildLuckSkill(newSkill);
                 }
-                
-                //newSkill.Initialize();
+
                 Cards[i].SetState(CardState.BoardPlay, newSkill);
             }
         }
