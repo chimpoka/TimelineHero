@@ -7,21 +7,14 @@ using DG.Tweening;
 
 namespace TimelineHero.Battle
 {
-    public class CharacterTimelineView : UiComponent
+    public class CharacterTimeline : UiComponent
     {
-        private List<CardWrapper> Cards;
-        private List<Action> ActualBattleActions = new List<Action>();
-
         public int Length { get => Cards.Aggregate(0, (total, next) => total += next.Length); }
         public int MaxLength { get => maxLength; set => maxLength = value; }
 
+        protected List<CardWrapper> Cards = new List<CardWrapper>();
+        private List<Action> ActualBattleActions = new List<Action>();
         private int maxLength;
-
-
-        private void Awake()
-        {
-            Cards = new List<CardWrapper>();
-        }
 
         public bool TryAddCard(CardWrapper NewCard)
         {
@@ -76,100 +69,6 @@ namespace TimelineHero.Battle
             return true;
         }
 
-        #region GhostCardInsertion
-        public bool TryInsertInvisibleCard(CardWrapper NewCard)
-        {
-            if (Cards.Count == 0)
-            {
-                return TryAddCard(CreateInvisibleCard(NewCard));
-            }
-
-            float newCardStartPosition = NewCard.WorldBounds.min.x;
-            float previousCardEndPosition = WorldBounds.min.x;
-            float previousCardHandMinusPreBattleSize = 0;
-
-            CardWrapper invisibleCard = GetInvisibleCard();
-            int i = 0;
-            foreach (CardWrapper card in Cards)
-            {
-                if (card == invisibleCard)
-                {
-                    previousCardEndPosition += previousCardHandMinusPreBattleSize;
-                    continue;
-                }
-
-                float currentCardSize = card.WorldBounds.size.x;
-                float currentCardHandSize = card.HandCard.WorldBounds.size.x;
-                float currentCardStartPosition = previousCardEndPosition;
-                float currentHandCardEndPosition = currentCardStartPosition + currentCardHandSize;
-                float currentHandCardCenterPosition = currentCardStartPosition + currentCardHandSize / 2.0f;
-
-                if (newCardStartPosition < currentHandCardEndPosition)
-                {
-                    int index = newCardStartPosition < currentHandCardCenterPosition ? i : i + 1;
-
-                    invisibleCard = invisibleCard ?? CreateInvisibleCard(NewCard);
-                    Cards.Remove(invisibleCard);
-                    if (!TryInsertCard(invisibleCard, index))
-                    {
-                        invisibleCard.DestroyUiObject();
-                        UpdateCardsLayout(true);
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                previousCardEndPosition += currentCardSize;
-                previousCardHandMinusPreBattleSize = currentCardHandSize - currentCardSize;
-
-                i++;
-            }
-
-            return false;
-        }
-
-        public bool TryInsertVisibleCard(CardWrapper NewCard)
-        {
-            CardWrapper invisibleCard = GetInvisibleCard();
-
-            if (invisibleCard == null)
-            {
-                return TryAddCard(NewCard);
-            }
-
-            ReplaceWith(invisibleCard, NewCard);
-            return true;
-        }
-
-        CardWrapper GetInvisibleCard()
-        {
-            return Cards.Find(card => card.gameObject.activeInHierarchy == false);
-        }
-
-        private CardWrapper CreateInvisibleCard(CardWrapper FromCard)
-        {
-            CardWrapper invisibleCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
-            invisibleCard.SetState(CardState.Hand, FromCard.GetSkill());
-            invisibleCard.gameObject.SetActive(false);
-
-            return invisibleCard;
-        }
-
-        public bool TryRemoveInvisibleCard()
-        {
-            CardWrapper invisibleCard = GetInvisibleCard();
-
-            if (invisibleCard == null)
-                return false;
-
-            RemoveCard(invisibleCard);
-            invisibleCard.DestroyUiObject();
-
-            return true;
-        }
-#endregion GhostCardInsertion
-
         public void AddCard(CardWrapper NewCard, bool SmoothMotion)
         {
             Cards.Add(NewCard);
@@ -180,6 +79,14 @@ namespace TimelineHero.Battle
         {
             Cards.Insert(Index, NewCard);
             AddCardInternal(NewCard, SmoothMotion);
+        }
+
+        public void ReplaceWith(CardWrapper FromCard, CardWrapper ToCard)
+        {
+            int index = Cards.IndexOf(FromCard);
+            Cards[index].DestroyUiObject();
+            Cards[index] = ToCard;
+            AddCardInternal(ToCard, true);
         }
 
         private void AddCardInternal(CardWrapper NewCard, bool SmoothMotion)
@@ -193,14 +100,6 @@ namespace TimelineHero.Battle
             Cards.Remove(CardToRemove);
             CardToRemove.SetState(CardState.Hand, CardToRemove.HandCard.GetSkill());
             UpdateCardsLayout(true);
-        }
-
-        public void ReplaceWith(CardWrapper FromCard, CardWrapper ToCard)
-        {
-            int index = Cards.IndexOf(FromCard);
-            Cards[index].DestroyUiObject();
-            Cards[index] = ToCard;
-            AddCardInternal(ToCard, true);
         }
 
         public void UpdateCardsLayout(bool SmoothMotion)
@@ -231,11 +130,6 @@ namespace TimelineHero.Battle
             }
 
             return ActualBattleActions[Position];
-        }
-
-        public bool IsEnoughSpaceForCard(CardWrapper NewCard)
-        {
-            return Length + NewCard.Length <= MaxLength;
         }
 
         public void OnStartPlayState()
@@ -274,7 +168,7 @@ namespace TimelineHero.Battle
                     SkillUtils.RebuildKeyOutSkill(skills, i, newSkill);
                 }
 
-                newSkill.Initialize();
+                //newSkill.Initialize();
                 Cards[i].SetState(CardState.BoardPrePlay, newSkill);
             }
         }
@@ -304,7 +198,7 @@ namespace TimelineHero.Battle
                     SkillUtils.RebuildLuckSkill(newSkill);
                 }
                 
-                newSkill.Initialize();
+                //newSkill.Initialize();
                 Cards[i].SetState(CardState.BoardPlay, newSkill);
             }
         }

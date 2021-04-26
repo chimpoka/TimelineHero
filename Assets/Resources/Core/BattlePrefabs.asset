@@ -16,7 +16,9 @@ MonoBehaviour:
     type: 3}
   CardPrefab: {fileID: 8050783345233232768, guid: 3c16d13a69eae594a91de58072b8d6a4,
     type: 3}
-  CharacterTimelinePrefab: {fileID: 7342823222223138986, guid: 9525449e0eef91145903f0d1bebdaf2c,
+  TimelinePrefab: {fileID: 7342823222223138986, guid: 9525449e0eef91145903f0d1bebdaf2c,
+    type: 3}
+  AlliedTimelinePrefab: {fileID: 4480259529076485664, guid: e8f49807ae873c44a8fecf61a929f3bb,
     type: 3}
   TimerPrefab: {fileID: -7243033508178429347, guid: 262faf29623e8504faea45e9f74ad468,
     type: 3}

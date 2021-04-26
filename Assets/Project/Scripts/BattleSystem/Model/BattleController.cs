@@ -11,11 +11,11 @@ namespace TimelineHero.Battle
         private Hand HandCached;
         private DrawDeck DrawDeckCached;
         private DiscardDeck DiscardDeckCached;
-        private CharacterTimelineView AlliedTimelineCached;
+        private AlliedCharacterTimeline AlliedTimelineCached;
 
         private bool IsActive;
 
-        public void Initialize(Hand HandRef, DrawDeck DrawDeckRef, DiscardDeck DiscardDeckRef, CharacterTimelineView AlliedTimelineRef)
+        public void Initialize(Hand HandRef, DrawDeck DrawDeckRef, DiscardDeck DiscardDeckRef, AlliedCharacterTimeline AlliedTimelineRef)
         {
             HandCached = HandRef;
             DrawDeckCached = DrawDeckRef;
@@ -91,6 +91,8 @@ namespace TimelineHero.Battle
             PlayerCard.SetParent(HandCached.transform.parent);
             PlayerCard.AnchoredPosition = eventData.position - PlayerCard.Size / 2;
 
+            AlliedTimelineCached.CreateInvisibleCard(PlayerCard);
+
             if (PlayerCard.State == CardState.Hand)
             {
                 HandCached.RemoveCard(PlayerCard);
@@ -110,7 +112,7 @@ namespace TimelineHero.Battle
             if (!AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition) ||
                 !AlliedTimelineCached.TryInsertVisibleCard(PlayerCard))
             {
-                AlliedTimelineCached.TryRemoveInvisibleCard();
+                AlliedTimelineCached.DestroyInvisibleCard();
                 HandCached.AddCard(PlayerCard);
             }
         }
@@ -140,7 +142,7 @@ namespace TimelineHero.Battle
             }
             else
             {
-                AlliedTimelineCached.TryRemoveInvisibleCard();
+                AlliedTimelineCached.RemoveInvisibleCard();
             }
         }
         #endregion CardEvents

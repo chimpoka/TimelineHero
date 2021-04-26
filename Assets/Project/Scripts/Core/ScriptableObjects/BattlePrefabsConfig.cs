@@ -10,7 +10,8 @@ namespace TimelineHero.Battle
     {
         public CardWrapper CardWrapperPrefab;
         public Card CardPrefab;
-        public CharacterTimelineView CharacterTimelinePrefab;
+        public CharacterTimeline TimelinePrefab;
+        public AlliedCharacterTimeline AlliedTimelinePrefab;
         public BattleTimelineTimerView TimerPrefab;
         public CharacterStatusView CharacterStatusPrefab;
         public Material DissolveMaterial;

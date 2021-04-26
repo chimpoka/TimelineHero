@@ -66,7 +66,7 @@ namespace TimelineHero.Battle
             return SkillCached;
         }
 
-        public void PlayAnimation()
+        public void PlayDestroyAnimation()
         {
             float duration = 5.0f;
 
@@ -74,16 +74,22 @@ namespace TimelineHero.Battle
             {
                 if (step.DisabledInPlayState)
                 {
-                    step.PlayAnimation(duration);
+                    step.PlayDestroyAnimation(duration);
                 }
             }
-
-            DOTween.To(() => 0, x => { }, 1, duration).onComplete += Hide;
         }
 
-        private void Hide()
+        public void PlayRestoreAnimation()
         {
-            gameObject.SetActive(false);
+            float duration = 2.0f;
+
+            foreach (TimelineStepView step in Steps)
+            {
+                if (step.DisabledInPlayState)
+                {
+                    step.PlayRestoreAnimation(duration);
+                }
+            }
         }
 
         private void CreateSteps()
@@ -106,8 +112,14 @@ namespace TimelineHero.Battle
                 step.DisabledInPlayState = action.DisabledInPlayState;
                 step.ActionCached = action;
 
-                // TODO: Replace with ReplaceWith
-                Steps.Add(step);
+                if (i < Steps.Count)
+                {
+                    ReplaceWith(Steps[i], step);
+                }
+                else
+                {
+                    Steps.Add(step);
+                }
             }
 
             for (int i = Steps.Count - 1; i >= SkillCached.Length; --i)
@@ -125,6 +137,13 @@ namespace TimelineHero.Battle
 
             Steps[index].DestroyUiObject();
             Steps.RemoveAt(index);
+        }
+
+        private void ReplaceWith(TimelineStepView FromStep, TimelineStepView ToStep)
+        {
+            int index = Steps.IndexOf(FromStep);
+            Steps[index].DestroyUiObject();
+            Steps[index] = ToStep;
         }
 
         private void CreateDelimeter()

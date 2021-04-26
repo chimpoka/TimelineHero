@@ -54,6 +54,7 @@ namespace TimelineHero.Battle
                 BoardPreBattleCard.SetSkill(NewSkill);
                 Size = BoardPreBattleCard.Size;
                 BoardPreBattleCard.GetTransform().SetSiblingIndex(2);
+                BoardPreBattleCard.PlayRestoreAnimation();
             }
             else if (NewState == CardState.BoardPlay)
             {
@@ -62,7 +63,7 @@ namespace TimelineHero.Battle
                 BoardBattleCard.GetTransform().SetSiblingIndex(1);
 
                 SkillUtils.CopyCardStats(BoardBattleCard, BoardPreBattleCard);
-                BoardPreBattleCard.PlayAnimation();
+                BoardPreBattleCard.PlayDestroyAnimation();
             }
 
             State = NewState;

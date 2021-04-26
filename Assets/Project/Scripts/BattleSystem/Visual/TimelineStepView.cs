@@ -18,6 +18,14 @@ namespace TimelineHero.Battle
         [HideInInspector]
         public Action ActionCached;
 
+        private Material ImageMaterial;
+
+        private void Start()
+        {
+            GetComponent<Image>().material = new Material(BattlePrefabsConfig.Instance.DissolveMaterial);
+            ImageMaterial = GetComponent<Image>().material;
+        }
+
         public void SetValue(int Value)
         {
             if (ValueText != null)
@@ -26,10 +34,14 @@ namespace TimelineHero.Battle
             }
         }
 
-        public void PlayAnimation(float Duration)
+        public void PlayDestroyAnimation(float Duration)
         {
-            GetComponent<Image>().material = new Material(BattlePrefabsConfig.Instance.DissolveMaterial);
-            GetComponent<Image>().material.DOFloat(0.1f, "_Fade", Duration).SetEase(Ease.Unset);
+            ImageMaterial.DOFloat(0.0f, "_Fade", Duration).SetEase(Ease.Unset);
+        }
+
+        public void PlayRestoreAnimation(float Duration)
+        {
+            ImageMaterial.DOFloat(1.0f, "_Fade", Duration).SetEase(Ease.Unset);
         }
     }
 }

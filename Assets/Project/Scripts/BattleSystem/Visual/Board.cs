@@ -8,8 +8,8 @@ namespace TimelineHero.Battle
     public class Board : MonoBehaviour
     {
         private BattleSystem BattleSystemCached;
-        private CharacterTimelineView EnemyTimeline;
-        private CharacterTimelineView AlliedTimeline;
+        private CharacterTimeline EnemyTimeline;
+        private AlliedCharacterTimeline AlliedTimeline;
         private BattleTimelineTimerView TimerView;
 
         public void Initialize(BattleSystem BattleSystemRef)
@@ -28,13 +28,13 @@ namespace TimelineHero.Battle
             return GetEnemyTimeline().Length;
         }
 
-        public CharacterTimelineView GetAlliedTimeline()
+        public AlliedCharacterTimeline GetAlliedTimeline()
         {
             AlliedTimeline = AlliedTimeline ?? GenerateAlliedTimeline(GetEnemyTimeline().Size, GetEnemyTimeline().MaxLength);
             return AlliedTimeline;
         }
 
-        public CharacterTimelineView GetEnemyTimeline()
+        public CharacterTimeline GetEnemyTimeline()
         {
             EnemyTimeline = EnemyTimeline ?? GenerateEnemiesTimeline();
             return EnemyTimeline;
@@ -63,9 +63,9 @@ namespace TimelineHero.Battle
             return BattleSystemCached.GetEnemyCharacters()[0].Skills;
         }
 
-        private CharacterTimelineView GenerateEnemiesTimeline()
+        private CharacterTimeline GenerateEnemiesTimeline()
         {
-            CharacterTimelineView enemyTimeline = GenerateTimeline();
+            CharacterTimeline enemyTimeline = GenerateTimeline(BattlePrefabsConfig.Instance.TimelinePrefab);
 
             foreach (Skill skill in GetEnemySkills())
             {
@@ -86,9 +86,9 @@ namespace TimelineHero.Battle
             return enemyTimeline;
         }
 
-        private CharacterTimelineView GenerateAlliedTimeline(Vector2 EnemyTimelineSize, int MaxLength)
+        private AlliedCharacterTimeline GenerateAlliedTimeline(Vector2 EnemyTimelineSize, int MaxLength)
         {
-            CharacterTimelineView alliedTimeline = GenerateTimeline();
+            AlliedCharacterTimeline alliedTimeline = GenerateTimeline(BattlePrefabsConfig.Instance.AlliedTimelinePrefab) as AlliedCharacterTimeline;
             alliedTimeline.GetTransform().localScale = Vector3.one;
             alliedTimeline.AnchoredPosition += new Vector2(0, -EnemyTimelineSize.y);
             alliedTimeline.Size = EnemyTimelineSize;
@@ -96,9 +96,9 @@ namespace TimelineHero.Battle
             return alliedTimeline;
         }
 
-        private CharacterTimelineView GenerateTimeline()
+        private CharacterTimeline GenerateTimeline(CharacterTimeline Prefab)
         {
-            CharacterTimelineView timeline = Instantiate(BattlePrefabsConfig.Instance.CharacterTimelinePrefab);
+            CharacterTimeline timeline = Instantiate(Prefab);
             timeline.GetTransform().SetParent(transform);
             timeline.GetTransform().localScale = Vector3.one;
             timeline.AnchoredPosition = new Vector2(0, timeline.Size.y / 2);
