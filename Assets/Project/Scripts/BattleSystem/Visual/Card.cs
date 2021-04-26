@@ -24,7 +24,7 @@ namespace TimelineHero.Battle
         public int Length { get => SkillCached.Length; }
 
         [HideInInspector]
-        public List<TimelineStepView> Steps;
+        public List<TimelineStepView> Steps = new List<TimelineStepView>();
 
         private Skill SkillCached;
 
@@ -32,11 +32,15 @@ namespace TimelineHero.Battle
 
         private void Awake()
         {
+            // TODO: Remove    private StepPrefabStruct[] Prefabs;
+
             PrefabsDictionary = new Dictionary<CharacterActionType, TimelineStepView>();
             foreach (StepPrefabStruct prefab in Prefabs)
             {
                 PrefabsDictionary.Add(prefab.ActionType, prefab.Prefab);
             }
+
+            CreateDelimeter();
         }
 
         static public float GetCardStaticHeight()
@@ -55,7 +59,6 @@ namespace TimelineHero.Battle
         {
             SkillCached = NewSkill;
             CreateSteps();
-            CreateDelimeter();
         }
 
         public Skill GetSkill()
@@ -75,33 +78,53 @@ namespace TimelineHero.Battle
                 }
             }
 
-            DOTween.To(() => 0, x => { }, 1, duration).onComplete += DestroyUiObject;
+            DOTween.To(() => 0, x => { }, 1, duration).onComplete += Hide;
         }
 
-        public void PlayAnimationAtPosition()
+        private void Hide()
         {
-
+            gameObject.SetActive(false);
         }
 
         private void CreateSteps()
         {
-            Steps = new List<TimelineStepView>();
-
             for (int i = 0; i < SkillCached.Length; ++i)
             {
                 Action action = SkillCached.GetActionInPosition(i);
                 action = action ?? new Action(CharacterActionType.Empty, i, SkillCached.Owner);
+
+                if (Steps.Count > i && Steps[i].ActionCached != null && Steps[i].ActionCached.Equals(action))
+                {
+                    //Steps[i].SetValue(action.Value);
+                    continue;
+                }
 
                 TimelineStepView step = Instantiate(PrefabsDictionary[action.ActionType]);
                 step.SetParent(GetTransform());
                 step.AnchoredPosition = new Vector2(i * GetTimelineStepStaticSize().x, 0);
                 step.SetValue(action.Value);
                 step.DisabledInPlayState = action.DisabledInPlayState;
+                step.ActionCached = action;
 
+                // TODO: Replace with ReplaceWith
                 Steps.Add(step);
             }
 
+            for (int i = Steps.Count - 1; i >= SkillCached.Length; --i)
+            {
+                RemoveStepAt(i);
+            }
+
             Size = GetTimelineStepStaticSize() * new Vector2(SkillCached.Length, 1.0f);
+        }
+
+        private void RemoveStepAt(int index)
+        {
+            if (index >= Steps.Count)
+                return;
+
+            Steps[index].DestroyUiObject();
+            Steps.RemoveAt(index);
         }
 
         private void CreateDelimeter()

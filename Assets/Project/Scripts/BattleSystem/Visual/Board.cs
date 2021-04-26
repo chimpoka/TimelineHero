@@ -70,9 +70,7 @@ namespace TimelineHero.Battle
             foreach (Skill skill in GetEnemySkills())
             {
                 CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
-                Card card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
-                card.SetSkill(skill);
-                cardWrapper.SetState(CardState.Hand, card);
+                cardWrapper.SetState(CardState.Hand, skill);
                 enemyTimeline.AddCard(cardWrapper, false);
             }
 

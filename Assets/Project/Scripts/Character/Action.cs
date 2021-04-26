@@ -117,6 +117,15 @@ namespace TimelineHero.Character
             return new Action(this);
         }
 
+        public bool Equals(Action OtherAction)
+        {
+            return this.ActionType == OtherAction.ActionType &&
+                   this.Position == OtherAction.Position &&
+                   this.Owner == OtherAction.Owner &&
+                   this.Value == OtherAction.Value &&
+                   this.Duration == OtherAction.Duration;
+        }
+
         public bool IsAdrenalineAction()
         {
             return (ActionType == CharacterActionType.AdrenalineAttack ||

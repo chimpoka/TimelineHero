@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TimelineHero.Character;
 using TimelineHero.CoreUI;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,8 @@ namespace TimelineHero.Battle
         private TextMeshProUGUI ValueText;
         [HideInInspector]
         public bool DisabledInPlayState = false;
+        [HideInInspector]
+        public Action ActionCached;
 
         public void SetValue(int Value)
         {

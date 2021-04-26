@@ -151,6 +151,8 @@ namespace TimelineHero.Character
 
         private void SplitCompositeActions()
         {
+            AdditionalActions = new List<Action>();
+
             foreach (Action action in Actions)
             {
                 for (int i = 1; i < action.Duration; ++i)

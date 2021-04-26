@@ -76,7 +76,7 @@ namespace TimelineHero.Battle
             return true;
         }
 
-#region GhostCardInsertion
+        #region GhostCardInsertion
         public bool TryInsertInvisibleCard(CardWrapper NewCard)
         {
             if (Cards.Count == 0)
@@ -98,27 +98,30 @@ namespace TimelineHero.Battle
                     continue;
                 }
 
+                float currentCardSize = card.WorldBounds.size.x;
+                float currentCardHandSize = card.HandCard.WorldBounds.size.x;
                 float currentCardStartPosition = previousCardEndPosition;
-                float currentHandCardEndPosition = currentCardStartPosition + card.HandCard.WorldBounds.size.x;
-                float currentHandCardCenterPosition = currentCardStartPosition + card.HandCard.WorldBounds.extents.x;
+                float currentHandCardEndPosition = currentCardStartPosition + currentCardHandSize;
+                float currentHandCardCenterPosition = currentCardStartPosition + currentCardHandSize / 2.0f;
 
                 if (newCardStartPosition < currentHandCardEndPosition)
                 {
                     int index = newCardStartPosition < currentHandCardCenterPosition ? i : i + 1;
 
                     invisibleCard = invisibleCard ?? CreateInvisibleCard(NewCard);
-                    TryRemoveCard(invisibleCard);
+                    Cards.Remove(invisibleCard);
                     if (!TryInsertCard(invisibleCard, index))
                     {
                         invisibleCard.DestroyUiObject();
+                        UpdateCardsLayout(true);
                         return false;
                     }
 
                     return true;
                 }
 
-                previousCardEndPosition += card.WorldBounds.size.x;
-                previousCardHandMinusPreBattleSize = card.HandCard.WorldBounds.size.x - card.WorldBounds.size.x;
+                previousCardEndPosition += currentCardSize;
+                previousCardHandMinusPreBattleSize = currentCardHandSize - currentCardSize;
 
                 i++;
             }
@@ -135,9 +138,8 @@ namespace TimelineHero.Battle
                 return TryAddCard(NewCard);
             }
 
-            int index = Cards.IndexOf(invisibleCard);
-            TryRemoveInvisibleCard();
-            return TryInsertCard(NewCard, index);
+            ReplaceWith(invisibleCard, NewCard);
+            return true;
         }
 
         CardWrapper GetInvisibleCard()
@@ -148,9 +150,7 @@ namespace TimelineHero.Battle
         private CardWrapper CreateInvisibleCard(CardWrapper FromCard)
         {
             CardWrapper invisibleCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
-            Card cardCopy = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
-            cardCopy.SetSkill(FromCard.GetSkill());
-            invisibleCard.SetState(CardState.Hand, cardCopy);
+            invisibleCard.SetState(CardState.Hand, FromCard.GetSkill());
             invisibleCard.gameObject.SetActive(false);
 
             return invisibleCard;
@@ -170,15 +170,6 @@ namespace TimelineHero.Battle
         }
 #endregion GhostCardInsertion
 
-        public bool TryRemoveCard(CardWrapper NewCard)
-        {
-            if (!Cards.Contains(NewCard))
-                return false;
-
-            RemoveCard(NewCard);
-            return true;
-        }
-
         public void AddCard(CardWrapper NewCard, bool SmoothMotion)
         {
             Cards.Add(NewCard);
@@ -191,12 +182,31 @@ namespace TimelineHero.Battle
             AddCardInternal(NewCard, SmoothMotion);
         }
 
+        private void AddCardInternal(CardWrapper NewCard, bool SmoothMotion)
+        {
+            NewCard.SetParent(GetTransform());
+            UpdateCardsLayout(SmoothMotion);
+        }
+
         public void RemoveCard(CardWrapper CardToRemove)
         {
             Cards.Remove(CardToRemove);
-            CardToRemove.SetState(CardState.Hand, CardToRemove.HandCard);
+            CardToRemove.SetState(CardState.Hand, CardToRemove.HandCard.GetSkill());
+            UpdateCardsLayout(true);
+        }
+
+        public void ReplaceWith(CardWrapper FromCard, CardWrapper ToCard)
+        {
+            int index = Cards.IndexOf(FromCard);
+            Cards[index].DestroyUiObject();
+            Cards[index] = ToCard;
+            AddCardInternal(ToCard, true);
+        }
+
+        public void UpdateCardsLayout(bool SmoothMotion)
+        {
             RebuildPreBattleCards();
-            ShrinkCards(true);
+            ShrinkCards(SmoothMotion);
         }
 
         public Vector2 GetContentSize()
@@ -207,8 +217,10 @@ namespace TimelineHero.Battle
 
         public bool IsPositionInsideBounds(Vector2 Position)
         {
-            return (Position.x > WorldBounds.min.x) && (Position.x < WorldBounds.max.x) &&
-                (Position.y > WorldBounds.min.y) && (Position.y < WorldBounds.max.y);
+            Bounds bounds = WorldBounds;
+
+            return (Position.x > bounds.min.x) && (Position.x < bounds.max.x) &&
+                (Position.y > bounds.min.y) && (Position.y < bounds.max.y);
         }
 
         public Action GetActionInPosition(int Position)
@@ -245,13 +257,6 @@ namespace TimelineHero.Battle
             return newCards;
         }
 
-        private void AddCardInternal(CardWrapper NewCard, bool SmoothMotion)
-        {
-            NewCard.SetParent(GetTransform());
-            RebuildPreBattleCards();
-            ShrinkCards(SmoothMotion);
-        }
-
         public void RebuildPreBattleCards()
         {
             List<Skill> skills = GetSkills();
@@ -264,16 +269,13 @@ namespace TimelineHero.Battle
                 {
                     SkillUtils.RebuildAdrenalineSkill(skills, i, newSkill);
                 }
-                if (skills[i].IsKeyOutSkill())
+                if (newSkill.IsKeyOutSkill())
                 {
                     SkillUtils.RebuildKeyOutSkill(skills, i, newSkill);
                 }
 
                 newSkill.Initialize();
-
-                Card newCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
-                newCard.SetSkill(newSkill);
-                Cards[i].SetState(CardState.BoardPrePlay, newCard);
+                Cards[i].SetState(CardState.BoardPrePlay, newSkill);
             }
         }
 
@@ -303,10 +305,7 @@ namespace TimelineHero.Battle
                 }
                 
                 newSkill.Initialize();
-
-                Card newCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
-                newCard.SetSkill(newSkill);
-                Cards[i].SetState(CardState.BoardPlay, newCard);
+                Cards[i].SetState(CardState.BoardPlay, newSkill);
             }
         }
 
@@ -332,7 +331,7 @@ namespace TimelineHero.Battle
             {
                 if (SmoothMotion)
                 {
-                    card.DOAnchorPos(cardPosition, 0.5f).SetEase(Ease.Unset);
+                    card.DOAnchorPos(cardPosition, 0.5f);
                 }
                 else
                 {

@@ -2,7 +2,6 @@
 using UnityEngine;
 using TimelineHero.Character;
 using UnityEngine.EventSystems;
-using TimelineHero.Core;
 using System.Collections;
 
 namespace TimelineHero.Battle
@@ -47,6 +46,7 @@ namespace TimelineHero.Battle
                 card.OnPointerDownEvent += OnCardPointerDown;
                 card.OnPointerUpEvent += OnCardPointerUp;
                 card.OnBeginDragEvent += OnCardBeginDrag;
+                card.OnEndDragEvent += OnCardEndDrag;
                 card.OnDragEvent += OnCardDrag;
 
                 HandCached.AddCard(card);
@@ -110,6 +110,7 @@ namespace TimelineHero.Battle
             if (!AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition) ||
                 !AlliedTimelineCached.TryInsertVisibleCard(PlayerCard))
             {
+                AlliedTimelineCached.TryRemoveInvisibleCard();
                 HandCached.AddCard(PlayerCard);
             }
         }
@@ -132,7 +133,7 @@ namespace TimelineHero.Battle
                 return;
 
             PlayerCard.WorldCenterPosition = eventData.pointerCurrentRaycast.worldPosition;
-            
+
             if (AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition))
             {
                 AlliedTimelineCached.TryInsertInvisibleCard(PlayerCard);

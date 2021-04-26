@@ -59,3 +59,80 @@ MonoBehaviour:
       KeyForm: 0
       DisabledInPlayState: 0
       SuccessfulAction: 1
+  - Name: q1
+    Length: 4
+    Actions:
+    - ActionType: 1
+      Position: 2
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 1
+  - Name: q2
+    Length: 4
+    Actions:
+    - ActionType: 1
+      Position: 2
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 1
+  - Name: q3
+    Length: 4
+    Actions:
+    - ActionType: 1
+      Position: 2
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 1
+  - Name: q4
+    Length: 4
+    Actions:
+    - ActionType: 1
+      Position: 2
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 1
+  - Name: q5
+    Length: 4
+    Actions:
+    - ActionType: 1
+      Position: 2
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 1
+  - Name: q6
+    Length: 4
+    Actions:
+    - ActionType: 1
+      Position: 2
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 1
+  - Name: q7
+    Length: 4
+    Actions:
+    - ActionType: 1
+      Position: 2
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 1

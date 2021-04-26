@@ -49,12 +49,8 @@ namespace TimelineHero.Battle
             {
                 CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
                 cardWrapper.WorldPosition = new Vector2(20, 2);
-
-                Card card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
-                card.SetSkill(Skills[0]);
+                cardWrapper.SetState(CardState.Hand, Skills[0]);
                 Skills.RemoveAt(0);
-
-                cardWrapper.SetState(CardState.Hand, card);
                 Cards.Add(cardWrapper);
             }
 

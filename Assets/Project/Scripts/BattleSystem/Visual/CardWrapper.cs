@@ -25,28 +25,42 @@ namespace TimelineHero.Battle
         public event CardEventHandler OnEndDragEvent;
         public event CardEventHandler OnDragEvent;
 
-        public void SetState(CardState NewState, Card NewCard)
+        private void Awake()
         {
-            NewCard.SetParent(GetTransform());
-            Size = NewCard.Size;
-            NewCard.gameObject.SetActive(true);
-            NewCard.AnchoredPosition = Vector2.zero;
+            HandCard = CreateCard();
+            BoardPreBattleCard = CreateCard();
+            BoardBattleCard = CreateCard();
+        }
 
+        private Card CreateCard()
+        {
+            Card card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
+            card.SetParent(GetTransform());
+            card.AnchoredPosition = Vector2.zero;
+
+            return card;
+        }
+
+        public void SetState(CardState NewState, Skill NewSkill)
+        {
             if (NewState == CardState.Hand)
             {
-                ClearCards();
-                HandCard = NewCard;
+                HandCard.SetSkill(NewSkill);
+                Size = HandCard.Size;
+                HandCard.GetTransform().SetSiblingIndex(2);
             }
             else if (NewState == CardState.BoardPrePlay)
             {
-                ClearCards();
-                BoardPreBattleCard = NewCard;
+                BoardPreBattleCard.SetSkill(NewSkill);
+                Size = BoardPreBattleCard.Size;
+                BoardPreBattleCard.GetTransform().SetSiblingIndex(2);
             }
             else if (NewState == CardState.BoardPlay)
             {
-                BoardBattleCard = NewCard;
-                // Move to background
+                BoardBattleCard.SetSkill(NewSkill);
+                Size = BoardBattleCard.Size;
                 BoardBattleCard.GetTransform().SetSiblingIndex(1);
+
                 SkillUtils.CopyCardStats(BoardBattleCard, BoardPreBattleCard);
                 BoardPreBattleCard.PlayAnimation();
             }
@@ -69,27 +83,6 @@ namespace TimelineHero.Battle
                 return BoardBattleCard.Length;
             }
             return 0;
-        }
-
-        private void ClearCard(Card CardRef)
-        {
-            if (CardRef != null && CardRef != HandCard)
-            {
-                if (CardRef != HandCard)
-                {
-                    CardRef.DestroyUiObject();
-                }
-                else
-                {
-                    CardRef = null;
-                }
-            }
-        }
-
-        private void ClearCards()
-        {
-            ClearCard(BoardPreBattleCard);
-            ClearCard(BoardBattleCard);
         }
 
         public Skill GetSkill()
