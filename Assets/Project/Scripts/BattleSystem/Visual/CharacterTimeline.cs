@@ -12,6 +12,8 @@ namespace TimelineHero.Battle
         public int Length { get => Cards.Aggregate(0, (total, next) => total += next.Length); }
         public int MaxLength { get => maxLength; set => maxLength = value; }
 
+        public System.Action OnLengthChanged;
+
         protected List<CardWrapper> Cards = new List<CardWrapper>();
         private List<Action> ActualBattleActions = new List<Action>();
         private int maxLength;
@@ -106,6 +108,8 @@ namespace TimelineHero.Battle
         {
             RebuildPreBattleCards();
             ShrinkCards(SmoothMotion);
+
+            OnLengthChanged?.Invoke();
         }
 
         public Vector2 GetContentSize()
@@ -130,6 +134,11 @@ namespace TimelineHero.Battle
             }
 
             return ActualBattleActions[Position];
+        }
+
+        public void OnStartConstructState()
+        {
+            OnLengthChanged?.Invoke();
         }
 
         public void OnStartPlayState()

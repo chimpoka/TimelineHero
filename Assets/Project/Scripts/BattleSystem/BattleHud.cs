@@ -40,6 +40,8 @@ namespace TimelineHero.Battle
 
             BattleSceneControllerCached.BattleView.PlayerDrawDeck.OnDeckSizeChanged += DrawDeckButtonCached.SetValue;
             BattleSceneControllerCached.BattleView.PlayerDiscardDeck.OnDeckSizeChanged += DiscardDeckButtonCached.SetValue;
+
+            BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().OnLengthChanged += OnAlliedTimelineLenghtChanged;
         }
 
         public void SetPlayState()
@@ -106,6 +108,12 @@ namespace TimelineHero.Battle
         private void SetAdrenaline(CharacterBase Character)
         {
             CharactersStatuses[Character].SetAdrenaline(Character.Adrenaline);
+        }
+
+        private void OnAlliedTimelineLenghtChanged()
+        {
+            int length = BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().Length;
+            PlayBattleButton.interactable = length == 0 ? false : true ; 
         }
     }
 }

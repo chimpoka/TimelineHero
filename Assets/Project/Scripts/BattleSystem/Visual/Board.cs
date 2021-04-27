@@ -49,6 +49,7 @@ namespace TimelineHero.Battle
 
         public void OnStartConstructState()
         {
+            GetAlliedTimeline().OnStartConstructState();
             GetEnemyTimeline().RebuildPreBattleCards();
         }
 
