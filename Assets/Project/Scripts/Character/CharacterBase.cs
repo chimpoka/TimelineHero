@@ -91,7 +91,7 @@ namespace TimelineHero.Character
         public int DodgeDuration;
         public int ParryDuration;
 
-        public int Hit(int Damage)
+        public int TakeDamage(int Damage)
         {
             if (block >= Damage)
             {

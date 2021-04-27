@@ -166,11 +166,13 @@ namespace TimelineHero.Battle
             return Character == null || Character.IsDead;
         }
 
+        #region StatusDecrement
         private ActionEffectData TryDecreaseStunDuration(CharacterBase Character)
         {
             if (Character.StunDuration > 0)
             {
                 Character.StunDuration--;
+
                 if (Character.StunDuration > 0)
                 {
                     return new ActionEffectData("zzz...", "");
@@ -210,17 +212,19 @@ namespace TimelineHero.Battle
             }
             return null;
         }
+        #endregion StatusDecrement
 
+        #region ActionsImplementation
         private ActionEffectData DoAction_ImperviousAttack(Action AttackerAction, Action DefenderAction)
         {
             if (DefenderAction.Owner.ParryDuration > 0 && AttackerAction.AttackType == DefenderAction.AttackType)
             {
-                AttackerAction.SuccessfulAction = false;
                 return new ActionEffectData("", "Parry! " + DefenderAction.AttackType.ToString());
             }
 
-            int hitDamage = DefenderAction.Owner.Hit(AttackerAction.Value);
+            int hitDamage = DefenderAction.Owner.TakeDamage(AttackerAction.Value);
             ActionEffectData data = new ActionEffectData("", (-hitDamage).ToString());
+            AttackerAction.SuccessfulAction = true;
 
             return data;
         }
@@ -229,7 +233,6 @@ namespace TimelineHero.Battle
         {
             if (DefenderAction.Owner.DodgeDuration > 0)
             {
-                AttackerAction.SuccessfulAction = false;
                 return new ActionEffectData("", "Dodged!");
             }
 
@@ -238,7 +241,8 @@ namespace TimelineHero.Battle
 
         private ActionEffectData DoAction_SelfAttack(Action AttackerAction)
         {
-            int hitDamage = AttackerAction.Owner.Hit(AttackerAction.Value);
+            int hitDamage = AttackerAction.Owner.TakeDamage(AttackerAction.Value);
+            AttackerAction.SuccessfulAction = true;
             return new ActionEffectData((-hitDamage).ToString(), "");
         }
 
@@ -249,7 +253,6 @@ namespace TimelineHero.Battle
                 return DoAction_Attack(AttackerAction, DefenderAction);
             }
 
-            AttackerAction.SuccessfulAction = false;
             return new ActionEffectData("Miss", "");
         }
 
@@ -260,7 +263,6 @@ namespace TimelineHero.Battle
                 return DoAction_SelfAttack(AttackerAction);
             }
 
-            AttackerAction.SuccessfulAction = false;
             return new ActionEffectData("Miss...", "");
         }
 
@@ -270,8 +272,10 @@ namespace TimelineHero.Battle
             {
                 AttackerAction.Owner.BlockDuration = AttackerAction.Duration;
                 AttackerAction.Owner.Block = AttackerAction.Value;
+                AttackerAction.SuccessfulAction = true;
                 return new ActionEffectData("Block opened!", "");
             }
+
             return null;
         }
 
@@ -281,6 +285,7 @@ namespace TimelineHero.Battle
             {
                 return DoAction_Block(AttackerAction);
             }
+
             return new ActionEffectData("Miss Block...", "");
         }
 
@@ -289,8 +294,10 @@ namespace TimelineHero.Battle
             if (AttackerAction.Duration > 0)
             {
                 AttackerAction.Owner.DodgeDuration = AttackerAction.Duration;
+                AttackerAction.SuccessfulAction = true;
                 return new ActionEffectData("Dodge started!", "");
             }
+
             return null;
         }
 
@@ -300,6 +307,7 @@ namespace TimelineHero.Battle
             {
                 return DoAction_Dodge(AttackerAction);
             }
+
             return new ActionEffectData("Miss Dodge...", "");
         }
 
@@ -308,7 +316,9 @@ namespace TimelineHero.Battle
             if (AttackerAction.Duration > 0)
             {
                 AttackerAction.Owner.ParryDuration = AttackerAction.Duration;
+                AttackerAction.SuccessfulAction = true;
             }
+
             return null;
         }
 
@@ -348,4 +358,5 @@ namespace TimelineHero.Battle
             return DoAction_Block(AttackerAction);
         }
     }
+    #endregion ActionsImplementation
 }

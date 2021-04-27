@@ -110,7 +110,7 @@ namespace TimelineHero.Character
         [HideInInspector]
         public bool DisabledInPlayState = false;
         [HideInInspector]
-        public bool SuccessfulAction = true;
+        public bool SuccessfulAction = false;
 
         public Action Clone()
         {
