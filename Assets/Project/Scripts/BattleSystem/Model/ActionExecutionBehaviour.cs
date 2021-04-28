@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TimelineHero.Character;
+using TimelineHero.Core;
 
 namespace TimelineHero.Battle
 {
@@ -13,6 +14,10 @@ namespace TimelineHero.Battle
 
         public string AlliedText;
         public string EnemyText;
+        public int Value;
+
+        public static ActionEffectData operator +(ActionEffectData lhs, ActionEffectData rhs)
+            => new ActionEffectData(lhs.AlliedText + rhs.AlliedText, lhs.EnemyText + rhs.EnemyText);
 
         public ActionEffectData Swap()
         {
@@ -130,6 +135,14 @@ namespace TimelineHero.Battle
             {
                 return DoAction_AdrenalineAttack(AttackerAction, DefenderAction);
             }
+            else if (AttackerAction.ActionType == CharacterActionType.DrawCard)
+            {
+                return DoAction_DrawCard();
+            }
+            else if (AttackerAction.ActionType == CharacterActionType.DrawCardAttack)
+            {
+                return DoAction_DrawCardAttack(AttackerAction, DefenderAction);
+            }
 
             return null;
         }
@@ -224,6 +237,7 @@ namespace TimelineHero.Battle
 
             int hitDamage = DefenderAction.Owner.TakeDamage(AttackerAction.Value);
             ActionEffectData data = new ActionEffectData("", (-hitDamage).ToString());
+            data.Value = hitDamage;
             AttackerAction.SuccessfulAction = true;
 
             return data;
@@ -356,6 +370,25 @@ namespace TimelineHero.Battle
 
             AttackerAction.Owner.Adrenaline--;
             return DoAction_Block(AttackerAction);
+        }
+
+        private ActionEffectData DoAction_DrawCard()
+        {
+            BattleSceneController scene = (BattleSceneController)SceneControllerBase.Instance;
+            scene.BattleView.PlayerBattleController.DrawCards(1);
+
+            return new ActionEffectData("Draw!", "");
+        }
+
+        private ActionEffectData DoAction_DrawCardAttack(Action AttackerAction, Action DefenderAction)
+        {
+            ActionEffectData data = DoAction_Attack(AttackerAction, DefenderAction);
+            if (AttackerAction.SuccessfulAction && data.Value > 0)
+            {
+                return data + DoAction_DrawCard();
+            }
+
+            return data;
         }
     }
     #endregion ActionsImplementation

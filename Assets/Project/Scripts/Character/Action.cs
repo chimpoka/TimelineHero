@@ -11,7 +11,7 @@ namespace TimelineHero.Character
         AdrenalineAttack, AdrenalineDodge, AdrenalineBlock, RandomAttack, ImperviousAttack, SelfAttack,
         SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled,
         DodgeContinuance, AdrenalineCancelled, KeyIn1, KeyIn2, KeyIn3, KeyOut1, KeyOut2, KeyOut3, 
-        LuckCancelled
+        LuckCancelled, DrawCard, DrawCardAttack
     }
 
     public enum CharacterAttackType
@@ -64,21 +64,12 @@ namespace TimelineHero.Character
              " || this.ActionType == CharacterActionType.RandomAttackCancelled" +
              " || this.ActionType == CharacterActionType.SelfRandomAttackCancelled" +
              " || this.ActionType == CharacterActionType.DodgeContinuance" +
-             " || this.ActionType == CharacterActionType.AdrenalineCancelled")]
+             " || this.ActionType == CharacterActionType.AdrenalineCancelled" +
+             " || this.ActionType == CharacterActionType.LuckCancelled")]
         public int Position;
 
         [VerticalGroup("Split/Right")]
-        [ShowIf("@this.ActionType == CharacterActionType.Attack" +
-             " || this.ActionType == CharacterActionType.Block" +
-             " || this.ActionType == CharacterActionType.LuckAttack" +
-             " || this.ActionType == CharacterActionType.LuckBlock" +
-             " || this.ActionType == CharacterActionType.AdrenalineAttack" +
-             " || this.ActionType == CharacterActionType.AdrenalineBlock" +
-             " || this.ActionType == CharacterActionType.RandomAttack" +
-             " || this.ActionType == CharacterActionType.ImperviousAttack" +
-             " || this.ActionType == CharacterActionType.SelfAttack" +
-             " || this.ActionType == CharacterActionType.SelfLuckAttack" +
-             " || this.ActionType == CharacterActionType.SelfRandomAttack")]
+        [ShowIf("@IsAttackAction() || IsSelfAttackAction() || IsBlockAction()")]
         public int Value;
 
         [VerticalGroup("Split/Right")]
@@ -90,19 +81,12 @@ namespace TimelineHero.Character
              " || this.ActionType == CharacterActionType.RandomAttackCancelled" +
              " || this.ActionType == CharacterActionType.SelfRandomAttackCancelled" +
              " || this.ActionType == CharacterActionType.DodgeContinuance" +
-             " || this.ActionType == CharacterActionType.AdrenalineCancelled")]
+             " || this.ActionType == CharacterActionType.AdrenalineCancelled" +
+             " || this.ActionType == CharacterActionType.LuckCancelled")]
         public int Duration;
 
         [VerticalGroup("Split/Right")]
-        [ShowIf("@this.ActionType == CharacterActionType.Attack" +
-             " || this.ActionType == CharacterActionType.Parry" +
-             " || this.ActionType == CharacterActionType.LuckAttack" +
-             " || this.ActionType == CharacterActionType.AdrenalineAttack" +
-             " || this.ActionType == CharacterActionType.RandomAttack" +
-             " || this.ActionType == CharacterActionType.ImperviousAttack" +
-             " || this.ActionType == CharacterActionType.SelfAttack" +
-             " || this.ActionType == CharacterActionType.SelfLuckAttack" +
-             " || this.ActionType == CharacterActionType.SelfRandomAttack")]
+        [ShowIf("@IsAttackAction() || IsSelfAttackAction() || this.ActionType == CharacterActionType.Parry")]
         public CharacterAttackType AttackType;
 
         [HideInInspector]
@@ -140,7 +124,15 @@ namespace TimelineHero.Character
                     ActionType == CharacterActionType.RandomAttack ||
                     ActionType == CharacterActionType.SelfRandomAttack ||
                     ActionType == CharacterActionType.ImperviousAttack ||
-                    ActionType == CharacterActionType.AdrenalineAttack);
+                    ActionType == CharacterActionType.AdrenalineAttack ||
+                    ActionType == CharacterActionType.DrawCardAttack);
+        }
+
+        public bool IsSelfAttackAction()
+        {
+            return (ActionType == CharacterActionType.SelfAttack ||
+                    ActionType == CharacterActionType.SelfLuckAttack ||
+                    ActionType == CharacterActionType.SelfRandomAttack);
         }
 
         public bool IsDodgeAction()

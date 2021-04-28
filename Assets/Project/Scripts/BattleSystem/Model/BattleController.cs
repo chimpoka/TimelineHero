@@ -3,6 +3,7 @@ using UnityEngine;
 using TimelineHero.Character;
 using UnityEngine.EventSystems;
 using System.Collections;
+using TimelineHero.Core;
 
 namespace TimelineHero.Battle
 {
@@ -23,7 +24,7 @@ namespace TimelineHero.Battle
             AlliedTimelineCached = AlliedTimelineRef;
         }
 
-        public void DrawCards(int Count, float Delay)
+        public void DrawCards(int Count)
         {
             List<CardWrapper> Cards = DrawDeckCached.Draw(Count);
 
@@ -36,7 +37,7 @@ namespace TimelineHero.Battle
                 Cards.AddRange(DrawDeckCached.Draw(Count - Cards.Count));
             }
 
-            HandCached.StartCoroutine(DrawCardsCoroutine(Cards, Delay));
+            HandCached.StartCoroutine(DrawCardsCoroutine(Cards, GameInstance.Instance.DelayBetweenCardAnimationsInSeconds));
         }
 
         private IEnumerator DrawCardsCoroutine(List<CardWrapper> Cards, float Delay)
@@ -55,14 +56,14 @@ namespace TimelineHero.Battle
             }
         }
 
-        public void DiscardCards(float Delay)
+        public void DiscardCards()
         {
             List<CardWrapper> cards = AlliedTimelineCached.RemoveCardsFromTimeline();
             List<Skill> skills = SkillUtils.GetOriginalSkillsFromCards(cards);
 
             DiscardDeckCached.Add(skills);
 
-            HandCached.StartCoroutine(DiscardCardsCoroutine(cards, Delay));
+            HandCached.StartCoroutine(DiscardCardsCoroutine(cards, GameInstance.Instance.DelayBetweenCardAnimationsInSeconds));
         }
 
         private IEnumerator DiscardCardsCoroutine(List<CardWrapper> Cards, float Delay)
