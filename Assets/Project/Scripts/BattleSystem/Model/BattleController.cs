@@ -12,16 +12,16 @@ namespace TimelineHero.Battle
         private Hand HandCached;
         private DrawDeck DrawDeckCached;
         private DiscardDeck DiscardDeckCached;
-        private AlliedCharacterTimeline AlliedTimelineCached;
+        private Board BoardCached;
 
         private bool IsActive;
 
-        public void Initialize(Hand HandRef, DrawDeck DrawDeckRef, DiscardDeck DiscardDeckRef, AlliedCharacterTimeline AlliedTimelineRef)
+        public void Initialize(Hand HandRef, DrawDeck DrawDeckRef, DiscardDeck DiscardDeckRef, Board BoardRef)
         {
             HandCached = HandRef;
             DrawDeckCached = DrawDeckRef;
             DiscardDeckCached = DiscardDeckRef;
-            AlliedTimelineCached = AlliedTimelineRef;
+            BoardCached = BoardRef;
         }
 
         public void DrawCards(int Count)
@@ -58,7 +58,7 @@ namespace TimelineHero.Battle
 
         public void DiscardCards()
         {
-            List<CardWrapper> cards = AlliedTimelineCached.RemoveCardsFromTimeline();
+            List<CardWrapper> cards = BoardCached.GetAlliedTimeline().RemoveCardsFromTimeline();
             List<Skill> skills = SkillUtils.GetOriginalSkillsFromCards(cards);
 
             DiscardDeckCached.Add(skills);
@@ -92,7 +92,9 @@ namespace TimelineHero.Battle
             PlayerCard.SetParent(HandCached.transform.parent);
             PlayerCard.AnchoredPosition = eventData.position - PlayerCard.Size / 2;
 
-            AlliedTimelineCached.CreateInvisibleCard(PlayerCard);
+            AlliedCharacterTimeline alliedTimeline = BoardCached.GetAlliedTimeline();
+
+            alliedTimeline.CreateInvisibleCard(PlayerCard);
 
             if (PlayerCard.State == CardState.Hand)
             {
@@ -100,8 +102,8 @@ namespace TimelineHero.Battle
             }
             else if (PlayerCard.State == CardState.BoardPrePlay)
             {
-                AlliedTimelineCached.RemoveCard(PlayerCard);
-                AlliedTimelineCached.TryInsertInvisibleCard(PlayerCard);
+                alliedTimeline.RemoveCard(PlayerCard);
+                alliedTimeline.TryInsertInvisibleCard(PlayerCard);
             }
         }
 
@@ -110,10 +112,12 @@ namespace TimelineHero.Battle
             if (!IsActive)
                 return;
 
-            if (!AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition) ||
-                !AlliedTimelineCached.TryInsertVisibleCard(PlayerCard))
+            AlliedCharacterTimeline alliedTimeline = BoardCached.GetAlliedTimeline();
+
+            if (!alliedTimeline.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition) ||
+                !alliedTimeline.TryInsertVisibleCard(PlayerCard))
             {
-                AlliedTimelineCached.DestroyInvisibleCard();
+                alliedTimeline.DestroyInvisibleCard();
                 HandCached.AddCard(PlayerCard);
             }
         }
@@ -137,13 +141,15 @@ namespace TimelineHero.Battle
 
             PlayerCard.WorldCenterPosition = eventData.pointerCurrentRaycast.worldPosition;
 
-            if (AlliedTimelineCached.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition))
+            AlliedCharacterTimeline alliedTimeline = BoardCached.GetAlliedTimeline();
+
+            if (alliedTimeline.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition))
             {
-                AlliedTimelineCached.TryInsertInvisibleCard(PlayerCard);
+                alliedTimeline.TryInsertInvisibleCard(PlayerCard);
             }
             else
             {
-                AlliedTimelineCached.RemoveInvisibleCard();
+                alliedTimeline.RemoveInvisibleCard();
             }
         }
         #endregion CardEvents

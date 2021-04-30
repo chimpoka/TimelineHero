@@ -35,8 +35,7 @@ namespace TimelineHero.Battle
             PlayerDiscardDeck = new DiscardDeck();
 
             PlayerBattleController = new BattleController();
-            PlayerBattleController.Initialize(PlayerHand, PlayerDrawDeck, PlayerDiscardDeck, BattleBoard.GetAlliedTimeline());
-
+            PlayerBattleController.Initialize(PlayerHand, PlayerDrawDeck, PlayerDiscardDeck, BattleBoard);
         }
 
         public BattleTimelineTimerView GetTimerView()

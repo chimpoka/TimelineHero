@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TimelineHero.Character;
+using TimelineHero.Core;
 
 namespace TimelineHero.Battle
 {
     public class Board : MonoBehaviour
     {
+        public System.Action OnTimelinesCreated;
+        public System.Action OnAlliedTimelineLengthChanged;
+
         private BattleSystem BattleSystemCached;
         private CharacterTimeline EnemyTimeline;
         private AlliedCharacterTimeline AlliedTimeline;
@@ -16,6 +20,12 @@ namespace TimelineHero.Battle
         {
             BattleSystemCached = BattleSystemRef;
             BattleSystemCached.OnTimerIntegerValue += ExecuteActionsInPosition;
+            OnTimelinesCreated += SubscribeOnTimelineEvents;
+        }
+
+        private void SubscribeOnTimelineEvents()
+        {
+            AlliedTimeline.OnLengthChanged += OnAlliedTimelineLengthChanged;
         }
 
         public BattleTimelineTimerView GetTimerView()
@@ -30,13 +40,11 @@ namespace TimelineHero.Battle
 
         public AlliedCharacterTimeline GetAlliedTimeline()
         {
-            AlliedTimeline = AlliedTimeline ?? GenerateAlliedTimeline(GetEnemyTimeline().Size, GetEnemyTimeline().MaxLength);
             return AlliedTimeline;
         }
 
         public CharacterTimeline GetEnemyTimeline()
         {
-            EnemyTimeline = EnemyTimeline ?? GenerateEnemiesTimeline();
             return EnemyTimeline;
         }
 
@@ -49,8 +57,7 @@ namespace TimelineHero.Battle
 
         public void OnStartConstructState()
         {
-            GetAlliedTimeline().OnStartConstructState();
-            GetEnemyTimeline().RebuildPreBattleCards();
+            CreateNextEnemy();
         }
 
         public void OnStartPlayState()
@@ -59,9 +66,54 @@ namespace TimelineHero.Battle
             GetEnemyTimeline().OnStartPlayState();
         }
 
+        public void RegenerateBoard()
+        {
+            List<CardWrapper> alliedCards = null;
+
+            if (AlliedTimeline)
+            {
+                alliedCards = AlliedTimeline.RemoveCardsFromTimeline();
+                AlliedTimeline.DestroyUiObject();
+            }
+
+            EnemyTimeline?.DestroyUiObject();
+            TimerView?.DestroyUiObject();
+
+            EnemyTimeline = GenerateEnemiesTimeline();
+            AlliedTimeline = GenerateAlliedTimeline(GetEnemyTimeline().Size, GetEnemyTimeline().MaxLength);
+
+            OnTimelinesCreated?.Invoke();
+
+            if (alliedCards != null)
+            {
+                BattleSceneController scene = (BattleSceneController)SceneControllerBase.Instance;
+                foreach (CardWrapper card in alliedCards)
+                {
+                    if (!AlliedTimeline.TryAddCard(card))
+                    {
+                        scene.BattleView.PlayerHand.AddCard(card);
+                    }
+                }
+            }
+        }
+
+        public void CreateNextEnemy()
+        {
+            List<CharacterBase> enemies = BattleSystemCached.GetEnemyCharacters();
+            BattleSystemCached.CurrentEnemyIndex = (BattleSystemCached.CurrentEnemyIndex + 1) % enemies.Count;
+            RegenerateBoard();
+        }
+
+        public void CreatePreviousEnemy()
+        {
+            List<CharacterBase> enemies = BattleSystemCached.GetEnemyCharacters();
+            BattleSystemCached.CurrentEnemyIndex = (BattleSystemCached.CurrentEnemyIndex + enemies.Count - 1) % enemies.Count;
+            RegenerateBoard();
+        }
+
         private List<Skill> GetEnemySkills()
         {
-            return BattleSystemCached.GetEnemyCharacters()[0].Skills;
+            return BattleSystemCached.GetCurrentEnemy().Skills;
         }
 
         private CharacterTimeline GenerateEnemiesTimeline()
@@ -79,6 +131,8 @@ namespace TimelineHero.Battle
             enemyTimeline.Size = enemyTimeline.GetContentSize();
             enemyTimeline.GetTransform().localScale = new Vector3(1,-1,1);
 
+            enemyTimeline.OnConstruct();
+
             Bounds bounds = enemyTimeline.WorldBounds;
             Vector2 startPoint = new Vector2(bounds.min.x, bounds.max.y);
             Vector2 endPoint = new Vector2(bounds.max.x, bounds.max.y);
@@ -94,6 +148,9 @@ namespace TimelineHero.Battle
             alliedTimeline.AnchoredPosition += new Vector2(0, -EnemyTimelineSize.y);
             alliedTimeline.Size = EnemyTimelineSize;
             alliedTimeline.MaxLength = MaxLength;
+
+            alliedTimeline.OnConstruct();
+
             return alliedTimeline;
         }
 

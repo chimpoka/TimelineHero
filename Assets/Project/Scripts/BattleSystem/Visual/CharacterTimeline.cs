@@ -136,7 +136,7 @@ namespace TimelineHero.Battle
             return ActualBattleActions[Position];
         }
 
-        public void OnStartConstructState()
+        public void OnConstruct()
         {
             OnLengthChanged?.Invoke();
         }
@@ -155,6 +155,10 @@ namespace TimelineHero.Battle
         public List<CardWrapper> RemoveCardsFromTimeline()
         {
             List<CardWrapper> newCards = new List<CardWrapper>(Cards);
+            foreach (CardWrapper card in newCards)
+            {
+                card.SetParent(GetTransform().parent);
+            }
             Cards.Clear();
 
             return newCards;

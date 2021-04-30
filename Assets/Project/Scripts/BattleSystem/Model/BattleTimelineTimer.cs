@@ -8,7 +8,7 @@ namespace TimelineHero.Battle
         public System.Action<float> OnUpdateInterp;
         // Returns accumulated time
         public System.Action<float> OnUpdate;
-        // Returns accumulated action
+        // Returns action index
         public System.Action<int> OnIntegerValue;
         // On timer ends
         public System.Action OnElapsed;

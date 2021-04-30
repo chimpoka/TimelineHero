@@ -17,8 +17,17 @@ namespace TimelineHero.Battle
         public void AddCard(CardWrapper NewCard)
         {
             Cards.Add(NewCard);
+            NewCard.SetState(CardState.Hand, NewCard.GetSkill());
             NewCard.SetParent(GetTransform());
             ShrinkSkills();
+        }
+
+        public void AddCards(List<CardWrapper> NewCards)
+        {
+            foreach (CardWrapper card in NewCards)
+            {
+                AddCard(card);
+            }
         }
 
         public void RemoveCard(CardWrapper CardToRemove)

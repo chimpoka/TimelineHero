@@ -12,6 +12,10 @@ namespace TimelineHero.Battle
         [SerializeField]
         private Button PlayBattleButton;
         [SerializeField]
+        private Button PreviousEnemyButton;
+        [SerializeField]
+        private Button NextEnemyButton;
+        [SerializeField]
         private ActionExecutionView ActionExecution;
         [SerializeField]
         private DrawDeckButton DrawDeckButtonCached;
@@ -20,7 +24,7 @@ namespace TimelineHero.Battle
 
         public System.Action OnPlayBattleButtonEvent;
 
-        Dictionary<CharacterBase, CharacterStatusView> CharactersStatuses;
+        private Dictionary<CharacterBase, CharacterStatusView> CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
 
         private BattleSceneController BattleSceneControllerCached;
 
@@ -33,25 +37,27 @@ namespace TimelineHero.Battle
 
         private void Initialize()
         {
-            CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
-            CreateAlliedCharacterStatuses();
-            CreateEnemiesCharacterStatuses();
             BattleSceneControllerCached.Battle.OnActionExecuted += ActionExecution.CreateActionEffect;
 
             BattleSceneControllerCached.BattleView.PlayerDrawDeck.OnDeckSizeChanged += DrawDeckButtonCached.SetValue;
             BattleSceneControllerCached.BattleView.PlayerDiscardDeck.OnDeckSizeChanged += DiscardDeckButtonCached.SetValue;
 
-            BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().OnLengthChanged += OnAlliedTimelineLenghtChanged;
+            BattleSceneControllerCached.BattleView.BattleBoard.OnAlliedTimelineLengthChanged += OnAlliedTimelineLenghtChanged;
+            BattleSceneControllerCached.BattleView.BattleBoard.OnTimelinesCreated += UpdateStatuses;
         }
 
         public void SetPlayState()
         {
             PlayBattleButton.interactable = false;
+            PreviousEnemyButton.interactable = false;
+            NextEnemyButton.interactable = false;
         }
 
         public void SetConstructState()
         {
-            PlayBattleButton.interactable = true;
+            //PlayBattleButton.interactable = true;
+            PreviousEnemyButton.interactable = true;
+            NextEnemyButton.interactable = true;
         }
 
         public void OnPlayBattleButton()
@@ -69,6 +75,28 @@ namespace TimelineHero.Battle
             Time.timeScale *= 2;
         }
 
+        public void CreatePreviousEnemy()
+        {
+            BattleSceneControllerCached.BattleView.BattleBoard.CreatePreviousEnemy();
+        }
+
+        public void CreateNextEnemy()
+        {
+            BattleSceneControllerCached.BattleView.BattleBoard.CreateNextEnemy();
+        }
+
+        private void UpdateStatuses()
+        {
+            foreach(var status in CharactersStatuses)
+            {
+                status.Value.DestroyUiObject();
+            }
+            CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
+
+            CreateAlliedCharacterStatuses();
+            CreateEnemiesCharacterStatuses();
+        }
+
         private void CreateAlliedCharacterStatuses()
         {
             Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().WorldBounds;
@@ -80,7 +108,7 @@ namespace TimelineHero.Battle
         {
             Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetEnemyTimeline().WorldBounds;
             Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
-            CreateCharacterStatuses(BattleSceneControllerCached.Battle.GetEnemyCharacters(), statusPosition);
+            CreateCharacterStatuses(new List<CharacterBase> { BattleSceneControllerCached.Battle.GetCurrentEnemy() }, statusPosition);
         }
 
         private void CreateCharacterStatuses(List<CharacterBase> Characters, Vector2 Position)

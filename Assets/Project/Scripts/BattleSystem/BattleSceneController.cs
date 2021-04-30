@@ -25,11 +25,11 @@ namespace TimelineHero.Battle
 
         private void OnBattleFinished(BattleResult Result)
         {
-            if (Result == BattleResult.Lost)
+            if (Result == BattleResult.Lose)
             {
                 BattleState = new LoseBattleState(this);
             }
-            else if (Result == BattleResult.Won)
+            else if (Result == BattleResult.Win)
             {
                 BattleState = new WinBattleState(this);
             }

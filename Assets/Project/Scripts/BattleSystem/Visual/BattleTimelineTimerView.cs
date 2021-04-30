@@ -40,12 +40,18 @@ namespace TimelineHero.Battle
 
         private void OnTimerStarted()
         {
-            BattleSystemCached.GetTimer().OnUpdateInterp += OnTimerUpdate;
+            BattleSystemCached.OnTimerInterpValue += OnTimerUpdate;
         }
 
         private void OnTimerUpdate(float InterpValue)
         {
             WorldPosition = Vector2.Lerp(MovementLine.StartPoint, MovementLine.EndPoint, InterpValue);
+        }
+
+        private void OnDestroy()
+        {
+            BattleSystemCached.OnTimerStarted -= OnTimerStarted;
+            BattleSystemCached.OnTimerInterpValue -= OnTimerUpdate;
         }
     }
 }

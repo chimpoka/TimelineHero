@@ -13,11 +13,14 @@ namespace TimelineHero.Battle
         {
             Hud.OnPlayBattleButtonEvent += SetNextState;
             Hud.SetConstructState();
-            BattleSceneControllerRef.BattleView.SetActive(true);
-            BattleSceneControllerRef.BattleView.GetTimerView().ResetPosition();
-            BattleSceneControllerRef.BattleView.BattleBoard.OnStartConstructState();
 
-            BattleSceneControllerRef.BattleView.PlayerBattleController.DiscardCards();
+            if (BattleSceneControllerRef.BattleView.BattleBoard.GetAlliedTimeline())
+            {
+                BattleSceneControllerRef.BattleView.PlayerBattleController.DiscardCards();
+            }
+
+            BattleSceneControllerRef.BattleView.SetActive(true);
+            BattleSceneControllerRef.BattleView.BattleBoard.OnStartConstructState();
             BattleSceneControllerRef.BattleView.PlayerBattleController.DrawCards(GameInstance.Instance.DrawCardCount);
         }
 
