@@ -8,14 +8,12 @@ namespace TimelineHero.Battle
     {
         [SerializeField]
         public BattleSystemView BattleView;
-        public BattleSystem Battle;
         public BattleStateBase BattleState;
 
         private void Start()
         {
-            Battle = new BattleSystem();
-            Battle.OnBattleFinished += OnBattleFinished;
-            BattleView.Initialize(Battle);
+            BattleSystem.Get().OnBattleFinished += OnBattleFinished;
+            BattleView.Initialize();
 
             BattleHud Hud = (BattleHud)HudBase.Instance;
             Hud.SetBattleSceneController(this);
@@ -33,6 +31,11 @@ namespace TimelineHero.Battle
             {
                 BattleState = new WinBattleState(this);
             }
+        }
+
+        protected override void InitializeSubsystems()
+        {
+            Subsystems.Add(new BattleSystem());
         }
     }
 }

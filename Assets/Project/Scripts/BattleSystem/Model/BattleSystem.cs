@@ -9,9 +9,9 @@ namespace TimelineHero.Battle
 {
     public enum BattleResult { Lose, Win }
 
-    public class BattleSystem
+    public class BattleSystem : Core.Subsystem<BattleSystem>
     {
-        public BattleSystem()
+        protected override void OnInitialize()
         {
             ActionBehaviour = new ActionExecutionBehaviour();
 
@@ -20,7 +20,7 @@ namespace TimelineHero.Battle
                 enemy.OnDied += OnEnemyDied;
             }
 
-            foreach(CharacterBase ally in GetAlliedCharacters())
+            foreach (CharacterBase ally in GetAlliedCharacters())
             {
                 ally.OnDied += OnAllyDied;
             }

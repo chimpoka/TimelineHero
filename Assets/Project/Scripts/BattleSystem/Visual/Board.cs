@@ -11,15 +11,13 @@ namespace TimelineHero.Battle
         public System.Action OnTimelinesCreated;
         public System.Action OnAlliedTimelineLengthChanged;
 
-        private BattleSystem BattleSystemCached;
         private CharacterTimeline EnemyTimeline;
         private AlliedCharacterTimeline AlliedTimeline;
         private BattleTimelineTimerView TimerView;
 
-        public void Initialize(BattleSystem BattleSystemRef)
+        public void Initialize()
         {
-            BattleSystemCached = BattleSystemRef;
-            BattleSystemCached.OnTimerIntegerValue += ExecuteActionsInPosition;
+            BattleSystem.Get().OnTimerIntegerValue += ExecuteActionsInPosition;
             OnTimelinesCreated += SubscribeOnTimelineEvents;
         }
 
@@ -52,7 +50,7 @@ namespace TimelineHero.Battle
         {
             Action alliedAction = GetAlliedTimeline().GetActionInPosition(Position);
             Action enemyAction = GetEnemyTimeline().GetActionInPosition(Position);
-            BattleSystemCached.ExecuteActions(alliedAction, enemyAction);
+            BattleSystem.Get().ExecuteActions(alliedAction, enemyAction);
         }
 
         public void OnStartConstructState()
@@ -99,21 +97,21 @@ namespace TimelineHero.Battle
 
         public void CreateNextEnemy()
         {
-            List<CharacterBase> enemies = BattleSystemCached.GetEnemyCharacters();
-            BattleSystemCached.CurrentEnemyIndex = (BattleSystemCached.CurrentEnemyIndex + 1) % enemies.Count;
+            List<CharacterBase> enemies = BattleSystem.Get().GetEnemyCharacters();
+            BattleSystem.Get().CurrentEnemyIndex = (BattleSystem.Get().CurrentEnemyIndex + 1) % enemies.Count;
             RegenerateBoard();
         }
 
         public void CreatePreviousEnemy()
         {
-            List<CharacterBase> enemies = BattleSystemCached.GetEnemyCharacters();
-            BattleSystemCached.CurrentEnemyIndex = (BattleSystemCached.CurrentEnemyIndex + enemies.Count - 1) % enemies.Count;
+            List<CharacterBase> enemies = BattleSystem.Get().GetEnemyCharacters();
+            BattleSystem.Get().CurrentEnemyIndex = (BattleSystem.Get().CurrentEnemyIndex + enemies.Count - 1) % enemies.Count;
             RegenerateBoard();
         }
 
         private List<Skill> GetEnemySkills()
         {
-            return BattleSystemCached.GetCurrentEnemy().Skills;
+            return BattleSystem.Get().GetCurrentEnemy().Skills;
         }
 
         private CharacterTimeline GenerateEnemiesTimeline()
@@ -170,7 +168,6 @@ namespace TimelineHero.Battle
             TimerView.GetTransform().SetParent(transform);
             TimerView.GetTransform().localScale = Vector3.one;
             TimerView.SetMovementLine(MovementLine);
-            TimerView.SetBattleSystem(BattleSystemCached);
             TimerView.WorldPosition = MovementLine.StartPoint;
         }
     }

@@ -2,7 +2,7 @@
 
 namespace TimelineHero.Core
 {
-    public class SceneControllerBase : MonoBehaviour
+    public abstract class SceneControllerBase : MonoBehaviour
     {
         private static SceneControllerBase instance = null;
         public static SceneControllerBase Instance
@@ -18,9 +18,17 @@ namespace TimelineHero.Core
             }
         }
 
+        protected SubsystemCollection Subsystems = new SubsystemCollection();
+
         private void Awake()
         {
             instance = this;
+
+            GameInstanceBase gameInstance = new GameObject("GameInstance").AddComponent<GameInstanceBase>();
+
+            InitializeSubsystems();
         }
+
+        protected abstract void InitializeSubsystems();
     }
 }

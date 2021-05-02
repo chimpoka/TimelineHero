@@ -14,19 +14,15 @@ namespace TimelineHero.Battle
         public DiscardDeck PlayerDiscardDeck;
         public BattleController PlayerBattleController;
 
-        private BattleSystem BattleSystemCached;
-
-        public void Initialize(BattleSystem BattleSystemRef)
+        public void Initialize()
         {
             GameInstance.Instance.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
 
-            BattleSystemCached = BattleSystemRef;
-
-            BattleBoard.Initialize(BattleSystemCached);
+            BattleBoard.Initialize();
 
             PlayerDrawDeck = new DrawDeck();
             List<Skill> AllAlliedSkills = new List<Skill>();
-            foreach (CharacterBase character in BattleSystemCached.GetAlliedCharacters())
+            foreach (CharacterBase character in BattleSystem.Get().GetAlliedCharacters())
             {
                 AllAlliedSkills.AddRange(new List<Skill>(character.Skills));
             }

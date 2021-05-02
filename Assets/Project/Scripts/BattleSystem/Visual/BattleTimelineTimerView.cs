@@ -19,13 +19,11 @@ namespace TimelineHero.Battle
 
     public class BattleTimelineTimerView : UiComponent
     {
-        private BattleSystem BattleSystemCached;
         private Line MovementLine;
 
-        public void SetBattleSystem(BattleSystem NewBattleSystem)
+        private void Awake()
         {
-            BattleSystemCached = NewBattleSystem;
-            BattleSystemCached.OnTimerStarted += OnTimerStarted;
+            BattleSystem.Get().OnTimerStarted += OnTimerStarted;
         }
 
         public void SetMovementLine(Line NewMovementLine)
@@ -40,7 +38,7 @@ namespace TimelineHero.Battle
 
         private void OnTimerStarted()
         {
-            BattleSystemCached.OnTimerInterpValue += OnTimerUpdate;
+            BattleSystem.Get().OnTimerInterpValue += OnTimerUpdate;
         }
 
         private void OnTimerUpdate(float InterpValue)
@@ -50,8 +48,8 @@ namespace TimelineHero.Battle
 
         private void OnDestroy()
         {
-            BattleSystemCached.OnTimerStarted -= OnTimerStarted;
-            BattleSystemCached.OnTimerInterpValue -= OnTimerUpdate;
+            BattleSystem.Get().OnTimerStarted -= OnTimerStarted;
+            BattleSystem.Get().OnTimerInterpValue -= OnTimerUpdate;
         }
     }
 }

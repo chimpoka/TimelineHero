@@ -37,7 +37,7 @@ namespace TimelineHero.Battle
 
         private void Initialize()
         {
-            BattleSceneControllerCached.Battle.OnActionExecuted += ActionExecution.CreateActionEffect;
+            BattleSystem.Get().OnActionExecuted += ActionExecution.CreateActionEffect;
 
             BattleSceneControllerCached.BattleView.PlayerDrawDeck.OnDeckSizeChanged += DrawDeckButtonCached.SetValue;
             BattleSceneControllerCached.BattleView.PlayerDiscardDeck.OnDeckSizeChanged += DiscardDeckButtonCached.SetValue;
@@ -55,7 +55,6 @@ namespace TimelineHero.Battle
 
         public void SetConstructState()
         {
-            //PlayBattleButton.interactable = true;
             PreviousEnemyButton.interactable = true;
             NextEnemyButton.interactable = true;
         }
@@ -101,14 +100,14 @@ namespace TimelineHero.Battle
         {
             Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().WorldBounds;
             Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
-            CreateCharacterStatuses(BattleSceneControllerCached.Battle.GetAlliedCharacters(), statusPosition);
+            CreateCharacterStatuses(BattleSystem.Get().GetAlliedCharacters(), statusPosition);
         }
 
         private void CreateEnemiesCharacterStatuses()
         {
             Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetEnemyTimeline().WorldBounds;
             Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
-            CreateCharacterStatuses(new List<CharacterBase> { BattleSceneControllerCached.Battle.GetCurrentEnemy() }, statusPosition);
+            CreateCharacterStatuses(new List<CharacterBase> { BattleSystem.Get().GetCurrentEnemy() }, statusPosition);
         }
 
         private void CreateCharacterStatuses(List<CharacterBase> Characters, Vector2 Position)

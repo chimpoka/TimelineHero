@@ -5,8 +5,8 @@
         public PlayTimelineBattleState(BattleSceneController BattleSceneControllerRef)
             : base(BattleSceneControllerRef)
         {
-            BattleSceneControllerRef.Battle.OnTimerFinished += SetNextState;
-            BattleSceneControllerRef.Battle.StartBattleTimer();
+            BattleSystem.Get().OnTimerFinished += SetNextState;
+            BattleSystem.Get().StartBattleTimer();
             BattleSceneControllerRef.BattleView.SetActive(false);
             BattleSceneControllerRef.BattleView.BattleBoard.OnStartPlayState();
             Hud.SetPlayState();
@@ -15,7 +15,7 @@
         private void SetNextState()
         {
             BattleSceneControllerCached.BattleState = new ConstructTimelineBattleState(BattleSceneControllerCached);
-            BattleSceneControllerCached.Battle.OnTimerFinished -= SetNextState;
+            BattleSystem.Get().OnTimerFinished -= SetNextState;
         }
     }
 }
