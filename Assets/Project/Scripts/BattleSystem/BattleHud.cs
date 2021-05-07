@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using TimelineHero.Battle;
+using TimelineHero.BattleView;
 using TimelineHero.Character;
 using TimelineHero.Hud;
-using TimelineHero.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleUI
 {
     public class BattleHud : HudBase
     {
@@ -26,24 +27,14 @@ namespace TimelineHero.Battle
 
         private Dictionary<CharacterBase, CharacterStatusView> CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
 
-        private BattleSceneController BattleSceneControllerCached;
-
-        public void SetBattleSceneController(BattleSceneController BattleSceneControllerRef)
-        {
-            BattleSceneControllerCached = BattleSceneControllerRef;
-
-            Initialize();
-        }
-
-        private void Initialize()
+        public void Initialize()
         {
             BattleSystem.Get().OnActionExecuted += ActionExecution.CreateActionEffect;
 
-            BattleSceneControllerCached.BattleView.PlayerDrawDeck.OnDeckSizeChanged += DrawDeckButtonCached.SetValue;
-            BattleSceneControllerCached.BattleView.PlayerDiscardDeck.OnDeckSizeChanged += DiscardDeckButtonCached.SetValue;
+            BattleSystem.Get().PlayerDrawDeck.OnDeckSizeChanged += DrawDeckButtonCached.SetValue;
+            BattleSystem.Get().PlayerDiscardDeck.OnDeckSizeChanged += DiscardDeckButtonCached.SetValue;
 
-            BattleSceneControllerCached.BattleView.BattleBoard.OnAlliedTimelineLengthChanged += OnAlliedTimelineLenghtChanged;
-            BattleSceneControllerCached.BattleView.BattleBoard.OnTimelinesCreated += UpdateStatuses;
+            BattleSystem.Get().BattleBoard.AlliedTimeline.OnLengthChanged += OnAlliedTimelineLenghtChanged;
         }
 
         public void SetPlayState()
@@ -76,15 +67,15 @@ namespace TimelineHero.Battle
 
         public void CreatePreviousEnemy()
         {
-            BattleSceneControllerCached.BattleView.BattleBoard.CreatePreviousEnemy();
+            BattleSystem.Get().CreatePreviousEnemy();
         }
 
         public void CreateNextEnemy()
         {
-            BattleSceneControllerCached.BattleView.BattleBoard.CreateNextEnemy();
+            BattleSystem.Get().CreateNextEnemy();
         }
 
-        private void UpdateStatuses()
+        public void UpdateStatuses(Vector2 AlliedStatusPosition, Vector2 EnemyStatusPosition)
         {
             foreach(var status in CharactersStatuses)
             {
@@ -92,25 +83,11 @@ namespace TimelineHero.Battle
             }
             CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
 
-            CreateAlliedCharacterStatuses();
-            CreateEnemiesCharacterStatuses();
+            CreateStatuses(BattleSystem.Get().GetAlliedCharacters(), AlliedStatusPosition);
+            CreateStatuses(new List<CharacterBase> { BattleSystem.Get().GetCurrentEnemy() }, EnemyStatusPosition);
         }
 
-        private void CreateAlliedCharacterStatuses()
-        {
-            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().WorldBounds;
-            Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
-            CreateCharacterStatuses(BattleSystem.Get().GetAlliedCharacters(), statusPosition);
-        }
-
-        private void CreateEnemiesCharacterStatuses()
-        {
-            Bounds timelineBounds = BattleSceneControllerCached.BattleView.BattleBoard.GetEnemyTimeline().WorldBounds;
-            Vector2 statusPosition = new Vector2(timelineBounds.max.x, timelineBounds.center.y);
-            CreateCharacterStatuses(new List<CharacterBase> { BattleSystem.Get().GetCurrentEnemy() }, statusPosition);
-        }
-
-        private void CreateCharacterStatuses(List<CharacterBase> Characters, Vector2 Position)
+        private void CreateStatuses(List<CharacterBase> Characters, Vector2 Position)
         {
             foreach (CharacterBase character in Characters)
             {
@@ -139,7 +116,7 @@ namespace TimelineHero.Battle
 
         private void OnAlliedTimelineLenghtChanged()
         {
-            int length = BattleSceneControllerCached.BattleView.BattleBoard.GetAlliedTimeline().Length;
+            int length = BattleSystem.Get().BattleBoard.AlliedTimeline.Length;
             PlayBattleButton.interactable = length == 0 ? false : true ; 
         }
     }

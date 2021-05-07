@@ -374,8 +374,7 @@ namespace TimelineHero.Battle
 
         private ActionEffectData DoAction_DrawCard()
         {
-            BattleSceneController scene = (BattleSceneController)SceneControllerBase.Instance;
-            scene.BattleView.PlayerBattleController.DrawCards(1);
+            BattleSystem.Get().DrawCards(1);
 
             return new ActionEffectData("Draw!", "");
         }

@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace TimelineHero.Character
 {
@@ -60,7 +58,7 @@ namespace TimelineHero.Character
             return IsAdrenalineSkill() || IsKeyOutSkill() || IsRandomSkill();
         }
 
-        public Action GetActionInPosition(int Position)
+        public Action GetActionAtPosition(int Position)
         {
             Action main = Actions.Find((action) => action.Position == Position);
 

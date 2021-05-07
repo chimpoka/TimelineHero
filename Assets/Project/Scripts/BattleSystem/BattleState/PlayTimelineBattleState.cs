@@ -5,11 +5,10 @@
         public PlayTimelineBattleState(BattleSceneController BattleSceneControllerRef)
             : base(BattleSceneControllerRef)
         {
-            BattleSystem.Get().OnTimerFinished += SetNextState;
-            BattleSystem.Get().StartBattleTimer();
-            BattleSceneControllerRef.BattleView.SetActive(false);
-            BattleSceneControllerRef.BattleView.BattleBoard.OnStartPlayState();
             Hud.SetPlayState();
+
+            BattleSystem.Get().OnTimerFinished += SetNextState;
+            BattleSystem.Get().InitializePlayState();
         }
 
         private void SetNextState()

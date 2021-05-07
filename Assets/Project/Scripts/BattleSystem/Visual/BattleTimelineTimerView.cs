@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TimelineHero.Battle;
 using TimelineHero.CoreUI;
 using UnityEngine;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleView
 {
     public struct Line
     {

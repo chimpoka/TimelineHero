@@ -1,13 +1,11 @@
 ﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using TimelineHero.Character;
 using TimelineHero.CoreUI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleView
 {
     public class TimelineStepView : UiComponent
     {

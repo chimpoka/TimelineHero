@@ -4,7 +4,7 @@ using TimelineHero.CoreUI;
 using UnityEngine;
 
 
-namespace TimelineHero.UI
+namespace TimelineHero.BattleUI
 {
     public class ActionExecutionView : UiComponent
     {

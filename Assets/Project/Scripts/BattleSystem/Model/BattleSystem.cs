@@ -11,9 +11,36 @@ namespace TimelineHero.Battle
 
     public class BattleSystem : Core.Subsystem<BattleSystem>
     {
+        public System.Action OnTimerStarted;
+        public System.Action OnTimerFinished;
+        public System.Action<int> OnTimerIntegerValue;
+        public System.Action<float> OnTimerInterpValue;
+
+        public System.Action<List<ActionEffectData>> OnActionExecuted;
+        public System.Action<BattleResult> OnBattleFinished;
+
+        public System.Action<List<Skill>> OnDrawCards;
+        public System.Action OnDiscardAllCardsFromTimeline;
+        public System.Action OnEnemyChanged;
+
+        public System.Action OnConstructState;
+        public System.Action OnPlayState;
+
+        public int CurrentEnemyIndex = -1;
+
+        public Hand PlayerHand = new Hand();
+        public Board BattleBoard = new Board();
+        public DrawDeck PlayerDrawDeck = new DrawDeck();
+        public DiscardDeck PlayerDiscardDeck = new DiscardDeck();
+
+        private BattleTimelineTimer TimelineTimer;
+        private ActionExecutionBehaviour ActionBehaviour = new ActionExecutionBehaviour();
+        private List<CharacterBase> AlliedCharacters = new List<CharacterBase>();
+        private List<CharacterBase> EnemyCharacters = new List<CharacterBase>();
+
         protected override void OnInitialize()
         {
-            ActionBehaviour = new ActionExecutionBehaviour();
+            PlayerDrawDeck.Add(GetAlliedCharacters().SelectMany(character => character.Skills).ToList());
 
             foreach (CharacterBase enemy in GetEnemyCharacters())
             {
@@ -24,22 +51,78 @@ namespace TimelineHero.Battle
             {
                 ally.OnDied += OnAllyDied;
             }
+
+            OnTimerIntegerValue += ExecuteActionsAtPosition;
         }
 
-        public System.Action OnTimerStarted;
-        public System.Action OnTimerFinished;
-        public System.Action<int> OnTimerIntegerValue;
-        public System.Action<float> OnTimerInterpValue;
+        public void InitializeConstructState()
+        {
+            DiscardAllCardsFromTimeline();
+            DrawCards(GameInstance.Instance.DrawCardCount);
+            CreateNextEnemy();
 
-        public System.Action<List<ActionEffectData>> OnActionExecuted;
-        public System.Action<BattleResult> OnBattleFinished;
+            OnConstructState?.Invoke();
+        }
 
-        public int CurrentEnemyIndex = -1;
+        public void InitializePlayState()
+        {
+            StartBattleTimer();
 
-        private BattleTimelineTimer TimelineTimer;
-        private ActionExecutionBehaviour ActionBehaviour;
-        private List<CharacterBase> AlliedCharacters = new List<CharacterBase>();
-        private List<CharacterBase> EnemyCharacters = new List<CharacterBase>();
+            OnPlayState?.Invoke();
+        }
+
+        public void DrawCards(int Count)
+        {
+            List<Skill> skills = PlayerDrawDeck.Draw(Count);
+
+            if (skills == null)
+                return;
+
+            if (skills.Count < Count)
+            {
+                ShuffleDiscardDeckToDrawDeck();
+                skills.AddRange(PlayerDrawDeck.Draw(Count - skills.Count));
+            }
+
+            OnDrawCards?.Invoke(skills);
+        }
+
+        public void ShuffleDiscardDeckToDrawDeck()
+        {
+            PlayerDrawDeck.Add(PlayerDiscardDeck.RemoveAllFromDeck());
+        }
+
+        public void DiscardAllCardsFromTimeline()
+        {
+            List<Skill> skills = BattleBoard.AlliedTimeline.RemoveAllSkills();
+            PlayerDiscardDeck.Add(skills);
+
+            OnDiscardAllCardsFromTimeline?.Invoke();
+        }
+
+        public void ExecuteActionsAtPosition(int Position)
+        {
+            Action alliedAction = BattleBoard.AlliedTimeline.GetActionAtPosition(Position);
+            Action enemyAction = BattleBoard.EnemyTimeline.GetActionAtPosition(Position);
+
+            OnActionExecuted?.Invoke(ActionBehaviour.Execute(alliedAction, enemyAction));
+        }
+
+        public void CreateNextEnemy()
+        {
+            List<CharacterBase> enemies = GetEnemyCharacters();
+            CurrentEnemyIndex = (CurrentEnemyIndex + 1) % enemies.Count;
+
+            OnEnemyChanged?.Invoke();
+        }
+
+        public void CreatePreviousEnemy()
+        {
+            List<CharacterBase> enemies = GetEnemyCharacters();
+            CurrentEnemyIndex = (CurrentEnemyIndex + enemies.Count - 1) % enemies.Count;
+
+            OnEnemyChanged?.Invoke();
+        }
 
         public List<CharacterBase> GetAlliedCharacters()
         {
@@ -66,7 +149,7 @@ namespace TimelineHero.Battle
 
         public int GetTimelineLength()
         {
-            return GetEnemyCharacters()[CurrentEnemyIndex].Skills.Aggregate(0, (total, next) => total += next.Length);
+            return BattleBoard.EnemyTimeline.Length;
         }
 
         public void StartBattleTimer()
@@ -85,11 +168,6 @@ namespace TimelineHero.Battle
         public void StopBattleTimer()
         {
             TimelineTimer.Stop();
-        }
-        public void ExecuteActions(Action AlliedAction, Action EnemyAction)
-        {
-            List<ActionEffectData> data = ActionBehaviour.Execute(AlliedAction, EnemyAction);
-            OnActionExecuted?.Invoke(data);
         }
 
         private void OnEnemyDied(CharacterBase Enemy)

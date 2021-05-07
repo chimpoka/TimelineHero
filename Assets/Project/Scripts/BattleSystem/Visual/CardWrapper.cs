@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using TimelineHero.Character;
+﻿using TimelineHero.Character;
 using TimelineHero.CoreUI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleView
 {
     public enum CardState { Hand, BoardPrePlay, BoardPlay }
 
@@ -87,6 +86,23 @@ namespace TimelineHero.Battle
         }
 
         public Skill GetSkill()
+        {
+            if (State == CardState.Hand)
+            {
+                return HandCard.GetSkill();
+            }
+            if (State == CardState.BoardPrePlay)
+            {
+                return BoardPreBattleCard.GetSkill();
+            }
+            if (State == CardState.BoardPlay)
+            {
+                return BoardBattleCard.GetSkill();
+            }
+            return null;
+        }
+
+        public Skill GetOriginalSkill()
         {
             return HandCard.GetSkill();
         }

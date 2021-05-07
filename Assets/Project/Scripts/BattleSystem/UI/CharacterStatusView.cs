@@ -2,7 +2,7 @@
 using UnityEngine;
 using TMPro;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleUI
 {
     public class CharacterStatusView : UiComponent
     {

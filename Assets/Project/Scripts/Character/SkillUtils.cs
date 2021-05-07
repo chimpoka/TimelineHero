@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TimelineHero.Battle;
+using TimelineHero.BattleView;
 using TimelineHero.Core;
 using UnityEngine;
 
@@ -136,7 +136,7 @@ namespace TimelineHero.Character
 
         public static List<Skill> GetOriginalSkillsFromCards(List<CardWrapper> Cards)
         {
-            return Cards.Select(card => card.GetSkill()).ToList();
+            return Cards.Select(card => card.GetOriginalSkill()).ToList();
         }
 
         public static Skill GetOriginalSkill(Skill OldSkill)

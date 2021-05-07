@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using TimelineHero.Hud;
+﻿using TimelineHero.Hud;
 using TimelineHero.Core;
+using TimelineHero.BattleView;
+using TimelineHero.BattleUI;
 
 namespace TimelineHero.Battle
 {
     public class BattleSceneController : SceneControllerBase
     {
-        [SerializeField]
         public BattleSystemView BattleView;
         public BattleStateBase BattleState;
 
@@ -16,7 +16,7 @@ namespace TimelineHero.Battle
             BattleView.Initialize();
 
             BattleHud Hud = (BattleHud)HudBase.Instance;
-            Hud.SetBattleSceneController(this);
+            Hud.Initialize();
 
             BattleState = new ConstructTimelineBattleState(this);
         }

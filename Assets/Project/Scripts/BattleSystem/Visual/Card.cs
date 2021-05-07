@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using TimelineHero.Character;
 using TimelineHero.CoreUI;
-using DG.Tweening;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleView
 {
     [System.Serializable]
     public struct StepPrefabStruct
@@ -96,7 +94,7 @@ namespace TimelineHero.Battle
         {
             for (int i = 0; i < SkillCached.Length; ++i)
             {
-                Action action = SkillCached.GetActionInPosition(i);
+                Action action = SkillCached.GetActionAtPosition(i);
                 action = action ?? new Action(CharacterActionType.Empty, i, SkillCached.Owner);
 
                 if (Steps.Count > i && Steps[i].ActionCached != null && Steps[i].ActionCached.Equals(action))

@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TimelineHero.CoreUI;
+﻿using TimelineHero.CoreUI;
 using TMPro;
 using UnityEngine;
 
-namespace TimelineHero.UI
+namespace TimelineHero.BattleUI
 {
     public class ActionEffect : UiComponent
     {

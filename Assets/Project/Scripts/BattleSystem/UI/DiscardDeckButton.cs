@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TimelineHero.UI;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleUI
 {
-    public class DrawDeckButton : MonoBehaviour
+    public class DiscardDeckButton : MonoBehaviour
     {
         public TextMeshProUGUI CardsCountText;
 
@@ -17,7 +14,7 @@ namespace TimelineHero.Battle
 
         public void OnPressed()
         {
-            
+
         }
     }
 }

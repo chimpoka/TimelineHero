@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TimelineHero.Core;
+﻿using UnityEngine;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -19,7 +16,7 @@ namespace TimelineHero.CoreUI
 
 
         private RectTransform transformCached;
-        TweenerCore<Vector2, Vector2, VectorOptions> tween;
+        private TweenerCore<Vector2, Vector2, VectorOptions> tween;
 
         public RectTransform GetTransform()
         {

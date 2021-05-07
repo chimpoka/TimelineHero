@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TimelineHero.Core;
-using TimelineHero.Hud;
-using UnityEngine;
-
-namespace TimelineHero.Battle
+﻿namespace TimelineHero.Battle
 {
     public class ConstructTimelineBattleState : BattleStateBase
     {
@@ -14,14 +8,7 @@ namespace TimelineHero.Battle
             Hud.OnPlayBattleButtonEvent += SetNextState;
             Hud.SetConstructState();
 
-            if (BattleSceneControllerRef.BattleView.BattleBoard.GetAlliedTimeline())
-            {
-                BattleSceneControllerRef.BattleView.PlayerBattleController.DiscardCards();
-            }
-
-            BattleSceneControllerRef.BattleView.SetActive(true);
-            BattleSceneControllerRef.BattleView.BattleBoard.OnStartConstructState();
-            BattleSceneControllerRef.BattleView.PlayerBattleController.DrawCards(GameInstance.Instance.DrawCardCount);
+            BattleSystem.Get().InitializeConstructState();
         }
 
         private void SetNextState()

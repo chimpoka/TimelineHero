@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TimelineHero.Core;
+﻿using TimelineHero.BattleUI;
 using TimelineHero.Hud;
-using UnityEngine;
 
 namespace TimelineHero.Battle
 {
-    public abstract class BattleStateBase : System.IDisposable
+    public abstract class BattleStateBase
     {
         public BattleStateBase(BattleSceneController BattleSceneControllerRef)
         {
@@ -16,10 +13,5 @@ namespace TimelineHero.Battle
 
         protected BattleSceneController BattleSceneControllerCached;
         protected BattleHud Hud;
-
-        public void Dispose()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

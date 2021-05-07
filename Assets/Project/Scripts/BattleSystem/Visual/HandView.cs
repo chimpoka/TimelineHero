@@ -1,12 +1,13 @@
-﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using TimelineHero.Battle;
+using TimelineHero.Character;
 using TimelineHero.CoreUI;
 using UnityEngine;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleView
 {
-    public class Hand : UiComponent
+    public class HandView : UiComponent
     {
         // Top, Bottom, Left, Right
         public Vector4 Border = new Vector4(20, 20, 20, 20);
@@ -14,12 +15,24 @@ namespace TimelineHero.Battle
 
         private List<CardWrapper> Cards = new List<CardWrapper>();
 
+        private List<Skill> GetSkills()
+        {
+            return Cards.Select(card => card.GetOriginalSkill()).ToList();
+        }
+
+        private void UpdateHandData()
+        {
+            BattleSystem.Get().PlayerHand.SetSkills(GetSkills());
+        }
+
         public void AddCard(CardWrapper NewCard)
         {
             Cards.Add(NewCard);
-            NewCard.SetState(CardState.Hand, NewCard.GetSkill());
+            NewCard.SetState(CardState.Hand, NewCard.GetOriginalSkill());
             NewCard.SetParent(GetTransform());
             ShrinkSkills();
+
+            UpdateHandData();
         }
 
         public void AddCards(List<CardWrapper> NewCards)
@@ -34,6 +47,8 @@ namespace TimelineHero.Battle
         {
             Cards.Remove(CardToRemove);
             ShrinkSkills();
+
+            UpdateHandData();
         }
 
         private void ShrinkSkills()

@@ -1,32 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TimelineHero.Battle;
 using TimelineHero.CoreUI;
 using TimelineHero.Character;
-using DG.Tweening;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleView
 {
-    public class CharacterTimeline : UiComponent
+    public class CharacterTimelineView : UiComponent
     {
         public int Length { get => Cards.Aggregate(0, (total, next) => total += next.Length); }
         public int MaxLength { get => maxLength; set => maxLength = value; }
 
-        public System.Action OnLengthChanged;
-
         protected List<CardWrapper> Cards = new List<CardWrapper>();
-        private List<Action> ActualBattleActions = new List<Action>();
         private int maxLength;
+        private CharacterTimeline CharacterTimelineCached;
+
+        public void Initialize(CharacterTimeline CharacterTimelineRef)
+        {
+            CharacterTimelineCached = CharacterTimelineRef;
+        }
 
         public bool TryAddCard(CardWrapper NewCard)
         {
             if (Cards.Contains(NewCard))
                 return false;
 
-            if (Cards.Count > 0 && SkillUtils.IsOpeningSkill(NewCard.GetSkill()))
+            if (Cards.Count > 0 && SkillUtils.IsOpeningSkill(NewCard.GetOriginalSkill()))
                 return false;
 
-            if (SkillUtils.IsClosingSkill(Cards.LastOrDefault()?.GetSkill()))
+            if (SkillUtils.IsClosingSkill(Cards.LastOrDefault()?.GetOriginalSkill()))
                 return false;
 
             AddCard(NewCard, true);
@@ -48,16 +51,16 @@ namespace TimelineHero.Battle
             if (Cards.Contains(NewCard))
                 return false;
 
-            if (index > 0 && SkillUtils.IsOpeningSkill(NewCard.GetSkill()))
+            if (index > 0 && SkillUtils.IsOpeningSkill(NewCard.GetOriginalSkill()))
                 return false;
 
-            if (index < Cards.Count && SkillUtils.IsClosingSkill(NewCard.GetSkill()))
+            if (index < Cards.Count && SkillUtils.IsClosingSkill(NewCard.GetOriginalSkill()))
                 return false;
 
-            if (index == 0 && SkillUtils.IsOpeningSkill(Cards.FirstOrDefault()?.GetSkill()))
+            if (index == 0 && SkillUtils.IsOpeningSkill(Cards.FirstOrDefault()?.GetOriginalSkill()))
                 return false;
 
-            if (index == Cards.Count && SkillUtils.IsClosingSkill(Cards.LastOrDefault()?.GetSkill()))
+            if (index == Cards.Count && SkillUtils.IsClosingSkill(Cards.LastOrDefault()?.GetOriginalSkill()))
                 return false;
 
             InsertCard(NewCard, index, true);
@@ -100,16 +103,16 @@ namespace TimelineHero.Battle
         public void RemoveCard(CardWrapper CardToRemove)
         {
             Cards.Remove(CardToRemove);
-            CardToRemove.SetState(CardState.Hand, CardToRemove.HandCard.GetSkill());
+            CardToRemove.SetState(CardState.Hand, CardToRemove.GetOriginalSkill());
             UpdateCardsLayout(true);
+
+            UpdateTimelineData();
         }
 
         public void UpdateCardsLayout(bool SmoothMotion)
         {
             RebuildPreBattleCards();
             ShrinkCards(SmoothMotion);
-
-            OnLengthChanged?.Invoke();
         }
 
         public Vector2 GetContentSize()
@@ -126,28 +129,18 @@ namespace TimelineHero.Battle
                 (Position.y > bounds.min.y) && (Position.y < bounds.max.y);
         }
 
-        public Action GetActionInPosition(int Position)
-        {
-            if (Position >= ActualBattleActions.Count)
-            {
-                return new Action(CharacterActionType.Empty, Position, Cards.Last().GetSkill().Owner);
-            }
-
-            return ActualBattleActions[Position];
-        }
-
-        public void OnConstruct()
-        {
-            OnLengthChanged?.Invoke();
-        }
-
         public void OnStartPlayState()
         {
             RebuildBattleCards();
-            CreateActualActions();
+            CharacterTimelineCached.CreateActualActions();
         }
 
-        private List<Skill> GetSkills()
+        public List<Skill> GetOriginalSkills()
+        {
+            return Cards.Select(card => card.GetOriginalSkill()).ToList();
+        }
+
+        public List<Skill> GetSkills()
         {
             return Cards.Select(card => card.GetSkill()).ToList();
         }
@@ -161,12 +154,14 @@ namespace TimelineHero.Battle
             }
             Cards.Clear();
 
+            UpdateTimelineData();
+
             return newCards;
         }
 
         public void RebuildPreBattleCards()
         {
-            List<Skill> skills = GetSkills();
+            List<Skill> skills = GetOriginalSkills();
 
             for (int i = 0; i < Cards.Count; ++i)
             {
@@ -183,11 +178,13 @@ namespace TimelineHero.Battle
 
                 Cards[i].SetState(CardState.BoardPrePlay, newSkill);
             }
+
+            UpdateTimelineData();
         }
 
         public void RebuildBattleCards()
         {
-            List<Skill> skills = GetSkills();
+            List<Skill> skills = GetOriginalSkills();
             
             for (int i = 0; i < Cards.Count; ++i)
             {
@@ -212,20 +209,8 @@ namespace TimelineHero.Battle
 
                 Cards[i].SetState(CardState.BoardPlay, newSkill);
             }
-        }
 
-        private void CreateActualActions()
-        {
-            ActualBattleActions.Clear();
-
-            foreach (CardWrapper card in Cards)
-            {
-                Skill skill = card.BoardBattleCard.GetSkill();
-                for (int i = 0; i < skill.Length; ++i)
-                {
-                    ActualBattleActions.Add(skill.GetActionInPosition(i));
-                }
-            }
+            UpdateTimelineData();
         }
 
         private void ShrinkCards(bool SmoothMotion)
@@ -244,6 +229,11 @@ namespace TimelineHero.Battle
                 }
                 cardPosition += new Vector2(card.Size.x, 0);
             }
+        }
+
+        private void UpdateTimelineData()
+        {
+            CharacterTimelineCached.SetSkills(GetSkills());
         }
     }
 }

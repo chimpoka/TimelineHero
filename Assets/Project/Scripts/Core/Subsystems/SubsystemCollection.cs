@@ -4,9 +4,9 @@ namespace TimelineHero.Core
 {
     public class SubsystemCollection
     {
-        private Dictionary<System.Type, CoreSubsystem> Collection = new Dictionary<System.Type, CoreSubsystem>();
+        private Dictionary<System.Type, SubsystemBase> Collection = new Dictionary<System.Type, SubsystemBase>();
 
-        public void Add<T>(T NewSystem) where T : CoreSubsystem
+        public void Add<T>(T NewSystem) where T : SubsystemBase
         {
             if (Collection.ContainsKey(typeof(T)))
                 return;
@@ -15,7 +15,7 @@ namespace TimelineHero.Core
             NewSystem.Initialize();
         }
 
-        public T GetSubsystem<T>() where T : CoreSubsystem
+        public T GetSubsystem<T>() where T : SubsystemBase
         {
             if (!Collection.ContainsKey(typeof(T)))
                 return null;

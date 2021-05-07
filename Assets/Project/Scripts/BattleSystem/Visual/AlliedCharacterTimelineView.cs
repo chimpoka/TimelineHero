@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
-namespace TimelineHero.Battle
+namespace TimelineHero.BattleView
 {
-    public class AlliedCharacterTimeline : CharacterTimeline
+    public class AlliedCharacterTimelineView : CharacterTimelineView
     {
         private CardWrapper InvisibleCard;
 
@@ -77,7 +75,7 @@ namespace TimelineHero.Battle
         {
             InvisibleCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
             InvisibleCard.SetParent(GetTransform());
-            InvisibleCard.SetState(CardState.Hand, FromCard.GetSkill());
+            InvisibleCard.SetState(CardState.Hand, FromCard.GetOriginalSkill());
             InvisibleCard.gameObject.SetActive(false);
         }
 

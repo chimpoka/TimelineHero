@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TimelineHero.Character;
 using TimelineHero.Core;
 using UnityEngine;
@@ -24,39 +23,28 @@ namespace TimelineHero.Battle
             OnDeckSizeChanged?.Invoke(Skills.Count);
         }
 
-        public List<CardWrapper> Draw(int Count)
+        public List<Skill> Draw(int Count)
         {
             if (Skills.Count == 0)
-                return new List<CardWrapper>();
+                return null;
 
             if (Skills.Count > 0 && Skills.Count < Count)
             {
-                return CreateCardsAndRemoveFromDeck(Skills.Count);
+                return Remove(Skills.Count);
             }
             else if (Skills.Count >= Count)
             {
-                return CreateCardsAndRemoveFromDeck(Count);
+                return Remove(Count);
             }
 
             return null;
         }
 
-        private List<CardWrapper> CreateCardsAndRemoveFromDeck(int Count)
+        public List<Skill> Remove(int Count)
         {
-            List<CardWrapper> Cards = new List<CardWrapper>();
-
-            for (int i = 0; i < Count; ++i)
-            {
-                CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
-                cardWrapper.WorldPosition = new Vector2(20, 2);
-                cardWrapper.SetState(CardState.Hand, Skills[0]);
-                Skills.RemoveAt(0);
-                Cards.Add(cardWrapper);
-            }
-
-            OnDeckSizeChanged?.Invoke(Skills.Count);
-
-            return Cards;
+            List<Skill> skills = Skills.GetRange(0, Count);
+            Skills.RemoveRange(0, Count);
+            return skills;
         }
 
         private void Shuffle()
