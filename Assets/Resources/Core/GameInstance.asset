@@ -15,8 +15,13 @@ MonoBehaviour:
   DrawCardCount: 4
   DelayBetweenCardAnimationsInSeconds: 0.3
   ShuffleDrawDeck: 1
-  CanvasScaleFactor: 1
+  CanvasScaleFactor: 1.0000001
   AlliedCharactersAssets:
   - {fileID: 11400000, guid: 4edcf6860a00564408d74535bbcc6cf8, type: 2}
   EnemyCharactersAssets:
   - {fileID: 11400000, guid: fdb57e8c10ed4744ca468cc49aa2302a, type: 2}
+  - {fileID: 11400000, guid: bcbb4911f5a99b047b38328bf3559434, type: 2}
+  - {fileID: 11400000, guid: 2057c4df2e018b64ba12431465fe8edc, type: 2}
+  - {fileID: 11400000, guid: 680c94c6e199f9c40a36ffecdf45f186, type: 2}
+  - {fileID: 11400000, guid: d3b3ec2d2f18bed4cb21069705e3b82c, type: 2}
+  - {fileID: 11400000, guid: 825244d150d78194bb1479b97bb866be, type: 2}
