@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3c69236974df242b1fad3d5c5ca4c7, type: 3}
+  m_Name: EnemyWingedTurtle
+  m_EditorClassIdentifier: 
+  Health: 8
+  Adrenaline: 0
+  Skills:
+  - Name: "\u041A\u0440\u0435\u043F\u043A\u0438\u0439 \u043F\u0430\u043D\u0446\u0438\u0440\u044C"
+    Length: 8
+    Actions:
+    - ActionType: 4
+      Position: 3
+      Value: 3
+      Duration: 5
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
+  - Name: "\u0412\u043D\u0435\u0437\u0430\u043F\u043D\u044B\u0435 \u043A\u043B\u0435\u0432\u043A\u0438"
+    Length: 9
+    Actions:
+    - ActionType: 14
+      Position: 1
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
+    - ActionType: 4
+      Position: 2
+      Value: 3
+      Duration: 4
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
+    - ActionType: 14
+      Position: 6
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
+    - ActionType: 4
+      Position: 7
+      Value: 3
+      Duration: 3
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
+  - Name: "\u0421\u043B\u043E\u0432\u043D\u043E \u043A\u043B\u0435\u0448\u043D\u0438"
+    Length: 10
+    Actions:
+    - ActionType: 14
+      Position: 2
+      Value: 1
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
+    - ActionType: 4
+      Position: 3
+      Value: 3
+      Duration: 8
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
+  - Name: "\u0427\u0435\u0440\u0435\u043F\u0430\u0448\u044C\u0435 \u043F\u0438\u043A\u0435"
+    Length: 3
+    Actions:
+    - ActionType: 14
+      Position: 2
+      Value: 2
+      Duration: 0
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
+  - Name: "\u041A\u0440\u0435\u043F\u043E\u0441\u0442\u044C \u043D\u0430 \u0441\u043F\u0438\u043D\u0435"
+    Length: 6
+    Actions:
+    - ActionType: 4
+      Position: 1
+      Value: 4
+      Duration: 6
+      AttackType: 0
+      KeyForm: 0
+      DisabledInPlayState: 0
+      SuccessfulAction: 0
