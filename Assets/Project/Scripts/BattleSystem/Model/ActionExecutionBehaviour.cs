@@ -137,7 +137,7 @@ namespace TimelineHero.Battle
             }
             else if (AttackerAction.ActionType == CharacterActionType.DrawCard)
             {
-                return DoAction_DrawCard();
+                return DoAction_DrawCard(AttackerAction);
             }
             else if (AttackerAction.ActionType == CharacterActionType.DrawCardAttack)
             {
@@ -372,11 +372,11 @@ namespace TimelineHero.Battle
             return DoAction_Block(AttackerAction);
         }
 
-        private ActionEffectData DoAction_DrawCard()
+        private ActionEffectData DoAction_DrawCard(Action AttackerAction)
         {
-            BattleSystem.Get().DrawCards(1);
+            BattleSystem.Get().DrawCards(AttackerAction.DrawCards);
 
-            return new ActionEffectData("Draw!", "");
+            return new ActionEffectData("Draw " + AttackerAction.DrawCards, "");
         }
 
         private ActionEffectData DoAction_DrawCardAttack(Action AttackerAction, Action DefenderAction)
@@ -384,7 +384,7 @@ namespace TimelineHero.Battle
             ActionEffectData data = DoAction_Attack(AttackerAction, DefenderAction);
             if (AttackerAction.SuccessfulAction && data.Value > 0)
             {
-                return data + DoAction_DrawCard();
+                return data + DoAction_DrawCard(AttackerAction);
             }
 
             return data;

@@ -86,6 +86,11 @@ namespace TimelineHero.Character
         public int Duration;
 
         [VerticalGroup("Split/Right")]
+        [ShowIf("@this.ActionType == CharacterActionType.DrawCard" +
+             " || this.ActionType == CharacterActionType.DrawCardAttack")]
+        public int DrawCards = 1;
+
+        [VerticalGroup("Split/Right")]
         [ShowIf("@IsAttackAction() || IsSelfAttackAction() || this.ActionType == CharacterActionType.Parry")]
         public CharacterAttackType AttackType;
 
