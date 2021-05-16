@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using TimelineHero.UI;
+﻿using TimelineHero.CoreUI;
 
 namespace TimelineHero.Battle
 {

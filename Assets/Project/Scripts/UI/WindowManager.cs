@@ -1,24 +1,36 @@
-﻿using TimelineHero.Battle;
+﻿using TimelineHero.BattleUI;
+using TimelineHero.BattleView;
 using TimelineHero.Core;
-using TimelineHero.Hud;
 using UnityEngine;
 
-namespace TimelineHero.UI
+namespace TimelineHero.CoreUI
 {
     [CreateAssetMenu(menuName = "ScriptableObject/WindowManager")]
     public class WindowManager : SingletonScriptableObject<WindowManager>
     {
         public LoseWindow LoseWindowPrefab;
         public WinWindow WinWindowPrefab;
+        public DiscardCardWindow DiscardCardWindowPrefab;
+
+        public System.Action OnDiscardWindowOpened;
+        public System.Action OnDiscardWindowClosed;
 
         public void ShowLoseWindow()
         {
-            HudBase.Instance.InstantiateWindow(LoseWindowPrefab);
+            BattleHud.Get().InstantiateWindow(LoseWindowPrefab);
         }
 
         public void ShowWinWindow()
         {
-            HudBase.Instance.InstantiateWindow(WinWindowPrefab);
+            BattleHud.Get().InstantiateWindow(WinWindowPrefab);
+        }
+
+        public void ShowDiscardCardWindow()
+        {
+            DiscardCardWindow window = BattleHud.Get().InstantiateWindow(DiscardCardWindowPrefab) as DiscardCardWindow;
+            window.OnWindowClosed = () => OnDiscardWindowClosed?.Invoke();
+
+            OnDiscardWindowOpened?.Invoke();
         }
     }
 }

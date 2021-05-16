@@ -30,7 +30,7 @@ namespace TimelineHero.BattleView
             Cards.Add(NewCard);
             NewCard.SetState(CardState.Hand, NewCard.GetOriginalSkill());
             NewCard.SetParent(GetTransform());
-            ShrinkSkills();
+            ShrinkCards();
 
             UpdateHandData();
         }
@@ -46,12 +46,12 @@ namespace TimelineHero.BattleView
         public void RemoveCard(CardWrapper CardToRemove)
         {
             Cards.Remove(CardToRemove);
-            ShrinkSkills();
+            ShrinkCards();
 
             UpdateHandData();
         }
 
-        private void ShrinkSkills()
+        private void ShrinkCards()
         {
             Vector2 newPosition = new Vector2(Border.y, Border.z);
 

@@ -1,34 +1,27 @@
-﻿using TimelineHero.CoreUI;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace TimelineHero.Hud
+namespace TimelineHero.CoreUI
 {
-    public class HudBase : MonoBehaviour
+    public abstract class HudBase : MonoBehaviour
     {
-        private static HudBase instance = null;
-        public static HudBase Instance
-        {
-            get
-            {
-                if (!instance)
-                {
-                    print("Hud do not exist on scene");
-                    return null;
-                }
-                return instance;
-            }
-        }
-
-        private void Awake()
-        {
-            instance = this;
-        }
-
-        public void InstantiateWindow(UiComponent WindowPrefab)
+        public UiComponent InstantiateWindow(UiComponent WindowPrefab)
         {
             UiComponent window = Instantiate(WindowPrefab);
             window.SetParent(transform);
             window.SetAnchorsToCenter();
+
+            return window;
+        }
+    }
+
+    public class Hud<T> : HudBase where T : HudBase
+    {
+        private static T instance = null;
+        public static T Get() => instance;
+
+        private void Awake()
+        {
+            instance = (T)(HudBase)this;
         }
     }
 }

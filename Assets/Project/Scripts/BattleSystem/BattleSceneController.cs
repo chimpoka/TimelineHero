@@ -1,5 +1,4 @@
-﻿using TimelineHero.Hud;
-using TimelineHero.Core;
+﻿using TimelineHero.Core;
 using TimelineHero.BattleView;
 using TimelineHero.BattleUI;
 
@@ -15,10 +14,9 @@ namespace TimelineHero.Battle
             BattleSystem.Get().OnBattleFinished += OnBattleFinished;
             BattleView.Initialize();
 
-            BattleHud Hud = (BattleHud)HudBase.Instance;
-            Hud.Initialize();
+            BattleHud.Get().Initialize();
 
-            BattleState = new ConstructTimelineBattleState(this);
+            BattleState = new InitialBattleState(this);
         }
 
         private void OnBattleFinished(BattleResult Result)

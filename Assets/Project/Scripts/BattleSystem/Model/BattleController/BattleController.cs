@@ -2,29 +2,33 @@
 using System.Collections;
 using TimelineHero.Battle;
 using TimelineHero.BattleUI;
+using TimelineHero.BattleView;
 using TimelineHero.Character;
 using TimelineHero.Core;
-using TimelineHero.Hud;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-namespace TimelineHero.BattleView
+namespace TimelineHero.BattleCardsControl
 {
     public class BattleController
     {
         private HandView HandCached;
         private BoardView BoardCached;
+        private DiscardSectionView DiscardSectionCached;
 
         private bool IsActive;
+        public CardsControlStrategyBase CardsControlStrategy;
 
-        public void Initialize(HandView HandRef, BoardView BoardRef)
+        public void Initialize(HandView HandRef, BoardView BoardRef, DiscardSectionView DiscardSectionRef)
         {
             HandCached = HandRef;
             BoardCached = BoardRef;
+            DiscardSectionCached = DiscardSectionRef;
 
             BattleSystem.Get().OnDrawCards += DrawCards;
             BattleSystem.Get().OnDiscardAllCardsFromTimeline += DiscardAllCardsFromTimeline;
             BattleSystem.Get().OnEnemyChanged += RegenerateBoard;
+            BattleSystem.Get().OnDiscardCardsFromDiscardSection += DiscardCardsFromDiscardSection;
         }
 
         private void DrawCards(List<Skill> DrawnSkills)
@@ -39,8 +43,6 @@ namespace TimelineHero.BattleView
 
                 cardWrapper.OnPointerDownEvent += OnCardPointerDown;
                 cardWrapper.OnPointerUpEvent += OnCardPointerUp;
-                cardWrapper.OnBeginDragEvent += OnCardBeginDrag;
-                cardWrapper.OnEndDragEvent += OnCardEndDrag;
                 cardWrapper.OnDragEvent += OnCardDrag;
 
                 cards.Add(cardWrapper);
@@ -59,13 +61,12 @@ namespace TimelineHero.BattleView
             }
         }
 
-        private void DiscardAllCardsFromTimeline()
+        private void DiscardCards(List<CardWrapper> Cards)
         {
-            if (!BoardCached.AlliedTimeline)
+            if (Cards == null || Cards.Count == 0)
                 return;
 
-            List<CardWrapper> cards = BoardCached.AlliedTimeline.RemoveCardsFromTimeline();
-            HandCached.StartCoroutine(DiscardCardsCoroutine(cards, GameInstance.Instance.DelayBetweenCardAnimationsInSeconds));
+            HandCached.StartCoroutine(DiscardCardsCoroutine(Cards, GameInstance.Instance.DelayBetweenCardAnimationsInSeconds));
         }
 
         private IEnumerator DiscardCardsCoroutine(List<CardWrapper> Cards, float Delay)
@@ -76,6 +77,22 @@ namespace TimelineHero.BattleView
 
                 yield return new WaitForSeconds(Delay);
             }
+        }
+
+        private void DiscardAllCardsFromTimeline()
+        {
+            if (!BoardCached.AlliedTimeline)
+                return;
+
+            DiscardCards(BoardCached.AlliedTimeline.RemoveCardsFromTimeline());
+        }
+
+        void DiscardCardsFromDiscardSection()
+        {
+            if (!DiscardSectionCached)
+                return;
+
+            DiscardCards(DiscardSectionCached.RemoveAll());
         }
 
         public void SetActive(bool Active)
@@ -101,9 +118,8 @@ namespace TimelineHero.BattleView
                 }
             }
 
-            BattleHud hud = (BattleHud)HudBase.Instance;
-            hud.UpdateStatuses(GetStatusPosition(BoardCached.AlliedTimeline),
-                               GetStatusPosition(BoardCached.EnemyTimeline));
+            BattleHud.Get().UpdateStatuses(GetStatusPosition(BoardCached.AlliedTimeline),
+                                           GetStatusPosition(BoardCached.EnemyTimeline));
         }
 
         private Vector2 GetStatusPosition(CharacterTimelineView TimelineView)
@@ -118,24 +134,7 @@ namespace TimelineHero.BattleView
             if (!IsActive)
                 return;
 
-            PlayerCard.DOStop();
-
-            PlayerCard.SetParent(HandCached.transform.parent);
-            PlayerCard.AnchoredPosition = eventData.position - PlayerCard.Size / 2;
-
-            AlliedCharacterTimelineView alliedTimeline = BoardCached.AlliedTimeline;
-
-            alliedTimeline.CreateInvisibleCard(PlayerCard);
-
-            if (PlayerCard.State == CardState.Hand)
-            {
-                HandCached.RemoveCard(PlayerCard);
-            }
-            else if (PlayerCard.State == CardState.BoardPrePlay)
-            {
-                alliedTimeline.RemoveCard(PlayerCard);
-                alliedTimeline.TryInsertInvisibleCard(PlayerCard);
-            }
+            CardsControlStrategy.OnCardPointerDown(PlayerCard, eventData);
         }
 
         public void OnCardPointerUp(CardWrapper PlayerCard, PointerEventData eventData)
@@ -143,26 +142,7 @@ namespace TimelineHero.BattleView
             if (!IsActive)
                 return;
 
-            AlliedCharacterTimelineView alliedTimeline = BoardCached.AlliedTimeline;
-
-            if (!alliedTimeline.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition) ||
-                !alliedTimeline.TryInsertVisibleCard(PlayerCard))
-            {
-                alliedTimeline.DestroyInvisibleCard();
-                HandCached.AddCard(PlayerCard);
-            }
-        }
-
-        public void OnCardBeginDrag(CardWrapper PlayerCard, PointerEventData eventData)
-        {
-            if (!IsActive)
-                return;
-        }
-
-        public void OnCardEndDrag(CardWrapper PlayerCard, PointerEventData eventData)
-        {
-            if (!IsActive)
-                return;
+            CardsControlStrategy.OnCardPointerUp(PlayerCard, eventData);
         }
 
         public void OnCardDrag(CardWrapper PlayerCard, PointerEventData eventData)
@@ -170,18 +150,7 @@ namespace TimelineHero.BattleView
             if (!IsActive)
                 return;
 
-            PlayerCard.WorldCenterPosition = eventData.pointerCurrentRaycast.worldPosition;
-
-            AlliedCharacterTimelineView alliedTimeline = BoardCached.AlliedTimeline;
-
-            if (alliedTimeline.IsPositionInsideBounds(eventData.pointerCurrentRaycast.worldPosition))
-            {
-                alliedTimeline.TryInsertInvisibleCard(PlayerCard);
-            }
-            else
-            {
-                alliedTimeline.RemoveInvisibleCard();
-            }
+            CardsControlStrategy.OnCardDrag(PlayerCard, eventData);
         }
         #endregion CardEvents
     }

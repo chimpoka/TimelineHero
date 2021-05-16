@@ -26,7 +26,7 @@ namespace TimelineHero.Battle
         public List<Skill> Draw(int Count)
         {
             if (Skills.Count == 0)
-                return null;
+                return new List<Skill>();
 
             if (Skills.Count > 0 && Skills.Count < Count)
             {
@@ -44,6 +44,9 @@ namespace TimelineHero.Battle
         {
             List<Skill> skills = Skills.GetRange(0, Count);
             Skills.RemoveRange(0, Count);
+
+            OnDeckSizeChanged?.Invoke(Skills.Count);
+
             return skills;
         }
 

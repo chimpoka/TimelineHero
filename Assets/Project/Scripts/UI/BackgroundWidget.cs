@@ -1,0 +1,34 @@
+using UnityEngine;
+
+public class BackgroundWidget : MonoBehaviour
+{
+    private Animator AnimController;
+
+    private void Awake()
+    {
+        AnimController = GetComponent<Animator>();
+
+        if (AnimController == null)
+            Debug.LogError("BackgroundWidget::AnimController == null");
+    }
+
+    public void Show()
+    {
+        AnimController.SetBool("Show", true);
+    }
+
+    public void Hide()
+    {
+        AnimController.SetBool("Show", false);
+    }
+
+    public void ToggleVisibility()
+    {
+        AnimController.SetBool("Show", !GetState());
+    }
+
+    private bool GetState()
+    {
+        return AnimController.GetBool("Show");
+    }
+}

@@ -16,3 +16,5 @@ MonoBehaviour:
     type: 3}
   WinWindowPrefab: {fileID: 1695778333932278236, guid: 5fd56e8972b43494cac98c7629859c20,
     type: 3}
+  DiscardCardWindowPrefab: {fileID: 5888163368888146021, guid: 227609d1391c7c542998a7f55a73f55b,
+    type: 3}

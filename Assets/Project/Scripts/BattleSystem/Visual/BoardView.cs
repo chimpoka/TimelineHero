@@ -12,12 +12,7 @@ namespace TimelineHero.BattleView
         public AlliedCharacterTimelineView AlliedTimeline;
         public BattleTimelineTimerView TimerView;
 
-        public void OnStartConstructState()
-        {
-            
-        }
-
-        public void OnStartPlayState()
+        public void SetPlayBattleState()
         {
             AlliedTimeline.OnStartPlayState();
             EnemyTimeline.OnStartPlayState();

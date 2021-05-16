@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace TimelineHero.BattleView
 {
-    public enum CardState { Hand, BoardPrePlay, BoardPlay }
+    public enum CardState { Hand, BoardPrePlay, BoardPlay, Discard }
 
     public class CardWrapper : UiComponent, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
     {

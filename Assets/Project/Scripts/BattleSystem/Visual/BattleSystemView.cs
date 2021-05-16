@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TimelineHero.Battle;
 using TimelineHero.Core;
+using TimelineHero.BattleCardsControl;
 
 namespace TimelineHero.BattleView
 {
@@ -8,18 +9,19 @@ namespace TimelineHero.BattleView
     {
         public HandView PlayerHand;
         public BoardView BattleBoard;
+        public DiscardSectionView DiscardSection;
 
         public BattleController PlayerBattleController;
 
         public void Initialize()
         {
-            BattleSystem.Get().OnConstructState += InitializeConstructState;
-            BattleSystem.Get().OnPlayState += InitializePlayState;
+            BattleSystem.Get().OnInitialBattleState += SetInitialBattleState;
+            BattleSystem.Get().OnPlayBattleState += SetPlayBattleState;
 
             GameInstance.Instance.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
 
             PlayerBattleController = new BattleController();
-            PlayerBattleController.Initialize(PlayerHand, BattleBoard);
+            PlayerBattleController.Initialize(PlayerHand, BattleBoard, DiscardSection);
         }
 
         public BattleTimelineTimerView GetTimerView()
@@ -32,16 +34,25 @@ namespace TimelineHero.BattleView
             PlayerBattleController.SetActive(Active);
         }
 
-        public void InitializeConstructState()
+        public void SetInitialBattleState()
         {
             SetActive(true);
-            BattleBoard.OnStartConstructState();
         }
 
-        public void InitializePlayState()
+        public void SetPlayBattleState()
         {
             SetActive(false);
-            BattleBoard.OnStartPlayState();
+            BattleBoard.SetPlayBattleState();
+        }
+
+        public void SetBattleCardsControlStrategy()
+        {
+            PlayerBattleController.CardsControlStrategy = new BattleCardsControlStrategy(PlayerHand, BattleBoard);
+        }
+
+        public void SetDiscardCardsControlStrategy()
+        {
+            PlayerBattleController.CardsControlStrategy = new DiscardCardsControlStrategy(PlayerHand, BattleBoard, DiscardSection);
         }
     }
 }

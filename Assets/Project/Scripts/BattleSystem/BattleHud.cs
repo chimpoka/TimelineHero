@@ -2,26 +2,24 @@
 using TimelineHero.Battle;
 using TimelineHero.BattleView;
 using TimelineHero.Character;
-using TimelineHero.Hud;
+using TimelineHero.CoreUI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace TimelineHero.BattleUI
 {
-    public class BattleHud : HudBase
+    public class BattleHud : Hud<BattleHud>
     {
-        [SerializeField]
-        private Button PlayBattleButton;
-        [SerializeField]
-        private Button PreviousEnemyButton;
-        [SerializeField]
-        private Button NextEnemyButton;
-        [SerializeField]
-        private ActionExecutionView ActionExecution;
-        [SerializeField]
-        private DrawDeckButton DrawDeckButtonCached;
-        [SerializeField]
-        private DiscardDeckButton DiscardDeckButtonCached;
+        [SerializeField] private Button PlayBattleButton;
+        [SerializeField] private Button PreviousEnemyButton;
+        [SerializeField] private Button NextEnemyButton;
+        [SerializeField] private Button DrawButton;
+        [SerializeField] private Button DiscardButton;
+        [SerializeField] private ActionExecutionView ActionExecution;
+        [SerializeField] private DrawDeckButton DrawDeckButtonCached;
+        [SerializeField] private DiscardDeckButton DiscardDeckButtonCached;
+
+        public BattleUiElementsOrderController OrderController;
 
         public System.Action OnPlayBattleButtonEvent;
 
@@ -37,17 +35,32 @@ namespace TimelineHero.BattleUI
             BattleSystem.Get().BattleBoard.AlliedTimeline.OnLengthChanged += OnAlliedTimelineLenghtChanged;
         }
 
-        public void SetPlayState()
+        public void SetPlayBattleState()
         {
             PlayBattleButton.interactable = false;
             PreviousEnemyButton.interactable = false;
             NextEnemyButton.interactable = false;
+            DrawButton.interactable = false;
+            DiscardButton.interactable = false;
         }
 
-        public void SetConstructState()
+        public void SetInitialBattleState()
         {
+            PlayBattleButton.interactable = false;
             PreviousEnemyButton.interactable = true;
             NextEnemyButton.interactable = true;
+            DrawButton.interactable = true;
+            DiscardButton.interactable = true;
+        }
+
+        public void OnDrawButton()
+        {
+            BattleSystem.Get().DrawCards(1);
+        }
+
+        public void OnDiscardCardButton()
+        {
+            WindowManager.Instance.ShowDiscardCardWindow();
         }
 
         public void OnPlayBattleButton()

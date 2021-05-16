@@ -21,10 +21,12 @@ namespace TimelineHero.Battle
 
         public System.Action<List<Skill>> OnDrawCards;
         public System.Action OnDiscardAllCardsFromTimeline;
+        public System.Action OnDiscardCardsFromDiscardSection;
         public System.Action OnEnemyChanged;
 
-        public System.Action OnConstructState;
-        public System.Action OnPlayState;
+        public System.Action OnInitialBattleState;
+        public System.Action OnMainBattleState;
+        public System.Action OnPlayBattleState;
 
         public int CurrentEnemyIndex = -1;
 
@@ -32,6 +34,7 @@ namespace TimelineHero.Battle
         public Board BattleBoard = new Board();
         public DrawDeck PlayerDrawDeck = new DrawDeck();
         public DiscardDeck PlayerDiscardDeck = new DiscardDeck();
+        public DiscardSection PlayerDiscardSection = new DiscardSection();
 
         private BattleTimelineTimer TimelineTimer;
         private ActionExecutionBehaviour ActionBehaviour = new ActionExecutionBehaviour();
@@ -55,20 +58,25 @@ namespace TimelineHero.Battle
             OnTimerIntegerValue += ExecuteActionsAtPosition;
         }
 
-        public void InitializeConstructState()
+        public void SetInitialBattleState()
         {
             DiscardAllCardsFromTimeline();
             DrawCards(GameInstance.Instance.DrawCardCount);
             CreateNextEnemy();
 
-            OnConstructState?.Invoke();
+            OnInitialBattleState?.Invoke();
         }
 
-        public void InitializePlayState()
+        public void SetMainBattleState()
+        {
+            OnMainBattleState?.Invoke();
+        }
+
+        public void SetPlayBattleState()
         {
             StartBattleTimer();
 
-            OnPlayState?.Invoke();
+            OnPlayBattleState?.Invoke();
         }
 
         public void DrawCards(int Count)
@@ -94,10 +102,16 @@ namespace TimelineHero.Battle
 
         public void DiscardAllCardsFromTimeline()
         {
-            List<Skill> skills = BattleBoard.AlliedTimeline.RemoveAllSkills();
-            PlayerDiscardDeck.Add(skills);
+            PlayerDiscardDeck.Add(BattleBoard.AlliedTimeline.RemoveAllSkills());
 
             OnDiscardAllCardsFromTimeline?.Invoke();
+        }
+
+        public void DiscardCardsFromDiscardSection()
+        {
+            PlayerDiscardDeck.Add(PlayerDiscardSection.RemoveAllSkills());
+
+            OnDiscardCardsFromDiscardSection?.Invoke();
         }
 
         public void ExecuteActionsAtPosition(int Position)

@@ -1,8 +1,7 @@
 ﻿using TimelineHero.CoreUI;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace TimelineHero.UI
+namespace TimelineHero.BattleUI
 {
     public class LoseWindow : UiComponent
     {
