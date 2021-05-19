@@ -17,7 +17,7 @@ namespace TimelineHero.Core
         {
             instance = this;
 
-            Config = GameInstance.Instance;
+            Config = GameInstance.Get();
             InitializeSubsystems();
 
             DontDestroyOnLoad(this);

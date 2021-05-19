@@ -8,7 +8,7 @@ namespace TimelineHero.Battle
             : base(BattleSceneControllerRef)
         {
             BattleSystem.Get().StopBattleTimer();
-            WindowManager.Instance.ShowWinWindow();
+            WindowManager.Get().ShowWinWindow();
         }
     }
 }

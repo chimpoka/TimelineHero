@@ -20,7 +20,7 @@ namespace TimelineHero.BattleView
 
         private void Start()
         {
-            GetComponent<Image>().material = new Material(BattlePrefabsConfig.Instance.DissolveMaterial);
+            GetComponent<Image>().material = new Material(BattlePrefabsConfig.Get().DissolveMaterial);
             ImageMaterial = GetComponent<Image>().material;
         }
 

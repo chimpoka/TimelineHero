@@ -73,7 +73,7 @@ namespace TimelineHero.BattleView
 
         public void CreateInvisibleCard(CardWrapper FromCard)
         {
-            InvisibleCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
+            InvisibleCard = MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().CardWrapperPrefab);
             InvisibleCard.SetParent(GetTransform());
             InvisibleCard.SetState(CardState.Hand, FromCard.GetOriginalSkill());
             InvisibleCard.gameObject.SetActive(false);

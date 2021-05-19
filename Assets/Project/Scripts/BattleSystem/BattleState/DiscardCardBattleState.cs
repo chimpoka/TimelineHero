@@ -7,14 +7,14 @@ namespace TimelineHero.Battle
         public DiscardCardBattleState(BattleSceneController BattleSceneControllerRef)
             : base(BattleSceneControllerRef)
         {
-            WindowManager.Instance.OnDiscardWindowClosed += SetMainBattleState;
+            WindowManager.Get().OnDiscardWindowClosed += SetMainBattleState;
 
             BattleSceneControllerRef.BattleView.SetDiscardCardsControlStrategy();
         }
 
         private void SetMainBattleState()
         {
-            WindowManager.Instance.OnDiscardWindowClosed -= SetMainBattleState;
+            WindowManager.Get().OnDiscardWindowClosed -= SetMainBattleState;
             BattleSceneControllerCached.BattleState = new MainBattleState(BattleSceneControllerCached);
         }
     }

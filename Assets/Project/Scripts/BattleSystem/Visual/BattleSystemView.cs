@@ -18,7 +18,7 @@ namespace TimelineHero.BattleView
             BattleSystem.Get().OnInitialBattleState += SetInitialBattleState;
             BattleSystem.Get().OnPlayBattleState += SetPlayBattleState;
 
-            GameInstance.Instance.CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
+            GameInstance.Get().CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
 
             PlayerBattleController = new BattleController();
             PlayerBattleController.Initialize(PlayerHand, BattleBoard, DiscardSection);

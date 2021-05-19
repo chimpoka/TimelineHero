@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TimelineHero.Core;
 using TimelineHero.Character;
-using TimelineHero.Config;
 
 namespace TimelineHero.Battle
 {
@@ -61,7 +60,7 @@ namespace TimelineHero.Battle
         public void SetInitialBattleState()
         {
             DiscardAllCardsFromTimeline();
-            DrawCards(GameInstance.Instance.DrawCardCount);
+            DrawCards(GameInstance.Get().DrawCardCount);
             CreateNextEnemy();
 
             OnInitialBattleState?.Invoke();
@@ -142,7 +141,7 @@ namespace TimelineHero.Battle
         {
             if (AlliedCharacters.Count == 0)
             {
-                AlliedCharacters = GameInstance.Instance.GetAllies();
+                AlliedCharacters = GameInstance.Get().GetAllies();
             }
             return AlliedCharacters;
         }
@@ -151,7 +150,7 @@ namespace TimelineHero.Battle
         {
             if (EnemyCharacters.Count == 0)
             {
-                EnemyCharacters = GameInstance.Instance.GetEnemies();
+                EnemyCharacters = GameInstance.Get().GetEnemies();
             }
             return EnemyCharacters;
         }

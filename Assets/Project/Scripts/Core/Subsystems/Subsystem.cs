@@ -1,11 +1,7 @@
-﻿using UnityEditor;
-using UnityEngine;
-
-namespace TimelineHero.Core
+﻿namespace TimelineHero.Core
 {
     public abstract class SubsystemBase
     {
-        protected abstract void OnInitialize();
         public abstract void Initialize();
     }
 
@@ -21,8 +17,7 @@ namespace TimelineHero.Core
             OnInitialize();
         }
 
-        // TODO: Remove?
-        protected override void OnInitialize()
+        virtual protected void OnInitialize()
         {
         }
     }

@@ -5,14 +5,11 @@ namespace TimelineHero.Core
 {
     public abstract class SingletonScriptableObject<T> : ScriptableObject where T : ScriptableObject
     {
-        static T _instance = null;
-        public static T Instance
+        private static T instance = null;
+        public static T Get()
         {
-            get
-            {
-                _instance = _instance ?? Resources.LoadAll<T>("").FirstOrDefault();
-                return _instance;
-            }
+            instance = instance ?? Resources.LoadAll<T>("").FirstOrDefault();
+            return instance;
         }
     }
 }

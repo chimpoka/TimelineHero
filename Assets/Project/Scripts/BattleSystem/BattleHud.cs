@@ -60,7 +60,7 @@ namespace TimelineHero.BattleUI
 
         public void OnDiscardCardButton()
         {
-            WindowManager.Instance.ShowDiscardCardWindow();
+            WindowManager.Get().ShowDiscardCardWindow();
         }
 
         public void OnPlayBattleButton()
@@ -104,7 +104,7 @@ namespace TimelineHero.BattleUI
         {
             foreach (CharacterBase character in Characters)
             {
-                CharacterStatusView status = Instantiate(BattlePrefabsConfig.Instance.CharacterStatusPrefab);
+                CharacterStatusView status = Instantiate(BattlePrefabsConfig.Get().CharacterStatusPrefab);
                 status.SetParent(transform);
                 status.WorldPosition = Position + new Vector2(status.WorldBounds.extents.x, 0);
                 Position += new Vector2(status.WorldBounds.size.x, 0);

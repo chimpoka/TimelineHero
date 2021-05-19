@@ -141,7 +141,7 @@ namespace TimelineHero.Character
 
         public static Skill GetOriginalSkill(Skill OldSkill)
         {
-           return GameInstance.Instance.GetSkill(OldSkill.Owner.Name, OldSkill.Name);
+           return GameInstance.Get().GetSkill(OldSkill.Owner.Name, OldSkill.Name);
         }
 
         public static void CopyCardStats(Card FromCard, Card ToCard)

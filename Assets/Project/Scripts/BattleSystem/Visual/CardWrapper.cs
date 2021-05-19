@@ -33,7 +33,7 @@ namespace TimelineHero.BattleView
 
         private Card CreateCard()
         {
-            Card card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardPrefab);
+            Card card = MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().CardPrefab);
             card.SetParent(GetTransform());
             card.AnchoredPosition = Vector2.zero;
 

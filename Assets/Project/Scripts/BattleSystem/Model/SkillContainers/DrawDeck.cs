@@ -13,7 +13,7 @@ namespace TimelineHero.Battle
         {
             base.AddSkills(NewSkills);
             
-            if (GameInstance.Instance.ShuffleDrawDeck)
+            if (GameInstance.Get().ShuffleDrawDeck)
             {
                 Shuffle();
             }

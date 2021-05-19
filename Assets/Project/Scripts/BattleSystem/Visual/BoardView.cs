@@ -32,12 +32,12 @@ namespace TimelineHero.BattleView
 
         private void GenerateEnemiesTimeline()
         {
-            EnemyTimeline = GenerateTimeline(BattlePrefabsConfig.Instance.TimelinePrefab);
+            EnemyTimeline = GenerateTimeline(BattlePrefabsConfig.Get().TimelinePrefab);
             EnemyTimeline.Initialize(BattleSystem.Get().BattleBoard.EnemyTimeline);
 
             foreach (Skill skill in BattleSystem.Get().GetCurrentEnemy().Skills)
             {
-                CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
+                CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().CardWrapperPrefab);
                 cardWrapper.SetState(CardState.Hand, skill);
                 EnemyTimeline.AddCard(cardWrapper, false);
             }
@@ -49,7 +49,7 @@ namespace TimelineHero.BattleView
 
         private void GenerateAlliedTimeline()
         {
-            AlliedTimeline = GenerateTimeline(BattlePrefabsConfig.Instance.AlliedTimelinePrefab) as AlliedCharacterTimelineView;
+            AlliedTimeline = GenerateTimeline(BattlePrefabsConfig.Get().AlliedTimelinePrefab) as AlliedCharacterTimelineView;
             AlliedTimeline.Initialize(BattleSystem.Get().BattleBoard.AlliedTimeline);
             AlliedTimeline.GetTransform().localScale = Vector3.one;
             AlliedTimeline.AnchoredPosition += new Vector2(0, -EnemyTimeline.Size.y);
@@ -69,7 +69,7 @@ namespace TimelineHero.BattleView
 
         private void CreateTimelineTimer()
         {
-            TimerView = Instantiate(BattlePrefabsConfig.Instance.TimerPrefab);
+            TimerView = Instantiate(BattlePrefabsConfig.Get().TimerPrefab);
             TimerView.GetTransform().SetParent(transform);
             TimerView.GetTransform().localScale = Vector3.one;
 

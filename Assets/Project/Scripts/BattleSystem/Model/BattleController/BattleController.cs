@@ -37,7 +37,7 @@ namespace TimelineHero.BattleCardsControl
 
             foreach (Skill skill in DrawnSkills)
             {
-                CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Instance.CardWrapperPrefab);
+                CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().CardWrapperPrefab);
                 cardWrapper.WorldPosition = new Vector2(20, 2);
                 cardWrapper.SetState(CardState.Hand, skill);
 
@@ -48,7 +48,7 @@ namespace TimelineHero.BattleCardsControl
                 cards.Add(cardWrapper);
             }
 
-            HandCached.StartCoroutine(DrawCardsCoroutine(cards, GameInstance.Instance.DelayBetweenCardAnimationsInSeconds));
+            HandCached.StartCoroutine(DrawCardsCoroutine(cards, GameInstance.Get().DelayBetweenCardAnimationsInSeconds));
         }
 
         private IEnumerator DrawCardsCoroutine(List<CardWrapper> Cards, float Delay)
@@ -66,7 +66,7 @@ namespace TimelineHero.BattleCardsControl
             if (Cards == null || Cards.Count == 0)
                 return;
 
-            HandCached.StartCoroutine(DiscardCardsCoroutine(Cards, GameInstance.Instance.DelayBetweenCardAnimationsInSeconds));
+            HandCached.StartCoroutine(DiscardCardsCoroutine(Cards, GameInstance.Get().DelayBetweenCardAnimationsInSeconds));
         }
 
         private IEnumerator DiscardCardsCoroutine(List<CardWrapper> Cards, float Delay)
