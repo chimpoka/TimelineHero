@@ -5,21 +5,22 @@ using UnityEngine;
 
 namespace TimelineHero.Battle
 {
-    public class DrawDeck
+    public class DrawDeck : SkillContainerBase
     {
-        public List<Skill> Skills = new List<Skill>();
-
         public System.Action<int> OnDeckSizeChanged;
 
-        public void Add(List<Skill> SkillsToAdd)
+        override public void AddSkills(List<Skill> NewSkills)
         {
-            Skills.AddRange(SkillsToAdd);
-
+            base.AddSkills(NewSkills);
+            
             if (GameInstance.Instance.ShuffleDrawDeck)
             {
                 Shuffle();
             }
+        }
 
+        override protected void OnContainerUpdated()
+        {
             OnDeckSizeChanged?.Invoke(Skills.Count);
         }
 

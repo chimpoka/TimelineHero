@@ -43,7 +43,7 @@ namespace TimelineHero.Battle
 
         protected override void OnInitialize()
         {
-            PlayerDrawDeck.Add(GetAlliedCharacters().SelectMany(character => character.Skills).ToList());
+            PlayerDrawDeck.AddSkills(GetAlliedCharacters().SelectMany(character => character.Skills).ToList());
 
             foreach (CharacterBase enemy in GetEnemyCharacters())
             {
@@ -97,19 +97,19 @@ namespace TimelineHero.Battle
 
         public void ShuffleDiscardDeckToDrawDeck()
         {
-            PlayerDrawDeck.Add(PlayerDiscardDeck.RemoveAllFromDeck());
+            PlayerDrawDeck.AddSkills(PlayerDiscardDeck.RemoveAllSkills());
         }
 
         public void DiscardAllCardsFromTimeline()
         {
-            PlayerDiscardDeck.Add(BattleBoard.AlliedTimeline.RemoveAllSkills());
+            PlayerDiscardDeck.AddSkills(BattleBoard.AlliedTimeline.RemoveAllSkills());
 
             OnDiscardAllCardsFromTimeline?.Invoke();
         }
 
         public void DiscardCardsFromDiscardSection()
         {
-            PlayerDiscardDeck.Add(PlayerDiscardSection.RemoveAllSkills());
+            PlayerDiscardDeck.AddSkills(PlayerDiscardSection.RemoveAllSkills());
 
             OnDiscardCardsFromDiscardSection?.Invoke();
         }
