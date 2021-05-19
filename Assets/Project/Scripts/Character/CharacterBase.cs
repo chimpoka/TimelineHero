@@ -5,14 +5,14 @@ namespace TimelineHero.Character
 {
     public class CharacterBase
     {
-        public int Health 
+        public int Health
         {
             get
             {
                 return health;
-            } 
-            set 
-            { 
+            }
+            set
+            {
                 health = value;
                 OnHealthChanged?.Invoke(this);
 
@@ -20,7 +20,7 @@ namespace TimelineHero.Character
                 {
                     OnDied?.Invoke(this);
                 }
-            } 
+            }
         }
 
         public int MaxHealth
@@ -70,12 +70,14 @@ namespace TimelineHero.Character
             }
         }
 
+        public List<Skill> Skills { get => SkillSets[0].Skills; }
+
         public System.Action<CharacterBase> OnHealthChanged;
         public System.Action<CharacterBase> OnMaxHealthChanged;
         public System.Action<CharacterBase> OnBlockChanged;
         public System.Action<CharacterBase> OnAdrenalineChanged;
         public System.Action<CharacterBase> OnDied;
-        public List<Skill> Skills;
+        public List<SkillSet> SkillSets;
         public Dictionary<string, Skill> SkillsDict;
         public string Name;
 
@@ -108,4 +110,10 @@ namespace TimelineHero.Character
             return SkillsDict[Name].Clone();
         }
     }
+
+    public class SkillSet
+    {
+        public List<Skill> Skills;
+    }
+        
 }

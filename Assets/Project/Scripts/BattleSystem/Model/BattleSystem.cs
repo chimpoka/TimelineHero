@@ -27,7 +27,8 @@ namespace TimelineHero.Battle
         public System.Action OnMainBattleState;
         public System.Action OnPlayBattleState;
 
-        public int CurrentEnemyIndex = -1;
+        public int CurrentEnemyIndex = 0;
+        public int CurrentEnemySkillSetIndex = -1;
 
         public Hand PlayerHand = new Hand();
         public Board BattleBoard = new Board();
@@ -61,7 +62,7 @@ namespace TimelineHero.Battle
         {
             DiscardAllCardsFromTimeline();
             DrawCards(GameInstance.Get().DrawCardCount);
-            CreateNextEnemy();
+            CreateNextEnemySkillSet();
 
             OnInitialBattleState?.Invoke();
         }
@@ -121,9 +122,27 @@ namespace TimelineHero.Battle
             OnActionExecuted?.Invoke(ActionBehaviour.Execute(alliedAction, enemyAction));
         }
 
+        public void CreateNextEnemySkillSet()
+        {
+            CharacterBase currentEnemy = GetCurrentEnemy();
+            CurrentEnemySkillSetIndex = (CurrentEnemySkillSetIndex + 1) % currentEnemy.SkillSets.Count;
+
+            OnEnemyChanged?.Invoke();
+        }
+
+        public void CreatePreviousEnemySkillSet()
+        {
+            CharacterBase currentEnemy = GetCurrentEnemy();
+            int count = currentEnemy.SkillSets.Count;
+            CurrentEnemySkillSetIndex = (CurrentEnemySkillSetIndex + count - 1) % count;
+
+            OnEnemyChanged?.Invoke();
+        }
+
         public void CreateNextEnemy()
         {
             List<CharacterBase> enemies = GetEnemyCharacters();
+            CurrentEnemySkillSetIndex = 0;
             CurrentEnemyIndex = (CurrentEnemyIndex + 1) % enemies.Count;
 
             OnEnemyChanged?.Invoke();
@@ -132,6 +151,7 @@ namespace TimelineHero.Battle
         public void CreatePreviousEnemy()
         {
             List<CharacterBase> enemies = GetEnemyCharacters();
+            CurrentEnemySkillSetIndex = 0;
             CurrentEnemyIndex = (CurrentEnemyIndex + enemies.Count - 1) % enemies.Count;
 
             OnEnemyChanged?.Invoke();
@@ -158,6 +178,11 @@ namespace TimelineHero.Battle
         public CharacterBase GetCurrentEnemy()
         {
             return GetEnemyCharacters()[CurrentEnemyIndex];
+        }
+
+        public List<Skill> GetCurrentEnemySkillSet()
+        {
+            return GetCurrentEnemy().SkillSets[CurrentEnemySkillSetIndex].Skills;
         }
 
         public int GetTimelineLength()

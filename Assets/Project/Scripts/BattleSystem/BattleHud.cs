@@ -10,11 +10,8 @@ namespace TimelineHero.BattleUI
 {
     public class BattleHud : Hud<BattleHud>
     {
+        [SerializeField] private GameObject DebugButtonsContainer;
         [SerializeField] private Button PlayBattleButton;
-        [SerializeField] private Button PreviousEnemyButton;
-        [SerializeField] private Button NextEnemyButton;
-        [SerializeField] private Button DrawButton;
-        [SerializeField] private Button DiscardButton;
         [SerializeField] private ActionExecutionView ActionExecution;
         [SerializeField] private DrawDeckButton DrawDeckButtonCached;
         [SerializeField] private DiscardDeckButton DiscardDeckButtonCached;
@@ -38,19 +35,21 @@ namespace TimelineHero.BattleUI
         public void SetPlayBattleState()
         {
             PlayBattleButton.interactable = false;
-            PreviousEnemyButton.interactable = false;
-            NextEnemyButton.interactable = false;
-            DrawButton.interactable = false;
-            DiscardButton.interactable = false;
+            SetEnabledDebugButtons(false);
         }
 
         public void SetInitialBattleState()
         {
             PlayBattleButton.interactable = false;
-            PreviousEnemyButton.interactable = true;
-            NextEnemyButton.interactable = true;
-            DrawButton.interactable = true;
-            DiscardButton.interactable = true;
+            SetEnabledDebugButtons(true);
+        }
+
+        private void SetEnabledDebugButtons(bool Enabled)
+        {
+            foreach (Button button in DebugButtonsContainer.GetComponentsInChildren<Button>())
+            {
+                button.interactable = Enabled;
+            }
         }
 
         public void OnDrawButton()
@@ -76,6 +75,16 @@ namespace TimelineHero.BattleUI
         public void SpeedUpGameSpeed()
         {
             Time.timeScale *= 2;
+        }
+
+        public void CreateNextEnemySkillSet()
+        {
+            BattleSystem.Get().CreateNextEnemySkillSet();
+        }
+
+        public void CreatePreviousEnemySkillSet()
+        {
+            BattleSystem.Get().CreatePreviousEnemySkillSet();
         }
 
         public void CreatePreviousEnemy()

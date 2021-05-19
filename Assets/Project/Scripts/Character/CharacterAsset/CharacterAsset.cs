@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
-
 
 namespace TimelineHero.Character
 {
@@ -12,32 +10,20 @@ namespace TimelineHero.Character
     {
         public int Health;
         public int Adrenaline;
-        [ListDrawerSettings(ShowPaging = false)]
-        public List<SkillAsset> Skills = new List<SkillAsset>();
+
+        public List<SkillSetAsset> SkillSets = new List<SkillSetAsset>();
 
         public CharacterBase ToCharacter()
         {
+            return ConvertCharacterAsset();
+        }
+
+        private CharacterBase ConvertCharacterAsset()
+        {
             CharacterBase character = new CharacterBase();
 
-            List<Skill> newSkillList = new List<Skill>();
-            foreach (SkillAsset skillAsset in Skills)
-            {
-                List<Action> newActionList = new List<Action>();
-                foreach (Action action in skillAsset.Actions)
-                {
-                    Action newAction = new Action(action);
-                    newAction.Owner = character;
-                    newAction.Position -= 1;
-                    newActionList.Add(newAction);
-                }
-                Skill newSkill = new Skill(newActionList, skillAsset.Length, character);
-                newSkill.Name = skillAsset.Name;
-                newSkill.Initialize();
-                newSkillList.Add(newSkill);
-            }
-
-            character.Skills = newSkillList;
-            character.SkillsDict = newSkillList.ToDictionary(skill => skill.Name ?? skill.ToString(), skill => skill);
+            character.SkillSets = SkillSets.Select(skillSetAsset => ConvertSkillSetAsset(skillSetAsset, character)).ToList();
+            character.SkillsDict = character.SkillSets[0].Skills.ToDictionary(skill => skill.Name ?? skill.ToString(), skill => skill);
             character.Health = Health;
             character.MaxHealth = Health;
             character.Adrenaline = Adrenaline;
@@ -45,8 +31,34 @@ namespace TimelineHero.Character
 
             return character;
         }
-    }
 
+        private SkillSet ConvertSkillSetAsset(SkillSetAsset InSkillSetAsset, CharacterBase Owner)
+        {
+            SkillSet newSkillSet = new SkillSet();
+            newSkillSet.Skills = InSkillSetAsset.Skills.Select(skillAsset => ConvertSkillAsset(skillAsset, Owner)).ToList();
+
+            return newSkillSet;
+        }
+
+        private Skill ConvertSkillAsset(SkillAsset InSkillAsset, CharacterBase Owner)
+        {
+            List<Action> newActionList = InSkillAsset.Actions.Select(action => ConvertActionAsset(action, Owner)).ToList();
+            Skill newSkill = new Skill(newActionList, InSkillAsset.Length, Owner);
+            newSkill.Name = InSkillAsset.Name;
+            newSkill.Initialize();
+
+            return newSkill;
+        }
+
+        private Action ConvertActionAsset(Action InAction, CharacterBase Owner)
+        {
+            Action newAction = new Action(InAction);
+            newAction.Owner = Owner;
+            newAction.Position -= 1;
+
+            return newAction;
+        }
+    }
 
     [System.Serializable]
     public class SkillAsset

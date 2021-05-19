@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab3c69236974df242b1fad3d5c5ca4c7, type: 3}
-  m_Name: AlliedStartedDeck
+  m_Script: {fileID: 11500000, guid: 6a14f08ef68fbaa4793e7e47884a88c0, type: 3}
+  m_Name: AlliedStartedDeckSkillSet
   m_EditorClassIdentifier: 
-  Health: 12
-  Adrenaline: 5
   Skills:
   - Name: "\u041D\u0430\u043F\u0430\u0434\u0435\u043D\u0438\u0435"
     Length: 8
@@ -22,6 +20,7 @@ MonoBehaviour:
       Position: 2
       Value: 1
       Duration: 4
+      DrawCards: 1
       AttackType: 1
       KeyForm: 0
       DisabledInPlayState: 0
@@ -30,6 +29,7 @@ MonoBehaviour:
       Position: 7
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -41,6 +41,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -49,6 +50,7 @@ MonoBehaviour:
       Position: 4
       Value: 1
       Duration: 0
+      DrawCards: 1
       AttackType: 1
       KeyForm: 0
       DisabledInPlayState: 0
@@ -57,6 +59,7 @@ MonoBehaviour:
       Position: 5
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -68,6 +71,7 @@ MonoBehaviour:
       Position: 3
       Value: 0
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -76,6 +80,7 @@ MonoBehaviour:
       Position: 4
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -87,6 +92,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -95,6 +101,7 @@ MonoBehaviour:
       Position: 4
       Value: 2
       Duration: 5
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -103,6 +110,7 @@ MonoBehaviour:
       Position: 10
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -114,6 +122,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -122,6 +131,7 @@ MonoBehaviour:
       Position: 4
       Value: 2
       Duration: 5
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -130,6 +140,7 @@ MonoBehaviour:
       Position: 10
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -141,6 +152,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -149,6 +161,7 @@ MonoBehaviour:
       Position: 3
       Value: 4
       Duration: 4
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -157,6 +170,7 @@ MonoBehaviour:
       Position: 8
       Value: 1
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -165,6 +179,7 @@ MonoBehaviour:
       Position: 9
       Value: 0
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -176,6 +191,7 @@ MonoBehaviour:
       Position: 2
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -184,6 +200,7 @@ MonoBehaviour:
       Position: 5
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -192,6 +209,7 @@ MonoBehaviour:
       Position: 7
       Value: 2
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -200,6 +218,7 @@ MonoBehaviour:
       Position: 9
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -211,6 +230,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -219,6 +239,7 @@ MonoBehaviour:
       Position: 4
       Value: 1
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -227,6 +248,7 @@ MonoBehaviour:
       Position: 7
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -238,6 +260,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -246,6 +269,7 @@ MonoBehaviour:
       Position: 3
       Value: 3
       Duration: 6
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -254,6 +278,7 @@ MonoBehaviour:
       Position: 10
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -265,6 +290,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -273,6 +299,7 @@ MonoBehaviour:
       Position: 3
       Value: 1
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -281,6 +308,7 @@ MonoBehaviour:
       Position: 4
       Value: 2
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -289,6 +317,7 @@ MonoBehaviour:
       Position: 7
       Value: 3
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -297,6 +326,7 @@ MonoBehaviour:
       Position: 8
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -308,6 +338,7 @@ MonoBehaviour:
       Position: 2
       Value: 0
       Duration: 4
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -316,6 +347,7 @@ MonoBehaviour:
       Position: 6
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -327,6 +359,7 @@ MonoBehaviour:
       Position: 1
       Value: 4
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -335,6 +368,7 @@ MonoBehaviour:
       Position: 5
       Value: 2
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -343,6 +377,7 @@ MonoBehaviour:
       Position: 7
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -354,6 +389,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -362,6 +398,7 @@ MonoBehaviour:
       Position: 2
       Value: 3
       Duration: 5
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -370,6 +407,7 @@ MonoBehaviour:
       Position: 7
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -382,6 +420,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -390,6 +429,7 @@ MonoBehaviour:
       Position: 2
       Value: 3
       Duration: 5
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -398,6 +438,7 @@ MonoBehaviour:
       Position: 7
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -409,6 +450,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -417,6 +459,7 @@ MonoBehaviour:
       Position: 3
       Value: 2
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -425,6 +468,7 @@ MonoBehaviour:
       Position: 6
       Value: 1
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -433,6 +477,7 @@ MonoBehaviour:
       Position: 9
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -444,6 +489,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -452,6 +498,7 @@ MonoBehaviour:
       Position: 4
       Value: 4
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -460,6 +507,7 @@ MonoBehaviour:
       Position: 7
       Value: 1
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -468,6 +516,7 @@ MonoBehaviour:
       Position: 8
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -479,6 +528,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -487,6 +537,7 @@ MonoBehaviour:
       Position: 2
       Value: 2
       Duration: 4
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -495,6 +546,7 @@ MonoBehaviour:
       Position: 7
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -506,6 +558,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -514,6 +567,7 @@ MonoBehaviour:
       Position: 3
       Value: 0
       Duration: 5
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -522,6 +576,7 @@ MonoBehaviour:
       Position: 8
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -533,6 +588,7 @@ MonoBehaviour:
       Position: 1
       Value: 1
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -541,6 +597,7 @@ MonoBehaviour:
       Position: 2
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -549,6 +606,7 @@ MonoBehaviour:
       Position: 5
       Value: 3
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -557,6 +615,7 @@ MonoBehaviour:
       Position: 6
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -568,6 +627,7 @@ MonoBehaviour:
       Position: 2
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -576,6 +636,7 @@ MonoBehaviour:
       Position: 6
       Value: 2
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -584,6 +645,7 @@ MonoBehaviour:
       Position: 9
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -595,6 +657,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -603,6 +666,7 @@ MonoBehaviour:
       Position: 4
       Value: 2
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -611,6 +675,7 @@ MonoBehaviour:
       Position: 8
       Value: 2
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -619,6 +684,7 @@ MonoBehaviour:
       Position: 10
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -630,6 +696,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -638,6 +705,7 @@ MonoBehaviour:
       Position: 2
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -646,6 +714,7 @@ MonoBehaviour:
       Position: 3
       Value: 1
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -654,6 +723,7 @@ MonoBehaviour:
       Position: 5
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -662,6 +732,7 @@ MonoBehaviour:
       Position: 6
       Value: 1
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -670,6 +741,7 @@ MonoBehaviour:
       Position: 8
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -678,6 +750,7 @@ MonoBehaviour:
       Position: 9
       Value: 2
       Duration: 0
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -686,6 +759,7 @@ MonoBehaviour:
       Position: 10
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -697,6 +771,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -705,6 +780,7 @@ MonoBehaviour:
       Position: 3
       Value: 2
       Duration: 4
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -713,6 +789,7 @@ MonoBehaviour:
       Position: 8
       Value: 3
       Duration: 3
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -721,6 +798,7 @@ MonoBehaviour:
       Position: 11
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -732,6 +810,7 @@ MonoBehaviour:
       Position: 1
       Value: 0
       Duration: 2
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -740,6 +819,7 @@ MonoBehaviour:
       Position: 3
       Value: 1
       Duration: 6
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -748,6 +828,7 @@ MonoBehaviour:
       Position: 10
       Value: 0
       Duration: 1
+      DrawCards: 1
       AttackType: 0
       KeyForm: 0
       DisabledInPlayState: 0
@@ -755,3 +836,4 @@ MonoBehaviour:
   - Name: "\u0416\u0434\u0430\u0442\u044C"
     Length: 4
     Actions: []
+

@@ -35,7 +35,7 @@ namespace TimelineHero.BattleView
             EnemyTimeline = GenerateTimeline(BattlePrefabsConfig.Get().TimelinePrefab);
             EnemyTimeline.Initialize(BattleSystem.Get().BattleBoard.EnemyTimeline);
 
-            foreach (Skill skill in BattleSystem.Get().GetCurrentEnemy().Skills)
+            foreach (Skill skill in BattleSystem.Get().GetCurrentEnemySkillSet())
             {
                 CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().CardWrapperPrefab);
                 cardWrapper.SetState(CardState.Hand, skill);
