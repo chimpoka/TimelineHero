@@ -191,4 +191,7 @@ MonoBehaviour:
   - ActionType: 33
     Prefab: {fileID: 8434394297544314787, guid: 1d2038aa03e8bb04d8d27e6cbba42452,
       type: 3}
+  - ActionType: 34
+    Prefab: {fileID: 7995222646942269433, guid: 8b6a6199635e76748afbd7eabcb827d3,
+      type: 3}
   Steps: []

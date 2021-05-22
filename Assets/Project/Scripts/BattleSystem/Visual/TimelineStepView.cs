@@ -18,7 +18,7 @@ namespace TimelineHero.BattleView
 
         private Material ImageMaterial;
 
-        private void Start()
+        private void Awake()
         {
             GetComponent<Image>().material = new Material(BattlePrefabsConfig.Get().DissolveMaterial);
             ImageMaterial = GetComponent<Image>().material;

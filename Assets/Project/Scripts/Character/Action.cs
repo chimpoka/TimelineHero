@@ -9,7 +9,7 @@ namespace TimelineHero.Character
         AdrenalineAttack, AdrenalineDodge, AdrenalineBlock, RandomAttack, ImperviousAttack, SelfAttack,
         SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled,
         DodgeContinuance, AdrenalineCancelled, KeyIn1, KeyIn2, KeyIn3, KeyOut1, KeyOut2, KeyOut3, 
-        LuckCancelled, DrawCard, DrawCardAttack, ExpendedHealthAttack
+        LuckCancelled, DrawCard, DrawCardAttack, ExpendedHealthAttack, FullAdrenalineAttack
     }
 
     public enum CharacterAttackType
@@ -67,7 +67,9 @@ namespace TimelineHero.Character
         public int Position;
 
         [VerticalGroup("Split/Right")]
-        [ShowIf("@(IsAttackAction() && this.ActionType != CharacterActionType.ExpendedHealthAttack)" +
+        [ShowIf("@(IsAttackAction()" +
+             " && this.ActionType != CharacterActionType.ExpendedHealthAttack" +
+             " && this.ActionType != CharacterActionType.FullAdrenalineAttack)" +
              " || IsSelfAttackAction() || IsBlockAction()")]
         public int Value;
 
@@ -118,7 +120,8 @@ namespace TimelineHero.Character
         {
             return (ActionType == CharacterActionType.AdrenalineAttack ||
                     ActionType == CharacterActionType.AdrenalineDodge ||
-                    ActionType == CharacterActionType.AdrenalineBlock);
+                    ActionType == CharacterActionType.AdrenalineBlock ||
+                    ActionType == CharacterActionType.FullAdrenalineAttack);
         }
 
         public bool IsAttackAction()
@@ -130,7 +133,8 @@ namespace TimelineHero.Character
                     ActionType == CharacterActionType.ImperviousAttack ||
                     ActionType == CharacterActionType.AdrenalineAttack ||
                     ActionType == CharacterActionType.DrawCardAttack ||
-                    ActionType == CharacterActionType.ExpendedHealthAttack);
+                    ActionType == CharacterActionType.ExpendedHealthAttack ||
+                    ActionType == CharacterActionType.FullAdrenalineAttack);
         }
 
         public bool IsSelfAttackAction()

@@ -160,6 +160,10 @@ namespace TimelineHero.Battle
             {
                 return DoAction_AdrenalineAttack(AttackerAction, DefenderAction);
             }
+            else if (AttackerAction.ActionType == CharacterActionType.FullAdrenalineAttack)
+            {
+                return DoAction_FullAdrenalineAttack(AttackerAction, DefenderAction);
+            }
             else if (AttackerAction.ActionType == CharacterActionType.DrawCard)
             {
                 return DoAction_DrawCard(AttackerAction);
@@ -375,6 +379,19 @@ namespace TimelineHero.Battle
             }
 
             AttackerAction.Owner.Adrenaline--;
+            return DoAction_Attack(AttackerAction, DefenderAction);
+        }
+
+        private ActionEffectData DoAction_FullAdrenalineAttack(Action AttackerAction, Action DefenderAction)
+        {
+            if (AttackerAction.Owner.Adrenaline <= 0)
+            {
+                UnityEngine.Debug.LogError("No Adrenaline!");
+                return new ActionEffectData("Error: No Adrenaline!", "");
+            }
+
+            AttackerAction.Value = (int)(AttackerAction.Owner.Adrenaline * GameInstance.Get().FullAdrenalineAttackMultiplier);
+            AttackerAction.Owner.Adrenaline = 0;
             return DoAction_Attack(AttackerAction, DefenderAction);
         }
 

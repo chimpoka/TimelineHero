@@ -13,6 +13,7 @@ namespace TimelineHero.Core
         public bool ShuffleDrawDeck = true;
         public float MinTimelineSpeed = 0.5f;
         public float MaxTimelineSpeed = 5.0f;
+        public float FullAdrenalineAttackMultiplier = 1.0f;
 
         [HideInInspector]
         public float CanvasScaleFactor;

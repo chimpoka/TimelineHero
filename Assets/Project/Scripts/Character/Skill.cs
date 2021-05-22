@@ -111,7 +111,8 @@ namespace TimelineHero.Character
         {
             return (HasActionsWithType(CharacterActionType.AdrenalineAttack) ||
                     HasActionsWithType(CharacterActionType.AdrenalineDodge) ||
-                    HasActionsWithType(CharacterActionType.AdrenalineBlock));
+                    HasActionsWithType(CharacterActionType.AdrenalineBlock) ||
+                    HasActionsWithType(CharacterActionType.FullAdrenalineAttack));
         }
 
         public bool IsRandomSkill()
