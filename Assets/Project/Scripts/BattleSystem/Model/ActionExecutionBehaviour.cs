@@ -4,6 +4,19 @@ using TimelineHero.Core;
 
 namespace TimelineHero.Battle
 {
+    public class ActionData
+    {
+        public ActionData(List<ActionEffectData> EffectData)
+        {
+            this.EffectData = EffectData;
+
+            IsSignificant = EffectData != null && EffectData.Find((effectData) => effectData != null && effectData.IsSignificant) != null;
+        }
+
+        public List<ActionEffectData> EffectData;
+        public bool IsSignificant;
+    }
+
     public class ActionEffectData
     {
         public ActionEffectData(string AlliedText, string EnemyText)
@@ -12,12 +25,20 @@ namespace TimelineHero.Battle
             this.EnemyText = EnemyText;
         }
 
+        public ActionEffectData(string AlliedText, string EnemyText, bool IsSignificant)
+        {
+            this.AlliedText = AlliedText;
+            this.EnemyText = EnemyText;
+            this.IsSignificant = IsSignificant;
+        }
+
         public string AlliedText;
         public string EnemyText;
         public int Value;
+        public bool IsSignificant;
 
         public static ActionEffectData operator +(ActionEffectData lhs, ActionEffectData rhs)
-            => new ActionEffectData(lhs.AlliedText + rhs.AlliedText, lhs.EnemyText + rhs.EnemyText);
+            => new ActionEffectData(lhs.AlliedText + rhs.AlliedText, lhs.EnemyText + rhs.EnemyText, lhs.IsSignificant || rhs.IsSignificant);
 
         public ActionEffectData Swap()
         {
@@ -30,7 +51,7 @@ namespace TimelineHero.Battle
 
     public class ActionExecutionBehaviour
     {
-        public List<ActionEffectData> Execute(Action AlliedAction, Action EnemyAction)
+        public ActionData Execute(Action AlliedAction, Action EnemyAction)
         {
             List<ActionEffectData> effectsDataList = new List<ActionEffectData>();
 
@@ -39,7 +60,7 @@ namespace TimelineHero.Battle
 
             if (IsDead(AlliedAction.Owner) || IsDead(EnemyAction.Owner))
             {
-                return effectsDataList;
+                return new ActionData(effectsDataList);
             }
 
             effectsDataList.Add(Execute_Internal(AlliedAction, EnemyAction));
@@ -48,7 +69,7 @@ namespace TimelineHero.Battle
             effectsDataList.Add(PostExecute_Internal(AlliedAction, EnemyAction));
             effectsDataList.Add(PostExecute_Internal(EnemyAction, AlliedAction)?.Swap());
 
-            return effectsDataList;
+            return new ActionData(effectsDataList);
         }
 
         private List<ActionEffectData> PreExecute_Internal(Action AttackerAction)
@@ -232,11 +253,11 @@ namespace TimelineHero.Battle
         {
             if (DefenderAction.Owner.ParryDuration > 0 && AttackerAction.AttackType == DefenderAction.AttackType)
             {
-                return new ActionEffectData("", "Parry! " + DefenderAction.AttackType.ToString());
+                return new ActionEffectData("", "Parry! " + DefenderAction.AttackType.ToString(), true);
             }
 
             int hitDamage = DefenderAction.Owner.TakeDamage(AttackerAction.Value);
-            ActionEffectData data = new ActionEffectData("", (-hitDamage).ToString());
+            ActionEffectData data = new ActionEffectData("", (-hitDamage).ToString(), true);
             data.Value = hitDamage;
             AttackerAction.SuccessfulAction = true;
 
@@ -247,7 +268,7 @@ namespace TimelineHero.Battle
         {
             if (DefenderAction.Owner.DodgeDuration > 0)
             {
-                return new ActionEffectData("", "Dodged!");
+                return new ActionEffectData("", "Dodged!", true);
             }
 
             return DoAction_ImperviousAttack(AttackerAction, DefenderAction);
@@ -257,7 +278,7 @@ namespace TimelineHero.Battle
         {
             int hitDamage = AttackerAction.Owner.TakeDamage(AttackerAction.Value);
             AttackerAction.SuccessfulAction = true;
-            return new ActionEffectData((-hitDamage).ToString(), "");
+            return new ActionEffectData((-hitDamage).ToString(), "", true);
         }
 
         private ActionEffectData DoAction_LuckAttack(Action AttackerAction, Action DefenderAction)
@@ -267,7 +288,7 @@ namespace TimelineHero.Battle
                 return DoAction_Attack(AttackerAction, DefenderAction);
             }
 
-            return new ActionEffectData("Miss", "");
+            return new ActionEffectData("Miss", "", true);
         }
 
         private ActionEffectData DoAction_SelfLuckAttack(Action AttackerAction)
@@ -277,7 +298,7 @@ namespace TimelineHero.Battle
                 return DoAction_SelfAttack(AttackerAction);
             }
 
-            return new ActionEffectData("Miss...", "");
+            return new ActionEffectData("Miss...", "", true);
         }
 
         private ActionEffectData DoAction_Block(Action AttackerAction)
@@ -287,7 +308,6 @@ namespace TimelineHero.Battle
                 AttackerAction.Owner.BlockDuration = AttackerAction.Duration;
                 AttackerAction.Owner.Block = AttackerAction.Value;
                 AttackerAction.SuccessfulAction = true;
-                return new ActionEffectData("Block opened!", "");
             }
 
             return null;
@@ -300,7 +320,7 @@ namespace TimelineHero.Battle
                 return DoAction_Block(AttackerAction);
             }
 
-            return new ActionEffectData("Miss Block...", "");
+            return new ActionEffectData("Miss Block...", "", true);
         }
 
         private ActionEffectData DoAction_Dodge(Action AttackerAction)
@@ -309,7 +329,6 @@ namespace TimelineHero.Battle
             {
                 AttackerAction.Owner.DodgeDuration = AttackerAction.Duration;
                 AttackerAction.SuccessfulAction = true;
-                return new ActionEffectData("Dodge started!", "");
             }
 
             return null;
@@ -322,7 +341,7 @@ namespace TimelineHero.Battle
                 return DoAction_Dodge(AttackerAction);
             }
 
-            return new ActionEffectData("Miss Dodge...", "");
+            return new ActionEffectData("Miss Dodge...", "", true);
         }
 
         private ActionEffectData DoAction_Parry(Action AttackerAction)
@@ -331,6 +350,7 @@ namespace TimelineHero.Battle
             {
                 AttackerAction.Owner.ParryDuration = AttackerAction.Duration;
                 AttackerAction.SuccessfulAction = true;
+                return new ActionEffectData("", "");
             }
 
             return null;
@@ -376,7 +396,7 @@ namespace TimelineHero.Battle
         {
             BattleSystem.Get().DrawCards(AttackerAction.DrawCards);
 
-            return new ActionEffectData("Draw " + AttackerAction.DrawCards, "");
+            return new ActionEffectData("Draw " + AttackerAction.DrawCards, "", true);
         }
 
         private ActionEffectData DoAction_DrawCardAttack(Action AttackerAction, Action DefenderAction)

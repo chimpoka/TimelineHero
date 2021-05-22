@@ -15,6 +15,8 @@ MonoBehaviour:
   DrawCardCount: 4
   DelayBetweenCardAnimationsInSeconds: 0.3
   ShuffleDrawDeck: 1
+  MinTimelineSpeed: 0.5
+  MaxTimelineSpeed: 5
   CanvasScaleFactor: 1.0000001
   AlliedCharactersAssets:
   - {fileID: 11400000, guid: 4edcf6860a00564408d74535bbcc6cf8, type: 2}

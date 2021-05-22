@@ -20,6 +20,7 @@ namespace TimelineHero.Battle
         private float StepTimeInSeconds;
         private float EndTimeIsSeconds;
         private bool IsEnabled = false;
+        private float Speed = 1.0f;
 
         public void Launch(float ActionsInSecond, int TimelineLength)
         {
@@ -35,12 +36,27 @@ namespace TimelineHero.Battle
             Destroy(gameObject);
         }
 
+        public void SetSpeed(float Speed)
+        {
+            this.Speed = Speed;
+        }
+
+        public void Pause()
+        {
+            IsEnabled = false;
+        }
+
+        public void Continue()
+        {
+            IsEnabled = true;
+        }
+
         private void FixedUpdate()
         {
             if (!IsEnabled)
                 return;
 
-            AccumulatedTimeInSeconds += Time.fixedDeltaTime;
+            AccumulatedTimeInSeconds += Time.fixedDeltaTime * Speed;
 
             OnUpdate?.Invoke(AccumulatedTimeInSeconds);
             OnUpdateInterp?.Invoke(AccumulatedTimeInSeconds / EndTimeIsSeconds);

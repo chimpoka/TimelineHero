@@ -15,7 +15,7 @@ namespace TimelineHero.Battle
         public System.Action<int> OnTimerIntegerValue;
         public System.Action<float> OnTimerInterpValue;
 
-        public System.Action<List<ActionEffectData>> OnActionExecuted;
+        public System.Action<ActionData> OnActionExecuted;
         public System.Action<BattleResult> OnBattleFinished;
 
         public System.Action<List<Skill>> OnDrawCards;
@@ -114,14 +114,6 @@ namespace TimelineHero.Battle
             OnDiscardCardsFromDiscardSection?.Invoke();
         }
 
-        public void ExecuteActionsAtPosition(int Position)
-        {
-            Action alliedAction = BattleBoard.AlliedTimeline.GetActionAtPosition(Position);
-            Action enemyAction = BattleBoard.EnemyTimeline.GetActionAtPosition(Position);
-
-            OnActionExecuted?.Invoke(ActionBehaviour.Execute(alliedAction, enemyAction));
-        }
-
         public void CreateNextEnemySkillSet()
         {
             CharacterBase currentEnemy = GetCurrentEnemy();
@@ -190,24 +182,6 @@ namespace TimelineHero.Battle
             return BattleBoard.EnemyTimeline.Length;
         }
 
-        public void StartBattleTimer()
-        {
-            GameObject timerObject = new GameObject("Timer");
-            TimelineTimer = timerObject.AddComponent<BattleTimelineTimer>();
-            TimelineTimer.OnIntegerValue += (int Position) => OnTimerIntegerValue?.Invoke(Position);
-            TimelineTimer.OnUpdateInterp += (float Position) => OnTimerInterpValue?.Invoke(Position);
-            TimelineTimer.OnElapsed += () => OnTimerFinished?.Invoke();
-            TimelineTimer.OnStopped += () => OnTimerFinished?.Invoke();
-            TimelineTimer.Launch(2.0f, GetTimelineLength());
-
-            OnTimerStarted?.Invoke();
-        }
-
-        public void StopBattleTimer()
-        {
-            TimelineTimer.Stop();
-        }
-
         private void OnEnemyDied(CharacterBase Enemy)
         {
             OnBattleFinished?.Invoke(BattleResult.Win);
@@ -215,7 +189,7 @@ namespace TimelineHero.Battle
 
         private void OnAllyDied(CharacterBase Ally)
         {
-            foreach(CharacterBase character in GetAlliedCharacters())
+            foreach (CharacterBase character in GetAlliedCharacters())
             {
                 if (!character.IsDead)
                 {
@@ -225,5 +199,36 @@ namespace TimelineHero.Battle
 
             OnBattleFinished?.Invoke(BattleResult.Lose);
         }
+
+        #region Timer
+        public void ExecuteActionsAtPosition(int Position)
+        {
+            Action alliedAction = BattleBoard.AlliedTimeline.GetActionAtPosition(Position);
+            Action enemyAction = BattleBoard.EnemyTimeline.GetActionAtPosition(Position);
+
+            ActionData Data = ActionBehaviour.Execute(alliedAction, enemyAction);
+            TimelineTimer.SetSpeed(Data.IsSignificant ? GameInstance.Get().MinTimelineSpeed : GameInstance.Get().MaxTimelineSpeed);
+
+            OnActionExecuted?.Invoke(Data);
+        }
+
+        public void StartBattleTimer()
+        {
+            GameObject timerObject = new GameObject("Timer");
+            TimelineTimer = timerObject.AddComponent<BattleTimelineTimer>();
+            TimelineTimer.OnIntegerValue += (int Position) => OnTimerIntegerValue?.Invoke(Position);
+            TimelineTimer.OnUpdateInterp += (float Position) => OnTimerInterpValue?.Invoke(Position);
+            TimelineTimer.OnElapsed += () => OnTimerFinished?.Invoke();
+            TimelineTimer.OnStopped += () => OnTimerFinished?.Invoke();
+            TimelineTimer.Launch(1.0f, GetTimelineLength());
+
+            OnTimerStarted?.Invoke();
+        }
+
+        public void StopBattleTimer()
+        {
+            TimelineTimer.Stop();
+        }
+        #endregion Timer
     }
 }

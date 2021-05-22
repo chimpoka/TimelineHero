@@ -13,9 +13,9 @@ namespace TimelineHero.BattleUI
         public RectTransform EnemyActionEmitter;
         public RectTransform AlliedActionEmitter;
 
-        public void CreateActionEffect(List<ActionEffectData> EffectData)
+        public void CreateActionEffect(ActionData Data)
         {
-            foreach(ActionEffectData data in EffectData)
+            foreach(ActionEffectData data in Data.EffectData)
             {
                 if (data == null)
                 {
