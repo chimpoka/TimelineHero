@@ -132,6 +132,10 @@ namespace TimelineHero.Battle
             {
                 return DoAction_Attack(AttackerAction, DefenderAction);
             }
+            else if (AttackerAction.ActionType == CharacterActionType.ExpendedHealthAttack)
+            {
+                return DoAction_ExpendedHealthAttack(AttackerAction, DefenderAction);
+            }
             else if (AttackerAction.ActionType == CharacterActionType.LuckAttack)
             {
                 return DoAction_LuckAttack(AttackerAction, DefenderAction);
@@ -272,6 +276,12 @@ namespace TimelineHero.Battle
             }
 
             return DoAction_ImperviousAttack(AttackerAction, DefenderAction);
+        }
+
+        private ActionEffectData DoAction_ExpendedHealthAttack(Action AttackerAction, Action DefenderAction)
+        {
+            AttackerAction.Value = AttackerAction.Owner.MaxHealth - AttackerAction.Owner.Health;
+            return DoAction_Attack(AttackerAction, DefenderAction);
         }
 
         private ActionEffectData DoAction_SelfAttack(Action AttackerAction)

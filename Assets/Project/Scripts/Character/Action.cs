@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Sirenix.OdinInspector;
 
 namespace TimelineHero.Character
@@ -11,7 +9,7 @@ namespace TimelineHero.Character
         AdrenalineAttack, AdrenalineDodge, AdrenalineBlock, RandomAttack, ImperviousAttack, SelfAttack,
         SelfLuckAttack, SelfRandomAttack, Open, Close, RandomAttackCancelled, SelfRandomAttackCancelled,
         DodgeContinuance, AdrenalineCancelled, KeyIn1, KeyIn2, KeyIn3, KeyOut1, KeyOut2, KeyOut3, 
-        LuckCancelled, DrawCard, DrawCardAttack
+        LuckCancelled, DrawCard, DrawCardAttack, ExpendedHealthAttack
     }
 
     public enum CharacterAttackType
@@ -69,7 +67,8 @@ namespace TimelineHero.Character
         public int Position;
 
         [VerticalGroup("Split/Right")]
-        [ShowIf("@IsAttackAction() || IsSelfAttackAction() || IsBlockAction()")]
+        [ShowIf("@(IsAttackAction() && this.ActionType != CharacterActionType.ExpendedHealthAttack)" +
+             " || IsSelfAttackAction() || IsBlockAction()")]
         public int Value;
 
         [VerticalGroup("Split/Right")]
@@ -130,7 +129,8 @@ namespace TimelineHero.Character
                     ActionType == CharacterActionType.SelfRandomAttack ||
                     ActionType == CharacterActionType.ImperviousAttack ||
                     ActionType == CharacterActionType.AdrenalineAttack ||
-                    ActionType == CharacterActionType.DrawCardAttack);
+                    ActionType == CharacterActionType.DrawCardAttack ||
+                    ActionType == CharacterActionType.ExpendedHealthAttack);
         }
 
         public bool IsSelfAttackAction()
