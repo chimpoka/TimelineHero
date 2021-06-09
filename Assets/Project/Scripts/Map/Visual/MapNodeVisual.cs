@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -22,6 +23,8 @@ namespace TimelineHero.MapView
         public List<MapNodeVisual> NeighbourNodes;
 
         private MapNode NodeCached;
+
+        public System.Action<MapNodeVisual> OnNodePressed;
         
         #region UnityOverrides
         private void Awake()
@@ -99,7 +102,13 @@ namespace TimelineHero.MapView
         #region Runtime
         private void RuntimeAwake()
         {
-            
+            foreach (var node in NeighbourNodes)
+            {
+                if (!node.NeighbourNodes.Contains(this))
+                {
+                    node.NeighbourNodes.Add(this);
+                }
+            }
         }
 
         private void RuntimeStart()
@@ -116,6 +125,12 @@ namespace TimelineHero.MapView
         {
             
         }
+
+        private void OnMouseDown()
+        {
+            OnNodePressed?.Invoke(this);
+        }
+
         #endregion Runtime
     }
 }

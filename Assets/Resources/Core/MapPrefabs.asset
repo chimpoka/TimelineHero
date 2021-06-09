@@ -35,5 +35,9 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: 62d4bc44f3ea8d344a9c696df7885467, type: 3}
   - Type: 10
     Icon: {fileID: 21300000, guid: 8f74433e4f869994b92a7e009d127c34, type: 3}
+  - Type: 11
+    Icon: {fileID: 21300000, guid: 4a8060a8cbd80164c8fd8aee202fde74, type: 3}
   LinePrefab: {fileID: 4663482923397226664, guid: ab1848ead3f790942b405055c9c69706,
+    type: 3}
+  MapPlayerPrefab: {fileID: 4834456074461695605, guid: 4c34e30493414ed4f955e2b421678daf,
     type: 3}

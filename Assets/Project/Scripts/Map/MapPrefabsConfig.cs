@@ -18,5 +18,6 @@ namespace TimelineHero.MapView
         
         public List<NodeTypeToNodeIcon> MapNodeIcons;
         public LineRenderer LinePrefab;
+        public MapPlayerTracker MapPlayerPrefab;
     }
 }

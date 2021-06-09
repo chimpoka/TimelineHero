@@ -6,7 +6,7 @@ namespace TimelineHero.Map
     public enum NodeType
     {
         Enemy, EliteEnemy, Town, Rest, Boss, Examination, Loot,
-        Question, Relic, Sanctuary, Trap
+        Question, Relic, Sanctuary, Trap, StartNode
     }
     
     public class MapNode : MonoBehaviour

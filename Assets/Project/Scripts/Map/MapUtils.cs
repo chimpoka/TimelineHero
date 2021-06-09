@@ -16,5 +16,10 @@ namespace TimelineHero.Map
             LinesParentObject = LinesParentObject ?? new GameObject("Lines");
             Line.transform.SetParent(LinesParentObject.transform);
         }
+
+        public static bool AreNeighbourNodes(MapNodeVisual First, MapNodeVisual Second)
+        {
+            return First.NeighbourNodes.Contains(Second);
+        }
     }
 }
