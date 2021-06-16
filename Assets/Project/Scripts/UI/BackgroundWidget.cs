@@ -1,6 +1,7 @@
+using TimelineHero.CoreUI;
 using UnityEngine;
 
-public class BackgroundWidget : MonoBehaviour
+public class BackgroundWidget : UiComponent
 {
     private Animator AnimController;
 
@@ -10,6 +11,11 @@ public class BackgroundWidget : MonoBehaviour
 
         if (AnimController == null)
             Debug.LogError("BackgroundWidget::AnimController == null");
+    }
+
+    private void Start()
+    {
+        StretchAnchors();
     }
 
     public void Show()

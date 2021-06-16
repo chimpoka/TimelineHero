@@ -32,10 +32,12 @@ namespace TimelineHero.CoreUI
             GetTransform().anchorMax = Vector3.zero;
         }
 
-        public void SetAnchorsToCenter()
+        public void StretchAnchors()
         {
-            GetTransform().anchorMin = new Vector2(0.5f, 0.5f);
-            GetTransform().anchorMax = new Vector2(0.5f, 0.5f);
+            GetTransform().anchorMin = new Vector2(0f, 0f);
+            GetTransform().anchorMax = new Vector2(1f, 1f);
+            GetTransform().offsetMin = new Vector2(0f, 0f);
+            GetTransform().offsetMax = new Vector2(1f, 1f);
         }
 
         public Vector2 GetPositionInAtPivotPoint(Vector2 PivotPoint)

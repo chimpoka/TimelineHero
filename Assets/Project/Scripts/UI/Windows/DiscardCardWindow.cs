@@ -1,14 +1,12 @@
 ﻿using TimelineHero.Battle;
-using TimelineHero.BattleView;
 using TimelineHero.CoreUI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace TimelineHero.BattleUI
 {
-    public class DiscardCardWindow : UiComponent
+    public class DiscardCardWindow : Window
     {
-        [SerializeField] private BackgroundWidget Background;
         [SerializeField] private Button OverlookButton;
         [SerializeField] private Button CloseButton;
 
@@ -16,7 +14,7 @@ namespace TimelineHero.BattleUI
 
         private bool IsEnabled;
 
-        private void Start()
+        protected override void StartOpenWindowEvent()
         {
             Show();
         }

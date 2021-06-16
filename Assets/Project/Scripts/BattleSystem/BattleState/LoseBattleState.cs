@@ -1,4 +1,5 @@
-﻿using TimelineHero.CoreUI;
+﻿using TimelineHero.BattleUI;
+using TimelineHero.CoreUI;
 
 namespace TimelineHero.Battle
 {
@@ -8,7 +9,7 @@ namespace TimelineHero.Battle
             : base(BattleSceneControllerRef)
         {
             BattleSystem.Get().StopBattleTimer();
-            WindowManager.Get().ShowLoseWindow();
+            BattleHud.Get().OpenWindow<LoseWindow>();
         }
     }
 }

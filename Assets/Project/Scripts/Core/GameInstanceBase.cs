@@ -25,6 +25,7 @@ namespace TimelineHero.Core
 
         protected void InitializeSubsystems()
         {
+            Subsystems.Add(new InputSystem());
         }
     }
 }

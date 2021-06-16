@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using DG.Tweening;
+using TimelineHero.Core;
 using TimelineHero.Map;
+using TimelineHero.MapUI;
 using UnityEngine;
 
 namespace TimelineHero.MapView
@@ -27,12 +31,64 @@ namespace TimelineHero.MapView
         {
             if (MapUtils.AreNeighbourNodes(CurrentNode, SelectedNode))
             {
-                Player.SendPlayerToNode(SelectedNode);
+                Player.SendPlayerToNode(SelectedNode).onComplete += OnNodeReached;
                 CurrentNode = SelectedNode;
+                InputSystem.Get().bWorldInputEnabled = false;
             }
             else
             {
                 print("Node " + SelectedNode.name + " is not reachable");
+            }
+        }
+
+        private void OnNodeReached()
+        {
+            InputSystem.Get().bWorldInputEnabled = true;
+            DOTween.Sequence().AppendInterval(GameInstance.Get().EnterNodeDelay).OnComplete(() => EnterNode(CurrentNode));
+        }
+
+        private void EnterNode(MapNodeVisual Node)
+        {
+            switch (Node.Type)
+            {
+                case NodeType.Enemy:
+                    MapHud.Get().OpenWindow<EnemyWindow>();
+                    break;
+                case NodeType.EliteEnemy:
+                    MapHud.Get().OpenWindow<EnemyWindow>();
+                    break;
+                case NodeType.Town: 
+                    MapHud.Get().OpenWindow<TownWindow>();
+                    break;
+                case NodeType.Rest:
+                    MapHud.Get().OpenWindow<RestWindow>();
+                    break;
+                case NodeType.Boss:
+                    MapHud.Get().OpenWindow<EnemyWindow>();
+                    break;
+                case NodeType.Examination:
+                    MapHud.Get().OpenWindow<TemplateMapWindow>();
+                    break;
+                case NodeType.Loot:
+                    MapHud.Get().OpenWindow<TemplateMapWindow>();
+                    break;
+                case NodeType.Question:
+                    MapHud.Get().OpenWindow<TemplateMapWindow>();
+                    break;
+                case NodeType.Relic:
+                    MapHud.Get().OpenWindow<TemplateMapWindow>();
+                    break;
+                case NodeType.Sanctuary:
+                    MapHud.Get().OpenWindow<TemplateMapWindow>();
+                    break;
+                case NodeType.Trap:
+                    MapHud.Get().OpenWindow<TemplateMapWindow>();
+                    break;
+                case NodeType.StartNode:
+                    MapHud.Get().OpenWindow<TemplateMapWindow>();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

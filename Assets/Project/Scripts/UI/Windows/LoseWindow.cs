@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace TimelineHero.BattleUI
 {
-    public class LoseWindow : UiComponent
+    public class LoseWindow : Window
     {
         public void OnPressButton()
         {

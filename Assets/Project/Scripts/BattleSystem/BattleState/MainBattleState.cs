@@ -9,7 +9,7 @@ namespace TimelineHero.Battle
             : base(BattleSceneControllerRef)
         {
             BattleHud.Get().OnPlayBattleButtonEvent += SetPlayState;
-            WindowManager.Get().OnDiscardWindowOpened += SetDiscardState;
+            WindowManager.OnDiscardWindowOpened += SetDiscardState;
 
             BattleSystem.Get().SetMainBattleState();
 
@@ -19,7 +19,7 @@ namespace TimelineHero.Battle
         private void UnsubscribeAll()
         {
             BattleHud.Get().OnPlayBattleButtonEvent -= SetPlayState;
-            WindowManager.Get().OnDiscardWindowOpened -= SetDiscardState;
+            WindowManager.OnDiscardWindowOpened -= SetDiscardState;
         }
 
         private void SetPlayState()

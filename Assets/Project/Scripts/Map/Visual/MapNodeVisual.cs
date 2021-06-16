@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TimelineHero.Core;
 using TimelineHero.Map;
 using TMPro;
 using UnityEditor;
@@ -128,7 +129,10 @@ namespace TimelineHero.MapView
 
         private void OnMouseDown()
         {
-            OnNodePressed?.Invoke(this);
+            if (InputSystem.Get().bWorldInputEnabled)
+            {
+                OnNodePressed?.Invoke(this);
+            }
         }
 
         #endregion Runtime

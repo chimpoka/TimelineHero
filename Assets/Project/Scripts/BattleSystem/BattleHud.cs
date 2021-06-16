@@ -4,6 +4,7 @@ using TimelineHero.BattleView;
 using TimelineHero.Character;
 using TimelineHero.CoreUI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace TimelineHero.BattleUI
@@ -20,7 +21,8 @@ namespace TimelineHero.BattleUI
 
         public System.Action OnPlayBattleButtonEvent;
 
-        private Dictionary<CharacterBase, CharacterStatusView> CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
+        private Dictionary<CharacterBase, CharacterStatusView> CharactersStatuses =
+            new Dictionary<CharacterBase, CharacterStatusView>();
 
         public void Initialize()
         {
@@ -59,7 +61,12 @@ namespace TimelineHero.BattleUI
 
         public void OnDiscardCardButton()
         {
-            WindowManager.Get().ShowDiscardCardWindow();
+            OpenWindow<DiscardCardWindow>();
+        }
+
+        public void OnGoToMapButton()
+        {
+            SceneManager.LoadScene(0);
         }
 
         public void OnPlayBattleButton()
@@ -99,14 +106,14 @@ namespace TimelineHero.BattleUI
 
         public void UpdateStatuses(Vector2 AlliedStatusPosition, Vector2 EnemyStatusPosition)
         {
-            foreach(var status in CharactersStatuses)
+            foreach (var status in CharactersStatuses)
             {
                 status.Value.DestroyUiObject();
             }
             CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
 
             CreateStatuses(BattleSystem.Get().GetAlliedCharacters(), AlliedStatusPosition);
-            CreateStatuses(new List<CharacterBase> { BattleSystem.Get().GetCurrentEnemy() }, EnemyStatusPosition);
+            CreateStatuses(new List<CharacterBase> {BattleSystem.Get().GetCurrentEnemy()}, EnemyStatusPosition);
         }
 
         private void CreateStatuses(List<CharacterBase> Characters, Vector2 Position)
@@ -139,7 +146,7 @@ namespace TimelineHero.BattleUI
         private void OnAlliedTimelineLenghtChanged()
         {
             int length = BattleSystem.Get().BattleBoard.AlliedTimeline.Length;
-            PlayBattleButton.interactable = length == 0 ? false : true ; 
+            PlayBattleButton.interactable = length != 0;
         }
     }
 }

@@ -1,3 +1,4 @@
+using TimelineHero.Core;
 using UnityEngine;
 
 namespace TimelineHero.MapCamera
@@ -42,6 +43,9 @@ namespace TimelineHero.MapCamera
 
         private void LateUpdate()
         {
+            if (!InputSystem.Get().bWorldInputEnabled)
+                return;
+            
             if (verticalTranslation.isActivated())
             {
                 float translateY = Input.GetAxis(mouseVerticalAxisName) * verticalTranslation.sensitivity;

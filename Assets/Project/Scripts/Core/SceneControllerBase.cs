@@ -16,6 +16,6 @@ namespace TimelineHero.Core
             InitializeSubsystems();
         }
 
-        protected abstract void InitializeSubsystems();
+        protected virtual void InitializeSubsystems() {}
     }
 }

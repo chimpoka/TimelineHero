@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8427b025f6450f8dd5a2553fe4dd88, type: 3}
+  m_Name: CorePrefabs
+  m_EditorClassIdentifier: 
+  BackgroundWidgetPrefab: {fileID: 4665363987063664451, guid: ca014b7d1346555458b915277434ee46,
+    type: 3}

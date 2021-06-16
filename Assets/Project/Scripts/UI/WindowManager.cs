@@ -1,35 +1,36 @@
 ﻿using TimelineHero.BattleUI;
-using TimelineHero.BattleView;
-using TimelineHero.Core;
-using UnityEngine;
 
 namespace TimelineHero.CoreUI
 {
-    [CreateAssetMenu(menuName = "ScriptableObject/WindowManager")]
-    public class WindowManager : SingletonScriptableObject<WindowManager>
+    public class WindowManager
     {
-        public LoseWindow LoseWindowPrefab;
-        public WinWindow WinWindowPrefab;
-        public DiscardCardWindow DiscardCardWindowPrefab;
+        public static System.Action OnDiscardWindowOpened;
+        public static System.Action OnDiscardWindowClosed;
 
-        public System.Action OnDiscardWindowOpened;
-        public System.Action OnDiscardWindowClosed;
-
-        public void ShowLoseWindow()
+        public void OpenWindow<T>(HudBase Hud)
         {
-            BattleHud.Get().InstantiateWindow(LoseWindowPrefab);
+            foreach (var prefab in WindowsContainer.Get().WindowPrefabs)
+            {
+                if (prefab.GetType() == typeof(T))
+                {
+                    if (typeof(T) == typeof(DiscardCardWindow))
+                    {
+                        ShowDiscardCardWindow(Hud, prefab);
+                    }
+                    else
+                    {
+                        Hud.InstantiateWindow(prefab);
+                    }
+                    
+                    return;
+                }
+            }
         }
 
-        public void ShowWinWindow()
+        private void ShowDiscardCardWindow(HudBase Hud, Window Prefab)
         {
-            BattleHud.Get().InstantiateWindow(WinWindowPrefab);
-        }
-
-        public void ShowDiscardCardWindow()
-        {
-            DiscardCardWindow window = BattleHud.Get().InstantiateWindow(DiscardCardWindowPrefab) as DiscardCardWindow;
+            DiscardCardWindow window = Hud.InstantiateWindow(Prefab) as DiscardCardWindow;
             window.OnWindowClosed = () => OnDiscardWindowClosed?.Invoke();
-
             OnDiscardWindowOpened?.Invoke();
         }
     }

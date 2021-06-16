@@ -36,7 +36,7 @@ namespace TimelineHero.BattleUI
         {
             ActionEffect effect = Instantiate(EffectPrefab);
             effect.SetParent(Emitter);
-            effect.SetAnchorsToCenter();
+            effect.StretchAnchors();
             effect.SetText(Text);
         }
     }

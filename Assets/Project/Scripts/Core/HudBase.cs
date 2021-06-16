@@ -4,11 +4,18 @@ namespace TimelineHero.CoreUI
 {
     public abstract class HudBase : MonoBehaviour
     {
+        private WindowManager WindowManager = new WindowManager();
+        
+        public void OpenWindow<T>()
+        {
+            WindowManager.OpenWindow<T>(this);
+        }
+        
         public UiComponent InstantiateWindow(UiComponent WindowPrefab)
         {
             UiComponent window = Instantiate(WindowPrefab);
             window.SetParent(transform);
-            window.SetAnchorsToCenter();
+            window.StretchAnchors();
 
             return window;
         }

@@ -12,8 +12,12 @@ namespace TimelineHero.Map
             Line.SetPosition(0, From);
             Line.SetPosition(1, (From + To) / 2f);
             Line.SetPosition(2, To);
+
+            if (!LinesParentObject)
+            {
+                LinesParentObject = new GameObject("Lines");
+            }
             
-            LinesParentObject = LinesParentObject ?? new GameObject("Lines");
             Line.transform.SetParent(LinesParentObject.transform);
         }
 
