@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Sirenix.OdinInspector;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TimelineHero.Character
@@ -78,6 +80,7 @@ namespace TimelineHero.Character
         public System.Action<CharacterBase> OnAdrenalineChanged;
         public System.Action<CharacterBase> OnDied;
         public List<SkillSet> SkillSets;
+        public EquipmentSet CurrentEquipment;
         public Dictionary<string, Skill> SkillsDict;
         public string Name;
 
@@ -113,7 +116,48 @@ namespace TimelineHero.Character
 
     public class SkillSet
     {
+        public string SkillName;
         public List<Skill> Skills;
     }
-        
+    
+    public enum EquipmentType { OneHand, TwoHands, Body, Boots, Consumable }
+    public enum EquipmentSlot { LeftHand, RightHand, TwoHands, Body, Boots, Consumable }
+
+    public class Equipment
+    {
+        public Equipment()
+        {
+        }
+
+        public Equipment(Equipment other)
+        {
+            Name = other.Name;
+            EquipmentIcon = other.EquipmentIcon;
+            Type = other.Type;
+            Slot = other.Slot;
+            EquipmentDecks = other.EquipmentDecks;
+        }
+
+        public string Name;
+        public Sprite EquipmentIcon;
+        public EquipmentType Type;
+        public EquipmentSlot Slot;
+        public List<Battle_v2.EquipmentDeck> EquipmentDecks;
+
+        public Equipment Clone()
+        {
+            Equipment clone = new Equipment(this);
+            clone.EquipmentDecks = EquipmentDecks.Select(deck => deck.Clone()).ToList();
+            return clone;
+        }
+    }
+
+    public class EquipmentSet
+    {
+        public Equipment LeftHandEquipment;
+        public Equipment RightHandEquipment;
+        public Equipment BodyEquipment;
+        public Equipment BootsEquipnemt;
+        public Equipment ConsumableEquipment;
+    }
 }

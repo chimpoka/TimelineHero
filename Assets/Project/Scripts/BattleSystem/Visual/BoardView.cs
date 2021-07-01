@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TimelineHero.Character;
 using TimelineHero.Battle;
+using TimelineHero.Battle_v2;
 
 namespace TimelineHero.BattleView
 {
@@ -8,9 +9,9 @@ namespace TimelineHero.BattleView
     {
         public System.Action OnTimelinesVisualCreated;
 
-        public CharacterTimelineView EnemyTimeline;
-        public AlliedCharacterTimelineView AlliedTimeline;
-        public BattleTimelineTimerView TimerView;
+        [HideInInspector] public CharacterTimelineView EnemyTimeline;
+        [HideInInspector] public AlliedCharacterTimelineView AlliedTimeline;
+        [HideInInspector] public BattleTimelineTimerView TimerView;
 
         public void SetPlayBattleState()
         {
@@ -33,9 +34,9 @@ namespace TimelineHero.BattleView
         private void GenerateEnemiesTimeline()
         {
             EnemyTimeline = GenerateTimeline(BattlePrefabsConfig.Get().TimelinePrefab);
-            EnemyTimeline.Initialize(BattleSystem.Get().BattleBoard.EnemyTimeline);
+            EnemyTimeline.Initialize(BattleSystem_v2.Get().BattleBoard.EnemyTimeline);
 
-            foreach (Skill skill in BattleSystem.Get().GetCurrentEnemySkillSet())
+            foreach (Skill skill in BattleSystem_v2.Get().GetCurrentEnemySkillSet())
             {
                 CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().CardWrapperPrefab);
                 cardWrapper.SetState(CardState.Hand, skill);
@@ -50,7 +51,7 @@ namespace TimelineHero.BattleView
         private void GenerateAlliedTimeline()
         {
             AlliedTimeline = GenerateTimeline(BattlePrefabsConfig.Get().AlliedTimelinePrefab) as AlliedCharacterTimelineView;
-            AlliedTimeline.Initialize(BattleSystem.Get().BattleBoard.AlliedTimeline);
+            AlliedTimeline.Initialize(BattleSystem_v2.Get().BattleBoard.AlliedTimeline);
             AlliedTimeline.GetTransform().localScale = Vector3.one;
             AlliedTimeline.AnchoredPosition += new Vector2(0, -EnemyTimeline.Size.y);
             AlliedTimeline.Size = EnemyTimeline.Size;

@@ -134,16 +134,6 @@ namespace TimelineHero.Character
             return SkillRef.Actions.Last().ActionType == CharacterActionType.Close;
         }
 
-        public static List<Skill> GetOriginalSkillsFromCards(List<CardWrapper> Cards)
-        {
-            return Cards.Select(card => card.GetOriginalSkill()).ToList();
-        }
-
-        public static Skill GetOriginalSkill(Skill OldSkill)
-        {
-           return GameInstance.Get().GetSkill(OldSkill.Owner.Name, OldSkill.Name);
-        }
-
         public static void CopyCardStats(Card FromCard, Card ToCard)
         {
             for (int i = 0; i < FromCard.Steps.Count; ++i)

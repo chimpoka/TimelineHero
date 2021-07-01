@@ -7,28 +7,29 @@ using TimelineHero.Character;
 using TimelineHero.Core;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using TimelineHero.BattleUI_v2;
+using TimelineHero.Battle_v2;
 
 namespace TimelineHero.BattleCardsControl
 {
     public class BattleController
     {
-        private HandView HandCached;
-        private BoardView BoardCached;
+        protected IHandView HandCached;
+        protected BoardView BoardCached;
         private DiscardSectionView DiscardSectionCached;
 
         private bool IsActive;
         public CardsControlStrategyBase CardsControlStrategy;
 
-        public void Initialize(HandView HandRef, BoardView BoardRef, DiscardSectionView DiscardSectionRef)
+        public void Initialize(IHandView HandRef, BoardView BoardRef)
         {
             HandCached = HandRef;
             BoardCached = BoardRef;
-            DiscardSectionCached = DiscardSectionRef;
 
-            BattleSystem.Get().OnDrawCards += DrawCards;
-            BattleSystem.Get().OnDiscardAllCardsFromTimeline += DiscardAllCardsFromTimeline;
-            BattleSystem.Get().OnEnemyChanged += RegenerateBoard;
-            BattleSystem.Get().OnDiscardCardsFromDiscardSection += DiscardCardsFromDiscardSection;
+            BattleSystem_v2.Get().OnDiscardAllCardsFromTimeline += DiscardAllCardsFromTimeline;
+            BattleSystem_v2.Get().OnEnemyChanged += RegenerateBoard;
+
+            CardsControlStrategy = new BattleCardsControlStrategy(HandRef, BoardRef);
         }
 
         private void DrawCards(List<Skill> DrawnSkills)
@@ -48,7 +49,7 @@ namespace TimelineHero.BattleCardsControl
                 cards.Add(cardWrapper);
             }
 
-            HandCached.StartCoroutine(DrawCardsCoroutine(cards, GameInstance.Get().DelayBetweenCardAnimationsInSeconds));
+            BoardCached.StartCoroutine(DrawCardsCoroutine(cards, GameInstance.Get().DelayBetweenCardAnimationsInSeconds));
         }
 
         private IEnumerator DrawCardsCoroutine(List<CardWrapper> Cards, float Delay)
@@ -66,7 +67,7 @@ namespace TimelineHero.BattleCardsControl
             if (Cards == null || Cards.Count == 0)
                 return;
 
-            HandCached.StartCoroutine(DiscardCardsCoroutine(Cards, GameInstance.Get().DelayBetweenCardAnimationsInSeconds));
+            BoardCached.StartCoroutine(DiscardCardsCoroutine(Cards, GameInstance.Get().DelayBetweenCardAnimationsInSeconds));
         }
 
         private IEnumerator DiscardCardsCoroutine(List<CardWrapper> Cards, float Delay)
@@ -79,7 +80,7 @@ namespace TimelineHero.BattleCardsControl
             }
         }
 
-        private void DiscardAllCardsFromTimeline()
+        protected void DiscardAllCardsFromTimeline()
         {
             if (!BoardCached.AlliedTimeline)
                 return;
@@ -87,7 +88,7 @@ namespace TimelineHero.BattleCardsControl
             DiscardCards(BoardCached.AlliedTimeline.RemoveCardsFromTimeline());
         }
 
-        void DiscardCardsFromDiscardSection()
+        private void DiscardCardsFromDiscardSection()
         {
             if (!DiscardSectionCached)
                 return;
@@ -118,7 +119,7 @@ namespace TimelineHero.BattleCardsControl
                 }
             }
 
-            BattleHud.Get().UpdateStatuses(GetStatusPosition(BoardCached.AlliedTimeline),
+            BattleHud_v2.Get().UpdateStatuses(GetStatusPosition(BoardCached.AlliedTimeline),
                                            GetStatusPosition(BoardCached.EnemyTimeline));
         }
 

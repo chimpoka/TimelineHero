@@ -7,7 +7,7 @@ namespace TimelineHero.BattleCardsControl
     {
         private DiscardSectionView DiscardSectionCached;
 
-        public DiscardCardsControlStrategy(HandView HandRef, BoardView BoardRef, DiscardSectionView DiscardSectionRef)
+        public DiscardCardsControlStrategy(IHandView HandRef, BoardView BoardRef, DiscardSectionView DiscardSectionRef)
             : base(HandRef, BoardRef)
         {
             DiscardSectionCached = DiscardSectionRef;
@@ -17,7 +17,7 @@ namespace TimelineHero.BattleCardsControl
         {
             PlayerCard.DOStop();
 
-            PlayerCard.SetParent(HandCached.transform.parent);
+            PlayerCard.SetParent(HandCached.GetParent());
 
             if (PlayerCard.State == CardState.Hand)
             {

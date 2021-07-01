@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TimelineHero.BattleView
 {
-    public class HandView : UiComponent
+    public class HandView : UiComponent, IHandView
     {
         // Top, Bottom, Left, Right
         public Vector4 Border = new Vector4(20, 20, 20, 20);
@@ -23,6 +23,11 @@ namespace TimelineHero.BattleView
         private void UpdateHandData()
         {
             BattleSystem.Get().PlayerHand.SetSkills(GetSkills());
+        }
+
+        public Transform GetParent()
+        {
+            return transform.parent;
         }
 
         public void AddCard(CardWrapper NewCard)

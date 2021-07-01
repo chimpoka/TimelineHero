@@ -1,40 +1,43 @@
 using TimelineHero.CoreUI;
 using UnityEngine;
 
-public class BackgroundWidget : UiComponent
+namespace TimelineHero.CoreUI
 {
-    private Animator AnimController;
-
-    private void Awake()
+    public class BackgroundWidget : UiComponent
     {
-        AnimController = GetComponent<Animator>();
+        private Animator AnimController;
 
-        if (AnimController == null)
-            Debug.LogError("BackgroundWidget::AnimController == null");
-    }
+        private void Awake()
+        {
+            AnimController = GetComponent<Animator>();
 
-    private void Start()
-    {
-        StretchAnchors();
-    }
+            if (AnimController == null)
+                Debug.LogError("BackgroundWidget::AnimController == null");
+        }
 
-    public void Show()
-    {
-        AnimController.SetBool("Show", true);
-    }
+        private void Start()
+        {
+            StretchAnchors();
+        }
 
-    public void Hide()
-    {
-        AnimController.SetBool("Show", false);
-    }
+        public void Show()
+        {
+            AnimController.SetBool("Show", true);
+        }
 
-    public void ToggleVisibility()
-    {
-        AnimController.SetBool("Show", !GetState());
-    }
+        public void Hide()
+        {
+            AnimController.SetBool("Show", false);
+        }
 
-    private bool GetState()
-    {
-        return AnimController.GetBool("Show");
+        public void ToggleVisibility()
+        {
+            AnimController.SetBool("Show", !GetState());
+        }
+
+        private bool GetState()
+        {
+            return AnimController.GetBool("Show");
+        }
     }
 }

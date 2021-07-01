@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65bf194c194f79449a94e8efe69441b8, type: 3}
+  m_Name: CharacterAssetPool
+  m_EditorClassIdentifier: 
+  AlliedCharacters:
+  - {fileID: 11400000, guid: 4edcf6860a00564408d74535bbcc6cf8, type: 2}
+  EnemyCharacters:
+  - {fileID: 11400000, guid: fdb57e8c10ed4744ca468cc49aa2302a, type: 2}
+  - {fileID: 11400000, guid: bcbb4911f5a99b047b38328bf3559434, type: 2}
+  - {fileID: 11400000, guid: 2057c4df2e018b64ba12431465fe8edc, type: 2}
+  - {fileID: 11400000, guid: 680c94c6e199f9c40a36ffecdf45f186, type: 2}
+  - {fileID: 11400000, guid: d3b3ec2d2f18bed4cb21069705e3b82c, type: 2}
+  - {fileID: 11400000, guid: 825244d150d78194bb1479b97bb866be, type: 2}

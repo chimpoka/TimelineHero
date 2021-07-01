@@ -24,11 +24,6 @@ namespace TimelineHero.BattleView
             PlayerBattleController.Initialize(PlayerHand, BattleBoard, DiscardSection);
         }
 
-        public BattleTimelineTimerView GetTimerView()
-        {
-            return BattleBoard.TimerView;
-        }
-
         public void SetActive(bool Active)
         {
             PlayerBattleController.SetActive(Active);

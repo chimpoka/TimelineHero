@@ -5,7 +5,7 @@ namespace TimelineHero.BattleCardsControl
 {
     public class BattleCardsControlStrategy : CardsControlStrategyBase
     {
-        public BattleCardsControlStrategy(HandView HandRef, BoardView BoardRef) 
+        public BattleCardsControlStrategy(IHandView HandRef, BoardView BoardRef) 
             : base(HandRef, BoardRef)
         {
         }
@@ -14,7 +14,7 @@ namespace TimelineHero.BattleCardsControl
         {
             PlayerCard.DOStop();
 
-            PlayerCard.SetParent(HandCached.transform.parent);
+            PlayerCard.SetParent(HandCached.GetParent());
             PlayerCard.AnchoredPosition = eventData.position - PlayerCard.Size / 2;
 
             AlliedCharacterTimelineView alliedTimeline = BoardCached.AlliedTimeline;

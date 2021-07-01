@@ -11,11 +11,10 @@ namespace TimelineHero.BattleView
     {
         public int Length { get => GetLength(); }
 
-        public Card HandCard;
-        public Card BoardPreBattleCard;
-        public Card BoardBattleCard;
-
-        public CardState State;
+        [HideInInspector] public Card HandCard;
+        [HideInInspector] public Card BoardPreBattleCard;
+        [HideInInspector] public Card BoardBattleCard;
+        [HideInInspector] public CardState State;
 
         public delegate void CardEventHandler(CardWrapper card, PointerEventData eventData);
         public event CardEventHandler OnPointerDownEvent;
@@ -110,7 +109,7 @@ namespace TimelineHero.BattleView
         private void OnDrawGizmos()
         {
             Gizmos.color = new Color(1, 0, 0, 0.5f);
-            Gizmos.DrawCube(new Vector3(WorldBounds.center.x, WorldBounds.center.y, 2000), new Vector3(WorldBounds.size.x, WorldBounds.size.y, 0.2f));
+            Gizmos.DrawCube(new Vector3(WorldPosition.x, WorldPosition.y, 2000), new Vector3(0.1f, 0.1f, 0.2f));
         }
 
         #region SkillEvents

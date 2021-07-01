@@ -5,13 +5,13 @@ namespace TimelineHero.BattleCardsControl
 {
     public abstract class CardsControlStrategyBase
     {
-        public CardsControlStrategyBase(HandView HandRef, BoardView BoardRef)
+        public CardsControlStrategyBase(IHandView HandRef, BoardView BoardRef)
         {
             HandCached = HandRef;
             BoardCached = BoardRef;
         }
 
-        protected HandView HandCached;
+        protected IHandView HandCached;
         protected BoardView BoardCached;
 
         public abstract void OnCardPointerDown(CardWrapper PlayerCard, PointerEventData eventData);

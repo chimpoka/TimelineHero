@@ -40,19 +40,30 @@ namespace TimelineHero.CoreUI
             GetTransform().offsetMax = new Vector2(1f, 1f);
         }
 
-        public Vector2 GetPositionInAtPivotPoint(Vector2 PivotPoint)
+        public Vector2 GetCenterOfParent()
+        {
+            Vector2 half = new Vector2(0.5f, 0.5f);
+            RectTransform parent = (RectTransform)GetTransform().parent;
+
+            var d1 = (GetTransform().pivot - half) * Size;
+            var d2 = (half - GetTransform().anchorMin) * parent.sizeDelta;
+            return d1 + d2;
+        }
+
+        public void SetToCenterOfParent(/*float Duration*/)
+        {
+            AnchoredPosition = GetCenterOfParent();
+            //DOAnchorPos(GetCenterOfParent(), Duration);
+        }
+
+        public Vector2 GetPositionAtPivotPoint(Vector2 PivotPoint)
         {
             return AnchoredPosition + (GetTransform().pivot - PivotPoint) * Size;
         }
 
         public Vector2 GetCenterPosition()
         {
-            return GetPositionInAtPivotPoint(new Vector2(0.5f, 0.5f));
-        }
-
-        public Vector2 GetCornerPosition()
-        {
-            return GetPositionInAtPivotPoint(new Vector2(0.0f, 0.0f));
+            return GetPositionAtPivotPoint(new Vector2(0.5f, 0.5f));
         }
 
         public TweenerCore<Vector2, Vector2, VectorOptions> DOAnchorPos(Vector2 Position, float Duration = 1.0f)

@@ -31,5 +31,15 @@
         static public string CARD_NAME_PRIEST_4 = "Priest card name 4";
         static public string CARD_NAME_PRIEST_5 = "Priest card name 5";
         #endregion Cards
+
+        #region Equipment
+        static public string EQUIPMENT_NAME_000 = "Equipment 0";
+        static public string EQUIPMENT_NAME_001 = "Equipment 1";
+        static public string EQUIPMENT_NAME_002 = "Equipment 2";
+        static public string EQUIPMENT_NAME_003 = "Equipment 3";
+        static public string EQUIPMENT_NAME_004 = "Equipment 4";
+        static public string EQUIPMENT_NAME_005 = "Equipment 5";
+        static public string EQUIPMENT_NAME_006 = "Equipment 6";
+        #endregion
     }
 }

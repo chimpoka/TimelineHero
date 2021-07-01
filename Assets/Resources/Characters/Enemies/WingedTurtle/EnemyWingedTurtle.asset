@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab3c69236974df242b1fad3d5c5ca4c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 21b1f5284dcd43247a9353b2efe99bcc, type: 3}
   m_Name: EnemyWingedTurtle
   m_EditorClassIdentifier: 
   Health: 8

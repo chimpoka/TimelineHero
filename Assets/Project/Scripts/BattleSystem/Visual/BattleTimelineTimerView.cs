@@ -1,4 +1,5 @@
 ﻿using TimelineHero.Battle;
+using TimelineHero.Battle_v2;
 using TimelineHero.CoreUI;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace TimelineHero.BattleView
 
         private void Awake()
         {
-            BattleSystem.Get().OnTimerStarted += OnTimerStarted;
+            BattleSystem_v2.Get().OnTimerStarted += OnTimerStarted;
         }
 
         public void SetMovementLine(Line NewMovementLine)
@@ -37,7 +38,7 @@ namespace TimelineHero.BattleView
 
         private void OnTimerStarted()
         {
-            BattleSystem.Get().OnTimerInterpValue += OnTimerUpdate;
+            BattleSystem_v2.Get().OnTimerInterpValue += OnTimerUpdate;
         }
 
         private void OnTimerUpdate(float InterpValue)
@@ -47,8 +48,8 @@ namespace TimelineHero.BattleView
 
         private void OnDestroy()
         {
-            BattleSystem.Get().OnTimerStarted -= OnTimerStarted;
-            BattleSystem.Get().OnTimerInterpValue -= OnTimerUpdate;
+            BattleSystem_v2.Get().OnTimerStarted -= OnTimerStarted;
+            BattleSystem_v2.Get().OnTimerInterpValue -= OnTimerUpdate;
         }
     }
 }
