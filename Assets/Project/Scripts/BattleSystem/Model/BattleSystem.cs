@@ -70,16 +70,15 @@ namespace TimelineHero.Battle
 
         public void CreateNextEnemySkillSet()
         {
-            CharacterBase currentEnemy = GetCurrentEnemy();
-            CurrentEnemySkillSetIndex = (CurrentEnemySkillSetIndex + 1) % currentEnemy.SkillSets.Count;
+            int count = GetCurrentEnemy().SkillSets.Count;
+            CurrentEnemySkillSetIndex = (CurrentEnemySkillSetIndex + 1) % count;
 
             OnEnemyChanged?.Invoke();
         }
 
         public void CreatePreviousEnemySkillSet()
         {
-            CharacterBase currentEnemy = GetCurrentEnemy();
-            int count = currentEnemy.SkillSets.Count;
+            int count = GetCurrentEnemy().SkillSets.Count;
             CurrentEnemySkillSetIndex = (CurrentEnemySkillSetIndex + count - 1) % count;
 
             OnEnemyChanged?.Invoke();
@@ -87,7 +86,7 @@ namespace TimelineHero.Battle
 
         public void CreateNextEnemy()
         {
-            List<CharacterBase> enemies = CharacterPool.GetEnemyCharacters();
+            var enemies = CharacterPool.GetEnemyCharacters();
             CurrentEnemySkillSetIndex = 0;
             CurrentEnemyIndex = (CurrentEnemyIndex + 1) % enemies.Count;
 
@@ -96,14 +95,14 @@ namespace TimelineHero.Battle
 
         public void CreatePreviousEnemy()
         {
-            List<CharacterBase> enemies = CharacterPool.GetEnemyCharacters();
+            var enemies = CharacterPool.GetEnemyCharacters();
             CurrentEnemySkillSetIndex = 0;
             CurrentEnemyIndex = (CurrentEnemyIndex + enemies.Count - 1) % enemies.Count;
 
             OnEnemyChanged?.Invoke();
         }
 
-        public CharacterBase GetCurrentEnemy()
+        public EnemyCharacter GetCurrentEnemy()
         {
             return CharacterPool.GetEnemyCharacters()[CurrentEnemyIndex];
         }

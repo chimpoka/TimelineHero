@@ -5,31 +5,17 @@ using Sirenix.OdinInspector;
 
 namespace TimelineHero.Character
 {
-    [CreateAssetMenu(menuName = "ScriptableObject/Character")]
     public class CharacterAssetBase : ScriptableObject
     {
         public int Health;
         public int Adrenaline;
 
-        public List<SkillSetAsset> SkillSets = new List<SkillSetAsset>();
-
-        public virtual CharacterBase ToCharacter()
+        protected void SetBaseData(CharacterBase CharacterRef)
         {
-            return ConvertCharacterAsset();
-        }
-
-        protected CharacterBase ConvertCharacterAsset()
-        {
-            CharacterBase character = new CharacterBase();
-
-            character.SkillSets = SkillSets.Select(skillSetAsset => ConvertSkillSetAsset(skillSetAsset, character)).ToList();
-            character.SkillsDict = character.SkillSets[0].Skills.ToDictionary(skill => skill.Name ?? skill.ToString(), skill => skill);
-            character.Health = Health;
-            character.MaxHealth = Health;
-            character.Adrenaline = Adrenaline;
-            character.Name = name;
-
-            return character;
+            CharacterRef.Health = Health;
+            CharacterRef.MaxHealth = Health;
+            CharacterRef.Adrenaline = Adrenaline;
+            CharacterRef.Name = name;
         }
 
         public static SkillSet ConvertSkillSetAsset(SkillSetAsset InSkillSetAsset, CharacterBase Owner)

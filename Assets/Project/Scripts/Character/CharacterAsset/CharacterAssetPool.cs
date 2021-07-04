@@ -9,15 +9,15 @@ namespace TimelineHero.Character
     [CreateAssetMenu(menuName = "ScriptableObject/CharacterAssetPool")]
     public class CharacterAssetPool : SingletonScriptableObject<CharacterAssetPool>
     {
-        [SerializeField] private List<CharacterAssetBase> AlliedCharacters;
-        [SerializeField] private List<CharacterAssetBase> EnemyCharacters;
+        [SerializeField] private List<AlliedCharacterAsset> AlliedCharacters;
+        [SerializeField] private List<EnemyCharacterAsset> EnemyCharacters;
 
-        public List<CharacterAssetBase> GetAlliedCharacters()
+        public List<AlliedCharacterAsset> GetAlliedCharacters()
         {
             return AlliedCharacters;
         }
 
-        public List<CharacterAssetBase> GetEnemyCharacters()
+        public List<EnemyCharacterAsset> GetEnemyCharacters()
         {
             return EnemyCharacters;
         }
@@ -25,32 +25,32 @@ namespace TimelineHero.Character
 
     public static class CharacterPool
     {
-        private static List<CharacterBase> _AlliedCharacterPool;
-        private static List<CharacterBase> _EnemyCharacterPool;
+        private static List<AlliedCharacter> _AlliedCharacterPool;
+        private static List<EnemyCharacter> _EnemyCharacterPool;
 
-        public static List<CharacterBase> GetAlliedCharacters()
+        public static List<AlliedCharacter> GetAlliedCharacters()
         {
             if (_AlliedCharacterPool == null)
             {
-                List<CharacterAssetBase> assets = CharacterAssetPool.Get().GetAlliedCharacters();
+                var assets = CharacterAssetPool.Get().GetAlliedCharacters();
                 _AlliedCharacterPool = assets.Select(asset => asset.ToCharacter()).ToList();
             }
 
             return _AlliedCharacterPool;
         }
 
-        public static List<CharacterBase> GetEnemyCharacters()
+        public static List<EnemyCharacter> GetEnemyCharacters()
         {
             if (_EnemyCharacterPool == null)
             {
-                List<CharacterAssetBase> assets = CharacterAssetPool.Get().GetEnemyCharacters();
+                var assets = CharacterAssetPool.Get().GetEnemyCharacters();
                 _EnemyCharacterPool = assets.Select(asset => asset.ToCharacter()).ToList();
             }
 
             return _EnemyCharacterPool;
         }
 
-        public static CharacterBase GetCurrentAlliedCharacter()
+        public static AlliedCharacter GetCurrentAlliedCharacter()
         {
             return GetAlliedCharacters()[0];
         }

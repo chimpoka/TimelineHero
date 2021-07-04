@@ -101,8 +101,8 @@ namespace TimelineHero.BattleUI
             }
             CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
 
-            CreateStatuses(CharacterPool.GetAlliedCharacters(), AlliedStatusPosition);
-            CreateStatuses(new List<CharacterBase> {BattleSystem.Get().GetCurrentEnemy()}, EnemyStatusPosition);
+            CreateStatuses(new List<CharacterBase> (CharacterPool.GetAlliedCharacters()), AlliedStatusPosition);
+            CreateStatuses(new List<CharacterBase> { BattleSystem.Get().GetCurrentEnemy() }, EnemyStatusPosition);
         }
 
         private void CreateStatuses(List<CharacterBase> Characters, Vector2 Position)

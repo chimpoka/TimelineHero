@@ -15,7 +15,7 @@ MonoBehaviour:
   AlliedCharacters:
   - {fileID: 11400000, guid: b1a373f5c4a646843965bfa4ffef59f0, type: 2}
   EnemyCharacters:
-  - {fileID: 11400000, guid: fdb57e8c10ed4744ca468cc49aa2302a, type: 2}
+  - {fileID: 11400000, guid: 24fd5a61c5ff61e46acf64f1544519ef, type: 2}
   - {fileID: 11400000, guid: bcbb4911f5a99b047b38328bf3559434, type: 2}
   - {fileID: 11400000, guid: 2057c4df2e018b64ba12431465fe8edc, type: 2}
   - {fileID: 11400000, guid: 680c94c6e199f9c40a36ffecdf45f186, type: 2}

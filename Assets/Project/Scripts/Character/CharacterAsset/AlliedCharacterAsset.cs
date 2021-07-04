@@ -1,11 +1,10 @@
 using Sirenix.OdinInspector;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace TimelineHero.Character
 {
-    [CreateAssetMenu(menuName = "ScriptableObject/AlliedCharacter")]
+    [CreateAssetMenu(menuName = "ScriptableObject/Character/AlliedCharacter")]
     public class AlliedCharacterAsset : CharacterAssetBase
     {
         [HideIf("@this.TwoHandsEquipment")]
@@ -24,15 +23,11 @@ namespace TimelineHero.Character
         [ValidateInput("@this.ConsumableEquipment == null || this.ConsumableEquipment?.Type == EquipmentType.Consumable", "Only for <Consumable>")]
         public EquipmentAsset ConsumableEquipment;
 
-        public override CharacterBase ToCharacter()
+        public AlliedCharacter ToCharacter()
         {
-            CharacterBase character = new CharacterBase();
-
+            AlliedCharacter character = new AlliedCharacter();
+            SetBaseData(character);
             character.CurrentEquipment = GetEquipmentSet(character);
-            character.Health = Health;
-            character.MaxHealth = Health;
-            character.Adrenaline = Adrenaline;
-            character.Name = name;
 
             return character;
         }

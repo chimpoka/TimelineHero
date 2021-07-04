@@ -41,10 +41,5 @@ namespace TimelineHero.Character
         {
             return GetAllEquipment().FindAll(x => x.Type == Type);
         }
-
-        public static List<Equipment> GetAllEquipmentWeapon()
-        {
-            return GetAllEquipment().FindAll(x => x.Type == EquipmentType.OneHand || x.Type == EquipmentType.TwoHands);
-        }
     }
 }
