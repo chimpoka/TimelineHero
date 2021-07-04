@@ -1,5 +1,5 @@
 ﻿using TimelineHero.BattleUI;
-using TimelineHero.CoreUI;
+using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {

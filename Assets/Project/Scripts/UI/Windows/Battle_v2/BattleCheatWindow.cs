@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using TimelineHero.Battle_v2;
+using TimelineHero.Battle;
 using TimelineHero.Character;
 using TimelineHero.CoreUI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TimelineHero.BattleUI_v2
+namespace TimelineHero.BattleUI
 {
     public class BattleCheatWindow : Window
     {
@@ -38,7 +36,7 @@ namespace TimelineHero.BattleUI_v2
                     button.transform.SetParent(equipmentGroup);
                     button.transform.localScale = Vector3.one;
                     button.image.sprite = equipment.EquipmentIcon;
-                    button.onClick.AddListener(() => BattleSystem_v2.Get().CreateBattleEquipment(equipment, slot));
+                    button.onClick.AddListener(() => BattleSystem.Get().CreateBattleEquipment(equipment, slot));
                 }
             }
         }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TimelineHero.Character;
+﻿using TimelineHero.Character;
 
-namespace TimelineHero.Battle_v2
+namespace TimelineHero.Battle
 {
     static class BattleUtils
     {

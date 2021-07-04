@@ -35,6 +35,7 @@ namespace TimelineHero.Character
         public static SkillSet ConvertSkillSetAsset(SkillSetAsset InSkillSetAsset, CharacterBase Owner)
         {
             SkillSet newSkillSet = new SkillSet();
+            newSkillSet.SkillName = InSkillSetAsset.SkillName;
             newSkillSet.Skills = InSkillSetAsset.Skills.Select(skillAsset => ConvertSkillAsset(skillAsset, Owner)).ToList();
 
             return newSkillSet;

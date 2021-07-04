@@ -1,21 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TimelineHero.Character;
 
-namespace TimelineHero.Battle_v2
+namespace TimelineHero.Battle
 {
     public class EquipmentDeck
     {
         public EquipmentDeck(string Name)
         {
             SkillName = Name;
-            Deck = new Queue<Skill>();
         }
 
-        public EquipmentDeck(string Name, SkillSet InSkillSet)
+        public EquipmentDeck(SkillSet InSkillSet)
         {
-            SkillName = Name;
+            SkillName = InSkillSet.SkillName;
             Deck = new Queue<Skill>(InSkillSet.Skills);
         }
 
@@ -26,9 +24,13 @@ namespace TimelineHero.Battle_v2
 
         public System.Action<Skill> OnDrawCard;
         public System.Action<Skill> OnDiscardCard;
+        public System.Action OnDiscardAllCards;
 
         public void Draw()
         {
+            if (Deck.Count == 0)
+                return;
+
             Skill card = Deck.Dequeue();
             Hand.Add(card);
             OnDrawCard?.Invoke(card);
@@ -39,6 +41,15 @@ namespace TimelineHero.Battle_v2
             Hand.Remove(SkillToDiscard);
             Deck.Enqueue(SkillToDiscard);
             OnDiscardCard?.Invoke(SkillToDiscard);
+        }
+
+        public void DiscardAll()
+        {
+            //Hand.ForEach(x => Discard(x));
+            var cardsToDiscard = new List<Skill>(Hand);
+            Hand.Clear();
+            cardsToDiscard.ForEach(x => { Deck.Enqueue(x); });
+            OnDiscardAllCards?.Invoke();
         }
 
         public EquipmentDeck Clone()

@@ -1,5 +1,5 @@
 ﻿using TimelineHero.BattleUI;
-using TimelineHero.CoreUI;
+using TimelineHero.Character;
 
 namespace TimelineHero.Battle
 {
@@ -10,6 +10,7 @@ namespace TimelineHero.Battle
         {
             BattleSystem.Get().StopBattleTimer();
             BattleHud.Get().OpenWindow<LoseWindow>();
+            CharacterPool.ResetAlliedCharacters();
         }
     }
 }

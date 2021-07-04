@@ -10,7 +10,7 @@ namespace TimelineHero.Core
         {
             if (!GameInstanceBase.Get())
             {
-                GameInstanceBase gameInstance = new GameObject("GameInstance").AddComponent<GameInstanceBase>();
+                new GameObject("GameInstance").AddComponent<GameInstanceBase>();
             }
 
             InitializeSubsystems();

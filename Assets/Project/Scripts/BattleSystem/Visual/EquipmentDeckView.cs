@@ -1,12 +1,12 @@
-using System.Collections;
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
-using TimelineHero.Battle_v2;
-using TimelineHero.BattleView;
+using TimelineHero.Battle;
 using TimelineHero.Character;
 using TimelineHero.CoreUI;
 using UnityEngine;
 
-namespace TimelineHero.BattleView_v2
+namespace TimelineHero.BattleView
 {
     public class EquipmentDeckView : UiComponent
     {
@@ -21,11 +21,13 @@ namespace TimelineHero.BattleView_v2
         {
             EquipmentDeckCached = EquipmentDeckRef;
             EquipmentDeckCached.OnDrawCard += CreateCard;
+            EquipmentDeckCached.OnDiscardCard += DiscardCard;
+            EquipmentDeckCached.OnDiscardAllCards += DiscardAllCards;
         }
 
         public void CreateCard(Skill SkillRef)
         {
-            CardWrapper_v2 cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().CardWrapperPrefab_v2);
+            CardWrapper cardWrapper = MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().CardWrapperPrefab);
             cardWrapper.SetParent(CardLayout);
             cardWrapper.SetState(CardState.Hand, SkillRef);
             cardWrapper.SetToCenterOfParent();
@@ -38,6 +40,26 @@ namespace TimelineHero.BattleView_v2
 
             Cards.Add(cardWrapper);
             OnCardCreated?.Invoke(cardWrapper);
+        }
+
+        private void DiscardCard(Skill SkillRef)
+        {
+            var card = Cards.Find(x => x.GetOriginalSkill() == SkillRef);
+            if (card == null)
+                return;
+
+            card.transform.DOMove(new Vector3(-10, -5, 0), 1.0f).onComplete += card.DestroyUiObject;
+        }
+
+        private void DiscardAllCards()
+        {
+            var cardsToDiscard = new List<CardWrapper>(Cards);
+            Cards.Clear();
+
+            foreach (var card in cardsToDiscard)
+            {
+                card.transform.DOMove(new Vector3(-10, -5, 0), 1.0f).onComplete += card.DestroyUiObject;
+            }
         }
 
         public void AddCard(CardWrapper NewCard)
@@ -68,11 +90,11 @@ namespace TimelineHero.BattleView_v2
             }
         }
 
-        private void OnDestroy()
-        {
-            if (EquipmentDeckCached != null)
-                EquipmentDeckCached.OnDrawCard -= CreateCard;
-        }
+        //private void OnDestroy()
+        //{
+        //    if (EquipmentDeckCached != null)
+        //        EquipmentDeckCached.OnDrawCard -= CreateCard;
+        //}
 
         private void OnDrawGizmos()
         {

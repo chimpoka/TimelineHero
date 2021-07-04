@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a14f08ef68fbaa4793e7e47884a88c0, type: 3}
   m_Name: SkillSet_Armor_01_0
   m_EditorClassIdentifier: 
+  SkillName: "\u041A\u0443\u0440\u0442\u043A\u0430"
   Skills:
   - Name: Name 0
     Length: 8

@@ -20,7 +20,7 @@ namespace TimelineHero.BattleView
 
         private void UpdateData()
         {
-            BattleSystem.Get().PlayerDiscardSection.SetSkills(GetSkills());
+            //BattleSystem.Get().PlayerDiscardSection.SetSkills(GetSkills());
         }
 
         public void AddCard(CardWrapper NewCard)

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
 using TimelineHero.Battle;
-using TimelineHero.Core;
 using TimelineHero.BattleCardsControl;
+using TimelineHero.Core;
+using UnityEngine;
 
 namespace TimelineHero.BattleView
 {
@@ -9,7 +9,6 @@ namespace TimelineHero.BattleView
     {
         public HandView PlayerHand;
         public BoardView BattleBoard;
-        public DiscardSectionView DiscardSection;
 
         public BattleController PlayerBattleController;
 
@@ -21,7 +20,9 @@ namespace TimelineHero.BattleView
             GameInstance.Get().CanvasScaleFactor = GetComponent<Canvas>().scaleFactor;
 
             PlayerBattleController = new BattleController();
-            PlayerBattleController.Initialize(PlayerHand, BattleBoard, DiscardSection);
+            PlayerHand.OnCardCreated += SubscribeCardOnPointerEvents;
+            PlayerHand.Initialize();
+            PlayerBattleController.Initialize(PlayerHand, BattleBoard);
         }
 
         public void SetActive(bool Active)
@@ -40,14 +41,11 @@ namespace TimelineHero.BattleView
             BattleBoard.SetPlayBattleState();
         }
 
-        public void SetBattleCardsControlStrategy()
+        private void SubscribeCardOnPointerEvents(CardWrapper PlayerCard)
         {
-            PlayerBattleController.CardsControlStrategy = new BattleCardsControlStrategy(PlayerHand, BattleBoard);
-        }
-
-        public void SetDiscardCardsControlStrategy()
-        {
-            PlayerBattleController.CardsControlStrategy = new DiscardCardsControlStrategy(PlayerHand, BattleBoard, DiscardSection);
+            PlayerCard.OnPointerDownEvent += PlayerBattleController.OnCardPointerDown;
+            PlayerCard.OnPointerUpEvent += PlayerBattleController.OnCardPointerUp;
+            PlayerCard.OnDragEvent += PlayerBattleController.OnCardDrag;
         }
     }
 }

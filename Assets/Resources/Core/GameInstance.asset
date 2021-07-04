@@ -9,23 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dff76e274316f747ae1147f4e11747c, type: 3}
+  m_Script: {fileID: 11500000, guid: 03ab674cf1ed4cc499ea13d590a872dc, type: 3}
   m_Name: GameInstance
   m_EditorClassIdentifier: 
-  DrawCardCount: 4
+  DrawCardCount: 5
   DelayBetweenCardAnimationsInSeconds: 0.3
   ShuffleDrawDeck: 1
   MinTimelineSpeed: 0.5
   MaxTimelineSpeed: 5
   FullAdrenalineAttackMultiplier: 1
   EnterNodeDelay: 0
-  CanvasScaleFactor: 1.0000001
-  AlliedCharactersAssets:
-  - {fileID: 11400000, guid: b1a373f5c4a646843965bfa4ffef59f0, type: 2}
-  EnemyCharactersAssets:
-  - {fileID: 11400000, guid: fdb57e8c10ed4744ca468cc49aa2302a, type: 2}
-  - {fileID: 11400000, guid: bcbb4911f5a99b047b38328bf3559434, type: 2}
-  - {fileID: 11400000, guid: 2057c4df2e018b64ba12431465fe8edc, type: 2}
-  - {fileID: 11400000, guid: 680c94c6e199f9c40a36ffecdf45f186, type: 2}
-  - {fileID: 11400000, guid: d3b3ec2d2f18bed4cb21069705e3b82c, type: 2}
-  - {fileID: 11400000, guid: 825244d150d78194bb1479b97bb866be, type: 2}
+  CanvasScaleFactor: 0

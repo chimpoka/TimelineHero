@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterAssetPool
   m_EditorClassIdentifier: 
   AlliedCharacters:
-  - {fileID: 11400000, guid: 4edcf6860a00564408d74535bbcc6cf8, type: 2}
+  - {fileID: 11400000, guid: b1a373f5c4a646843965bfa4ffef59f0, type: 2}
   EnemyCharacters:
   - {fileID: 11400000, guid: fdb57e8c10ed4744ca468cc49aa2302a, type: 2}
   - {fileID: 11400000, guid: bcbb4911f5a99b047b38328bf3559434, type: 2}

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using System.Linq;
-using TimelineHero.Battle;
 using TimelineHero.Character;
 using TimelineHero.Core;
 using UnityEngine;
 
-namespace TimelineHero.Battle_v2
+namespace TimelineHero.Battle
 {
-    public class BattleSystem_v2 : Core.Subsystem<BattleSystem_v2>
+    public enum BattleResult { Win, Lose }
+
+    public class BattleSystem : Core.Subsystem<BattleSystem>
     {
         public System.Action OnTimerStarted;
         public System.Action OnTimerFinished;
@@ -37,6 +37,7 @@ namespace TimelineHero.Battle_v2
 
         protected override void OnInitialize() 
         {
+            CharacterPool.ResetEnemyCharacters();
             CharacterPool.GetEnemyCharacters().ForEach(x => x.OnDied += OnEnemyDied);
             CharacterPool.GetAlliedCharacters().ForEach(x => x.OnDied += OnAllyDied);
             OnTimerIntegerValue += ExecuteActionsAtPosition;
@@ -51,6 +52,7 @@ namespace TimelineHero.Battle_v2
 
         public void SetMainBattleState() 
         {
+            CharacterPool.GetCurrentAlliedCharacter().CurrentEquipment.RefreshDeckAndOpenOneCard();
             OnMainBattleState?.Invoke();
         }
 
@@ -61,7 +63,10 @@ namespace TimelineHero.Battle_v2
             OnPlayBattleState?.Invoke();
         }
 
-        public void DiscardAllCardsFromTimeline() { }
+        public void DiscardAllCardsFromTimeline() 
+        {
+            OnDiscardAllCardsFromTimeline?.Invoke();
+        }
 
         public void CreateNextEnemySkillSet()
         {
@@ -128,9 +133,29 @@ namespace TimelineHero.Battle_v2
             OnBattleFinished?.Invoke(BattleResult.Lose);
         }
 
+        public void CreateStartEquipment()
+        {
+            CreateEquipmentSet(CharacterPool.GetCurrentAlliedCharacter().CurrentEquipment);
+        }
+
+        public void CreateEquipmentSet(EquipmentSet EquipmentSetRef)
+        {
+            CreateBattleEquipment(EquipmentSetRef.LeftHandEquipment, EquipmentSlot.LeftHand);
+            CreateBattleEquipment(EquipmentSetRef.RightHandEquipment, EquipmentSlot.RightHand);
+            CreateBattleEquipment(EquipmentSetRef.TwoHandsEquipment, EquipmentSlot.TwoHands);
+            CreateBattleEquipment(EquipmentSetRef.BodyEquipment, EquipmentSlot.Body);
+            CreateBattleEquipment(EquipmentSetRef.BootsEquipnemt, EquipmentSlot.Boots);
+            CreateBattleEquipment(EquipmentSetRef.ConsumableEquipment, EquipmentSlot.Consumable);
+        }
+
         public void CreateBattleEquipment(Equipment EquipmentRef, EquipmentSlot Slot)
         {
-            OnBattleEquipmentCreationCommited?.Invoke(EquipmentRef, Slot);
+            if (EquipmentRef == null)
+                return;
+
+            var equipmentClone = EquipmentRef.Clone();
+            CharacterPool.GetCurrentAlliedCharacter().CurrentEquipment.SetEquipmentInSlot(equipmentClone, Slot);
+            OnBattleEquipmentCreationCommited?.Invoke(equipmentClone, Slot);
         }
 
         #region Timer

@@ -31,7 +31,7 @@ namespace TimelineHero.Character
             {
                 CharacterBase character = CharacterPool.GetCurrentAlliedCharacter();
                 List<EquipmentAsset> assets = EquipmentAssetPool.Get().GetAllEquipmentAssets();
-                _EquipmentPool = assets.Select(asset => AlliedCharacterAsset_v2.ConvertEquipment(asset, character)).ToList();
+                _EquipmentPool = assets.Select(asset => AlliedCharacterAsset.ConvertEquipment(asset, character)).ToList();
             }
 
             return _EquipmentPool;

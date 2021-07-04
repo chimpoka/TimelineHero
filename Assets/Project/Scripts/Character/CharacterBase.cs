@@ -1,5 +1,4 @@
-﻿using Sirenix.OdinInspector;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -142,7 +141,7 @@ namespace TimelineHero.Character
         public Sprite EquipmentIcon;
         public EquipmentType Type;
         public EquipmentSlot Slot;
-        public List<Battle_v2.EquipmentDeck> EquipmentDecks;
+        public List<Battle.EquipmentDeck> EquipmentDecks;
 
         public Equipment Clone()
         {
@@ -150,14 +149,62 @@ namespace TimelineHero.Character
             clone.EquipmentDecks = EquipmentDecks.Select(deck => deck.Clone()).ToList();
             return clone;
         }
+
+        public void DiscardAllCards()
+        {
+            EquipmentDecks.ForEach(x => x.DiscardAll());
+        }
+
+        public void DrawCardInEachSlot()
+        {
+            EquipmentDecks.ForEach(x => x.Draw());
+        }
     }
 
     public class EquipmentSet
     {
         public Equipment LeftHandEquipment;
         public Equipment RightHandEquipment;
+        public Equipment TwoHandsEquipment;
         public Equipment BodyEquipment;
         public Equipment BootsEquipnemt;
         public Equipment ConsumableEquipment;
+
+        public List<Equipment> GetAllEquipment()
+        {
+            return new List<Equipment>(){ LeftHandEquipment, RightHandEquipment, TwoHandsEquipment, BodyEquipment, BootsEquipnemt, ConsumableEquipment };
+        }
+
+        public void SetEquipmentInSlot(Equipment NewEquipment, EquipmentSlot Slot)
+        {
+            NewEquipment.Slot = Slot;
+            //GetAllEquipment()[(int)Slot] = NewEquipment;
+
+            switch (Slot)
+            {
+                case EquipmentSlot.LeftHand: LeftHandEquipment = NewEquipment; break;
+                case EquipmentSlot.RightHand: RightHandEquipment = NewEquipment; break;
+                case EquipmentSlot.TwoHands: TwoHandsEquipment = NewEquipment; break;
+                case EquipmentSlot.Body: BodyEquipment = NewEquipment; break;
+                case EquipmentSlot.Boots: BootsEquipnemt = NewEquipment; break;
+                case EquipmentSlot.Consumable: ConsumableEquipment = NewEquipment; break;
+            }
+        }
+
+        public void RefreshDeckAndOpenOneCard()
+        {
+            DiscardAllCards();
+            DrawCardInEachSlot();
+        }
+
+        public void DiscardAllCards()
+        {
+            GetAllEquipment().ForEach(x => x?.DiscardAllCards());
+        }
+
+        public void DrawCardInEachSlot()
+        {
+            GetAllEquipment().ForEach(x => x?.DrawCardInEachSlot());
+        }
     }
 }

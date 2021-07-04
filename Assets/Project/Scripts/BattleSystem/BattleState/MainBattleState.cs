@@ -1,5 +1,4 @@
 ﻿using TimelineHero.BattleUI;
-using TimelineHero.CoreUI;
 
 namespace TimelineHero.Battle
 {
@@ -9,29 +8,14 @@ namespace TimelineHero.Battle
             : base(BattleSceneControllerRef)
         {
             BattleHud.Get().OnPlayBattleButtonEvent += SetPlayState;
-            WindowManager.OnDiscardWindowOpened += SetDiscardState;
-
             BattleSystem.Get().SetMainBattleState();
-
-            BattleSceneControllerRef.BattleView.SetBattleCardsControlStrategy();
-        }
-
-        private void UnsubscribeAll()
-        {
-            BattleHud.Get().OnPlayBattleButtonEvent -= SetPlayState;
-            WindowManager.OnDiscardWindowOpened -= SetDiscardState;
+            //BattleSceneControllerRef.BattleView.SetBattleCardsControlStrategy();
         }
 
         private void SetPlayState()
         {
-            UnsubscribeAll();
+            BattleHud.Get().OnPlayBattleButtonEvent -= SetPlayState;
             BattleSceneControllerCached.BattleState = new PlayBattleState(BattleSceneControllerCached);
-        }
-
-        private void SetDiscardState()
-        {
-            UnsubscribeAll();
-            BattleSceneControllerCached.BattleState = new DiscardCardBattleState(BattleSceneControllerCached);
         }
     }
 }

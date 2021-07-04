@@ -1,10 +1,7 @@
-﻿using System.Linq;
 using UnityEngine;
-using TimelineHero.Character;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
-namespace TimelineHero.Core 
+namespace TimelineHero.Core
 {
     [CreateAssetMenu(menuName = "ScriptableObject/GameInstance")]
     public class GameInstance : SingletonScriptableObject<GameInstance>

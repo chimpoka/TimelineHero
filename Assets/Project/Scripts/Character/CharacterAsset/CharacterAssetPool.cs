@@ -54,5 +54,17 @@ namespace TimelineHero.Character
         {
             return GetAlliedCharacters()[0];
         }
+
+        public static void ResetEnemyCharacters()
+        {
+            _EnemyCharacterPool?.Clear();
+            _EnemyCharacterPool = null;
+        }
+
+        public static void ResetAlliedCharacters()
+        {
+            _AlliedCharacterPool?.Clear();
+            _AlliedCharacterPool = null;
+        }
     }
 }

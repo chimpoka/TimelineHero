@@ -1,14 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using TimelineHero.Character;
 using TimelineHero.CoreUI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TimelineHero.BattleView_v2
+namespace TimelineHero.BattleView
 {
     public class EquipmentBattleView : UiComponent
     {
+        public float SkillNameOffset = 10.0f;
         public List<EquipmentDeckView> Decks;
         public List<RectTransform> SkillNames;
         public Image Icon;
@@ -37,6 +38,8 @@ namespace TimelineHero.BattleView_v2
 
                 SkillNames[i].anchorMin = new Vector2(i / (float)Count, 1);
                 SkillNames[i].anchorMax = new Vector2((i + 1) / (float)Count, 1);
+                SkillNames[i].offsetMin += new Vector2(SkillNameOffset, 0);
+                SkillNames[i].offsetMax += new Vector2(-SkillNameOffset, 0);
             }
 
             Size = new Vector2((Size.x - BorderOffset) * Count / MaxFieldsCount + BorderOffset, Size.y); 
@@ -56,6 +59,7 @@ namespace TimelineHero.BattleView_v2
             for (int i = 0; i < EquipmentCached.EquipmentDecks.Count; ++i)
             {
                 Decks[i].Initialize(EquipmentCached.EquipmentDecks[i]);
+                SkillNames[i].GetComponent<TextMeshProUGUI>().text = EquipmentCached.EquipmentDecks[i].SkillName;
                 //EquipmentCached.EquipmentDecks[i].Draw();
             }
         }

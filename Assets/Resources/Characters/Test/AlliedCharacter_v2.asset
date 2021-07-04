@@ -15,8 +15,9 @@ MonoBehaviour:
   Health: 12
   Adrenaline: 4
   SkillSets: []
-  LeftHandEquipment: {fileID: 11400000, guid: 8d9b807a8a8f8d24098ae1def5e0ea61, type: 2}
-  RightHandEquipment: {fileID: 11400000, guid: 3dcf7a634e0998d459ebd47e48826dac, type: 2}
+  LeftHandEquipment: {fileID: 0}
+  RightHandEquipment: {fileID: 0}
+  TwoHandsEquipment: {fileID: 11400000, guid: 5ce1dd96eaa35bd4c8406b7a61ea44ac, type: 2}
   BodyEquipment: {fileID: 11400000, guid: 00f98380e60555641bb72a757364f46c, type: 2}
   BootsEquipnemt: {fileID: 11400000, guid: dbbde2b44bd149241a6a5aa143e5e130, type: 2}
   ConsumableEquipment: {fileID: 11400000, guid: 01dca2b27ea1c6c4daf29f579c17e20b,

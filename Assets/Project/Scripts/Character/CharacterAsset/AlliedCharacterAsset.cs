@@ -1,20 +1,26 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace TimelineHero.Character
 {
-    [CreateAssetMenu(menuName = "ScriptableObject/AlliedCharacter_v2")]
-    public class AlliedCharacterAsset_v2 : CharacterAssetBase
+    [CreateAssetMenu(menuName = "ScriptableObject/AlliedCharacter")]
+    public class AlliedCharacterAsset : CharacterAssetBase
     {
-        [HideIf("@this.RightHandEquipment?.Type == EquipmentType.TwoHands")]
+        [HideIf("@this.TwoHandsEquipment")]
+        [ValidateInput("@this.LeftHandEquipment == null || this.LeftHandEquipment?.Type == EquipmentType.OneHand", "Only for <OneHand>")]
         public EquipmentAsset LeftHandEquipment;
-        [HideIf("@this.LeftHandEquipment?.Type == EquipmentType.TwoHands")]
+        [HideIf("@this.TwoHandsEquipment")]
+        [ValidateInput("@this.RightHandEquipment == null || this.RightHandEquipment?.Type == EquipmentType.OneHand", "Only for <OneHand>")]
         public EquipmentAsset RightHandEquipment;
+        [HideIf("@this.LeftHandEquipment || this.RightHandEquipment")]
+        [ValidateInput("@this.TwoHandsEquipment == null || this.TwoHandsEquipment?.Type == EquipmentType.TwoHands", "Only for <TwoHands>")]
+        public EquipmentAsset TwoHandsEquipment;
+        [ValidateInput("@this.BodyEquipment == null || this.BodyEquipment?.Type == EquipmentType.Body", "Only for <Body>")]
         public EquipmentAsset BodyEquipment;
+        [ValidateInput("@this.BootsEquipnemt == null || this.BootsEquipnemt?.Type == EquipmentType.Boots", "Only for <Boots>")]
         public EquipmentAsset BootsEquipnemt;
+        [ValidateInput("@this.ConsumableEquipment == null || this.ConsumableEquipment?.Type == EquipmentType.Consumable", "Only for <Consumable>")]
         public EquipmentAsset ConsumableEquipment;
 
         public override CharacterBase ToCharacter()
@@ -22,8 +28,6 @@ namespace TimelineHero.Character
             CharacterBase character = new CharacterBase();
 
             character.CurrentEquipment = GetEquipmentSet(character);
-            //character.SkillSets = SkillSets.Select(skillSetAsset => ConvertSkillSetAsset(skillSetAsset, character)).ToList();
-            //character.SkillsDict = character.SkillSets[0].Skills.ToDictionary(skill => skill.Name ?? skill.ToString(), skill => skill);
             character.Health = Health;
             character.MaxHealth = Health;
             character.Adrenaline = Adrenaline;
@@ -38,6 +42,7 @@ namespace TimelineHero.Character
             {
                 LeftHandEquipment = ConvertEquipment(LeftHandEquipment, Owner),
                 RightHandEquipment = ConvertEquipment(RightHandEquipment, Owner),
+                TwoHandsEquipment = ConvertEquipment(TwoHandsEquipment, Owner),
                 BodyEquipment = ConvertEquipment(BodyEquipment, Owner),
                 BootsEquipnemt = ConvertEquipment(BootsEquipnemt, Owner),
                 ConsumableEquipment = ConvertEquipment(ConsumableEquipment, Owner)
@@ -46,12 +51,15 @@ namespace TimelineHero.Character
 
         public static Equipment ConvertEquipment(EquipmentAsset InEquipmentAsset, CharacterBase Owner)
         {
+            if (!InEquipmentAsset)
+                return null;
+
             Equipment newEquipment = new Equipment();
             newEquipment.Name = InEquipmentAsset.name;
             newEquipment.EquipmentIcon = InEquipmentAsset.EquipmentIcon;
             newEquipment.Type = InEquipmentAsset.Type;
             newEquipment.EquipmentDecks = InEquipmentAsset.SkillSets.Select
-                (skillSetAsset => new Battle_v2.EquipmentDeck(skillSetAsset.name, ConvertSkillSetAsset(skillSetAsset, Owner))).ToList();
+                (skillSetAsset => new Battle.EquipmentDeck(ConvertSkillSetAsset(skillSetAsset, Owner))).ToList();
 
             return newEquipment;
         }

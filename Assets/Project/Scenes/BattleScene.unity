@@ -1887,7 +1887,7 @@ GameObject:
   m_Component:
   - component: {fileID: 922404415}
   m_Layer: 5
-  m_Name: EnemyControlButtons
+  m_Name: DebugButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2468,12 +2468,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1130269999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46251f7f1c3333b4a875d7115b9f1faf, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ad2bf1fcc7c8de45a7d12c1a59aed4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerHand: {fileID: 1535933324}
   BattleBoard: {fileID: 1692974514}
-  DiscardSection: {fileID: 1220788820}
 --- !u!114 &1130270005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2483,15 +2482,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1130269999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7c0b09c436936144bc633357be3fbaf, type: 3}
+  m_Script: {fileID: 11500000, guid: 91e2dd4329192a547ad9b1594dcfd0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DebugButtonsContainer: {fileID: 922404414}
   PlayBattleButton: {fileID: 1514944406}
   ActionExecution: {fileID: 382003979}
-  DrawDeckButtonCached: {fileID: 785203805}
-  DiscardDeckButtonCached: {fileID: 1763327141}
-  OrderController: {fileID: 283729249}
 --- !u!1 &1136939473
 GameObject:
   m_ObjectHideFlags: 0
@@ -2963,11 +2959,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1535933320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd17b91199c5b64ca53cfd7e15439cd, type: 3}
+  m_Script: {fileID: 11500000, guid: d5aacb74d4709114f945a903b791f16c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Border: {x: 30, y: 30, z: 30, w: 30}
-  CardOffset: {x: 10, y: 10}
 --- !u!1 &1692974512
 GameObject:
   m_ObjectHideFlags: 0

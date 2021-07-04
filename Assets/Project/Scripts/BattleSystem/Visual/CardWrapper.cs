@@ -11,6 +11,8 @@ namespace TimelineHero.BattleView
     {
         public int Length { get => GetLength(); }
 
+        [HideInInspector] public EquipmentDeckView EquipmentDeckCached;
+
         [HideInInspector] public Card HandCard;
         [HideInInspector] public Card BoardPreBattleCard;
         [HideInInspector] public Card BoardBattleCard;

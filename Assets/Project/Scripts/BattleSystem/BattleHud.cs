@@ -14,10 +14,6 @@ namespace TimelineHero.BattleUI
         [SerializeField] private GameObject DebugButtonsContainer;
         [SerializeField] private Button PlayBattleButton;
         [SerializeField] private ActionExecutionView ActionExecution;
-        [SerializeField] private DrawDeckButton DrawDeckButtonCached;
-        [SerializeField] private DiscardDeckButton DiscardDeckButtonCached;
-
-        public BattleUiElementsOrderController OrderController;
 
         public System.Action OnPlayBattleButtonEvent;
 
@@ -27,10 +23,6 @@ namespace TimelineHero.BattleUI
         public void Initialize()
         {
             BattleSystem.Get().OnActionExecuted += ActionExecution.CreateActionEffect;
-
-            BattleSystem.Get().PlayerDrawDeck.OnDeckSizeChanged += DrawDeckButtonCached.SetValue;
-            BattleSystem.Get().PlayerDiscardDeck.OnDeckSizeChanged += DiscardDeckButtonCached.SetValue;
-
             BattleSystem.Get().BattleBoard.AlliedTimeline.OnLengthChanged += OnAlliedTimelineLenghtChanged;
         }
 
@@ -54,19 +46,14 @@ namespace TimelineHero.BattleUI
             }
         }
 
-        public void OnDrawButton()
-        {
-            BattleSystem.Get().DrawCards(1);
-        }
-
-        public void OnDiscardCardButton()
-        {
-            OpenWindow<DiscardCardWindow>();
-        }
-
         public void OnGoToMapButton()
         {
             SceneManager.LoadScene(0);
+        }
+
+        public void OnCheatButton()
+        {
+            OpenWindow<BattleCheatWindow>();
         }
 
         public void OnPlayBattleButton()
@@ -108,11 +95,13 @@ namespace TimelineHero.BattleUI
         {
             foreach (var status in CharactersStatuses)
             {
+                status.Key.OnHealthChanged -= SetHealth;
+                status.Key.OnAdrenalineChanged -= SetAdrenaline;
                 status.Value.DestroyUiObject();
             }
             CharactersStatuses = new Dictionary<CharacterBase, CharacterStatusView>();
 
-            CreateStatuses(BattleSystem.Get().GetAlliedCharacters(), AlliedStatusPosition);
+            CreateStatuses(CharacterPool.GetAlliedCharacters(), AlliedStatusPosition);
             CreateStatuses(new List<CharacterBase> {BattleSystem.Get().GetCurrentEnemy()}, EnemyStatusPosition);
         }
 
@@ -147,6 +136,15 @@ namespace TimelineHero.BattleUI
         {
             int length = BattleSystem.Get().BattleBoard.AlliedTimeline.Length;
             PlayBattleButton.interactable = length != 0;
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var status in CharactersStatuses)
+            {
+                status.Key.OnHealthChanged -= SetHealth;
+                status.Key.OnAdrenalineChanged -= SetAdrenaline;
+            }
         }
     }
 }

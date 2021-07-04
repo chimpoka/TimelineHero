@@ -27,5 +27,3 @@ MonoBehaviour:
   DissolveMaterial: {fileID: 2100000, guid: 6346f6e44abd1844695e9c55fe46221c, type: 2}
   EquipmentBattlePrefab: {fileID: 9186818011086661753, guid: 1925417c790dae2458bac28eb7468d12,
     type: 3}
-  CardWrapperPrefab_v2: {fileID: -7716799586876538057, guid: aa03283dc77111340bf79f4288925aa4,
-    type: 3}

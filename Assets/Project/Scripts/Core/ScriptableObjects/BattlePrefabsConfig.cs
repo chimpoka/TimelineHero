@@ -1,6 +1,5 @@
 ﻿using Sirenix.OdinInspector;
 using TimelineHero.BattleUI;
-using TimelineHero.BattleView_v2;
 using TimelineHero.Core;
 using UnityEngine;
 
@@ -19,6 +18,5 @@ namespace TimelineHero.BattleView
 
         [Title("Battle_v2")]
         public EquipmentBattleView EquipmentBattlePrefab;
-        public CardWrapper_v2 CardWrapperPrefab_v2;
     }
 }

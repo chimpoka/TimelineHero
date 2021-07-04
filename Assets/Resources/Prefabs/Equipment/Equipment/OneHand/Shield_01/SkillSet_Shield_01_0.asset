@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a14f08ef68fbaa4793e7e47884a88c0, type: 3}
   m_Name: SkillSet_Shield_01_0
   m_EditorClassIdentifier: 
+  SkillName: "\u041C\u043E\u0440\u043E\u0437"
   Skills:
   - Name: Name 0
     Length: 8

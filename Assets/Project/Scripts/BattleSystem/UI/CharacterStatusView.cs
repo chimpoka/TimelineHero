@@ -13,7 +13,7 @@ namespace TimelineHero.BattleUI
         [SerializeField]
         private TextMeshProUGUI AdrenalineText;
         [SerializeField]
-        private RectTransform AdrenalinePanel;
+        private GameObject AdrenalinePanel;
 
         public void SetHealth(int Health, int MaxHealth)
         {
@@ -33,7 +33,7 @@ namespace TimelineHero.BattleUI
 
         public void SetAdrenalinePanelVisibility(bool Visible)
         {
-            AdrenalinePanel.gameObject.SetActive(Visible);
+            AdrenalinePanel.SetActive(Visible);
         }
     }
 }

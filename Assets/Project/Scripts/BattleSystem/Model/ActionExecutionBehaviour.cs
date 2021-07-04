@@ -421,7 +421,7 @@ namespace TimelineHero.Battle
 
         private ActionEffectData DoAction_DrawCard(Action AttackerAction)
         {
-            BattleSystem.Get().DrawCards(AttackerAction.DrawCards);
+            //BattleSystem.Get().DrawCards(AttackerAction.DrawCards);
 
             return new ActionEffectData("Draw " + AttackerAction.DrawCards, "", true);
         }
