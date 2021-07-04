@@ -205,7 +205,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1130270005}
         m_TargetAssemblyTypeName: TimelineHero.BattleUI.BattleHud, Assembly-CSharp
         m_MethodName: SpeedUpGameSpeed
         m_Mode: 1
@@ -757,7 +757,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1130270005}
         m_TargetAssemblyTypeName: TimelineHero.BattleUI.BattleHud, Assembly-CSharp
         m_MethodName: SlowDownGameSpeed
         m_Mode: 1

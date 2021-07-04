@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a14f08ef68fbaa4793e7e47884a88c0, type: 3}
-  m_Name: SkillSet_Armor_01_0
+  m_Name: SkillSet_Boots_01_0
   m_EditorClassIdentifier: 
-  SkillName: "\u041A\u0443\u0440\u0442\u043A\u0430"
+  SkillName: "\u041F\u0438\u043D\u043E\u043A \u0422\u0430\u043F\u043A\u043E\u043C"
   Skills:
   - Name: Name 0
     Length: 8
     Actions:
-    - ActionType: 4
-      Position: 3
+    - ActionType: 2
+      Position: 2
       Value: 2
       Duration: 3
       DrawCards: 1
@@ -29,7 +29,7 @@ MonoBehaviour:
   - Name: Name 1
     Length: 8
     Actions:
-    - ActionType: 4
+    - ActionType: 2
       Position: 1
       Value: 2
       Duration: 3
@@ -41,7 +41,7 @@ MonoBehaviour:
   - Name: Name 2
     Length: 8
     Actions:
-    - ActionType: 4
+    - ActionType: 2
       Position: 2
       Value: 2
       Duration: 3
@@ -53,7 +53,7 @@ MonoBehaviour:
   - Name: Name 3
     Length: 8
     Actions:
-    - ActionType: 4
+    - ActionType: 2
       Position: 3
       Value: 2
       Duration: 3
@@ -65,7 +65,7 @@ MonoBehaviour:
   - Name: Name 4
     Length: 8
     Actions:
-    - ActionType: 4
+    - ActionType: 2
       Position: 4
       Value: 2
       Duration: 3
@@ -77,7 +77,7 @@ MonoBehaviour:
   - Name: Name 5
     Length: 8
     Actions:
-    - ActionType: 4
+    - ActionType: 2
       Position: 5
       Value: 2
       Duration: 3

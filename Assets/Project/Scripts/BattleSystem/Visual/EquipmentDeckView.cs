@@ -58,7 +58,7 @@ namespace TimelineHero.BattleView
 
             foreach (var card in cardsToDiscard)
             {
-                card.transform.DOMove(new Vector3(-10, -5, 0), 1.0f).onComplete += card.DestroyUiObject;
+                if (card) card.transform.DOMove(new Vector3(-10, -5, 0), 1.0f).onComplete += card.DestroyUiObject;
             }
         }
 
@@ -88,20 +88,6 @@ namespace TimelineHero.BattleView
                 var offset = i * new Vector2(20, 25);
                 Cards[i].DOAnchorPos(Cards[i].GetCenterOfParent() + offset);
             }
-        }
-
-        //private void OnDestroy()
-        //{
-        //    if (EquipmentDeckCached != null)
-        //        EquipmentDeckCached.OnDrawCard -= CreateCard;
-        //}
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = new Color(0, 1, 0, 0.5f);
-            Gizmos.DrawCube(new Vector3(WorldCenterPosition.x, WorldCenterPosition.y, 2000), new Vector3(0.1f, 0.1f, 0.2f));
-            Gizmos.color = new Color(0, 0, 1, 0.5f);
-            Gizmos.DrawCube(new Vector3(WorldPosition.x, WorldPosition.y, 2000), new Vector3(0.1f, 0.1f, 0.2f));
         }
     }
 }

@@ -140,12 +140,10 @@ namespace TimelineHero.Battle
 
         public void CreateEquipmentSet(EquipmentSet EquipmentSetRef)
         {
-            CreateBattleEquipment(EquipmentSetRef.LeftHandEquipment, EquipmentSlot.LeftHand);
-            CreateBattleEquipment(EquipmentSetRef.RightHandEquipment, EquipmentSlot.RightHand);
-            CreateBattleEquipment(EquipmentSetRef.TwoHandsEquipment, EquipmentSlot.TwoHands);
-            CreateBattleEquipment(EquipmentSetRef.BodyEquipment, EquipmentSlot.Body);
-            CreateBattleEquipment(EquipmentSetRef.BootsEquipnemt, EquipmentSlot.Boots);
-            CreateBattleEquipment(EquipmentSetRef.ConsumableEquipment, EquipmentSlot.Consumable);
+            foreach (var slot in (EquipmentSlot[])System.Enum.GetValues(typeof(EquipmentSlot)))
+            {
+                CreateBattleEquipment(EquipmentSetRef[(int)slot], slot);
+            }
         }
 
         public void CreateBattleEquipment(Equipment EquipmentRef, EquipmentSlot Slot)

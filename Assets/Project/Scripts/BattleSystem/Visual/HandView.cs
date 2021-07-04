@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TimelineHero.Battle;
 using TimelineHero.Character;
 using TimelineHero.CoreUI;
@@ -7,77 +8,44 @@ namespace TimelineHero.BattleView
 {
     public class HandView : UiComponent, IHandView
     {
-        public class EquipmentSetView
+        public class EquipmentSetView : List<EquipmentBattleView>
         {
             public EquipmentSet EquipmentSetCached;
 
-            public EquipmentBattleView LeftHandEquipment;
-            public EquipmentBattleView RightHandEquipment;
-            public EquipmentBattleView TwoHandsEquipment;
-            public EquipmentBattleView BodyEquipment;
-            public EquipmentBattleView BootsEquipnemt;
-            public EquipmentBattleView ConsumableEquipment;
-
             public void UpdateOrder()
             {
-                if (LeftHandEquipment) LeftHandEquipment.transform.SetSiblingIndex(0);
-                if (RightHandEquipment) RightHandEquipment.transform.SetSiblingIndex(1);
-                if (TwoHandsEquipment) TwoHandsEquipment.transform.SetSiblingIndex(2);
-                if (BodyEquipment) BodyEquipment.transform.SetSiblingIndex(3);
-                if (BootsEquipnemt) BootsEquipnemt.transform.SetSiblingIndex(4);
-                if (ConsumableEquipment) ConsumableEquipment.transform.SetSiblingIndex(5);
-            }
-
-            public EquipmentBattleView GetEquipmentInSlot(EquipmentSlot Slot)
-            {
-                switch (Slot)
+                foreach (var slot in (int[])System.Enum.GetValues(typeof(EquipmentSlot)))
                 {
-                    case EquipmentSlot.LeftHand: return LeftHandEquipment;
-                    case EquipmentSlot.RightHand: return RightHandEquipment;
-                    case EquipmentSlot.TwoHands: return TwoHandsEquipment;
-                    case EquipmentSlot.Body: return BodyEquipment;
-                    case EquipmentSlot.Boots: return BootsEquipnemt;
-                    case EquipmentSlot.Consumable: return ConsumableEquipment;
-                    default: return null;
+                    if (this[slot]) this[slot].transform.SetSiblingIndex(slot);
                 }
             }
 
             public void SetEquipmentInSlot(EquipmentBattleView NewEquipment, EquipmentSlot Slot)
             {
-                var equip = GetEquipmentInSlot(Slot);
-                if (equip) equip.DestroyUiObject();
+                var equipment = this[(int)Slot];
+                if (equipment) equipment.DestroyUiObject();
 
-                switch (Slot)
+                this[(int)Slot] = NewEquipment;
+
+                if (Slot == EquipmentSlot.LeftHand || Slot == EquipmentSlot.RightHand)
                 {
-                    case EquipmentSlot.LeftHand: 
-                        LeftHandEquipment = NewEquipment;
-                        if (TwoHandsEquipment) TwoHandsEquipment.DestroyUiObject();
-                        break;
-                    case EquipmentSlot.RightHand: 
-                        RightHandEquipment = NewEquipment;
-                        if (TwoHandsEquipment) TwoHandsEquipment.DestroyUiObject();
-                        break;
-                    case EquipmentSlot.TwoHands: 
-                        TwoHandsEquipment = NewEquipment;
-                        if (LeftHandEquipment) LeftHandEquipment.DestroyUiObject();
-                        if (RightHandEquipment) RightHandEquipment.DestroyUiObject();
-                        break;
-                    case EquipmentSlot.Body: BodyEquipment = NewEquipment; break;
-                    case EquipmentSlot.Boots: BootsEquipnemt = NewEquipment; break;
-                    case EquipmentSlot.Consumable: ConsumableEquipment = NewEquipment; break;
+                    if (equipment = this[(int)EquipmentSlot.TwoHands]) equipment.DestroyUiObject();
                 }
-
-                //UpdateEquipmentData();
+                else if (Slot == EquipmentSlot.TwoHands)
+                {
+                    if (equipment = this[(int)EquipmentSlot.RightHand]) equipment.DestroyUiObject();
+                    if (equipment = this[(int)EquipmentSlot.LeftHand]) equipment.DestroyUiObject();
+                }
             }
 
-            private void UpdateEquipmentData()
+            public void Initialize()
             {
-                EquipmentSetCached.LeftHandEquipment = LeftHandEquipment?.EquipmentCached;
-                EquipmentSetCached.RightHandEquipment = RightHandEquipment?.EquipmentCached;
-                EquipmentSetCached.TwoHandsEquipment = TwoHandsEquipment?.EquipmentCached;
-                EquipmentSetCached.BodyEquipment = BodyEquipment?.EquipmentCached;
-                EquipmentSetCached.BootsEquipnemt = BootsEquipnemt?.EquipmentCached;
-                EquipmentSetCached.ConsumableEquipment = ConsumableEquipment?.EquipmentCached;
+                EquipmentSetCached = CharacterPool.GetCurrentAlliedCharacter().CurrentEquipment;
+
+                foreach (var slot in (int[])System.Enum.GetValues(typeof(EquipmentSlot)))
+                {
+                    Add(null);
+                }
             }
         }
 
@@ -88,21 +56,12 @@ namespace TimelineHero.BattleView
         public void Initialize()
         {
             BattleSystem.Get().OnBattleEquipmentCreationCommited += CreateEquipmentView;
-            CurrentEquipmentSet.EquipmentSetCached = CharacterPool.GetCurrentAlliedCharacter().CurrentEquipment;
+            CurrentEquipmentSet.Initialize();
             BattleSystem.Get().CreateStartEquipment();
         }
 
         public void CreateEquipmentView(Equipment EquipmentData, EquipmentSlot Slot)
         {
-            if (CharacterPool.GetCurrentAlliedCharacter().CurrentEquipment.GetAllEquipment().Find(x => x == EquipmentData) != null)
-            {
-                print("Exist: " + EquipmentData.Name);
-            }
-            else
-            {
-                print("Not exist: " + EquipmentData.Name);
-            }
-
             EquipmentBattleView NewEquipment = UnityEngine.MonoBehaviour.Instantiate(BattlePrefabsConfig.Get().EquipmentBattlePrefab);
             NewEquipment.SetParent(transform);
             NewEquipment.Initialize(EquipmentData);
@@ -112,7 +71,6 @@ namespace TimelineHero.BattleView
             foreach (var deck in NewEquipment.Decks)
             {
                 deck.OnCardCreated += OnCardCreated;
-                //deck.EquipmentDeckCached?.Draw();
             }
         }
 

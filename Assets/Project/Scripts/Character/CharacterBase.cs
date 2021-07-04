@@ -161,33 +161,21 @@ namespace TimelineHero.Character
         }
     }
 
-    public class EquipmentSet
+    public class EquipmentSet : List<Equipment>
     {
-        public Equipment LeftHandEquipment;
-        public Equipment RightHandEquipment;
-        public Equipment TwoHandsEquipment;
-        public Equipment BodyEquipment;
-        public Equipment BootsEquipnemt;
-        public Equipment ConsumableEquipment;
-
-        public List<Equipment> GetAllEquipment()
-        {
-            return new List<Equipment>(){ LeftHandEquipment, RightHandEquipment, TwoHandsEquipment, BodyEquipment, BootsEquipnemt, ConsumableEquipment };
-        }
-
         public void SetEquipmentInSlot(Equipment NewEquipment, EquipmentSlot Slot)
         {
             NewEquipment.Slot = Slot;
-            //GetAllEquipment()[(int)Slot] = NewEquipment;
+            this[(int)Slot] = NewEquipment;
 
-            switch (Slot)
+            if (Slot == EquipmentSlot.LeftHand || Slot == EquipmentSlot.RightHand)
             {
-                case EquipmentSlot.LeftHand: LeftHandEquipment = NewEquipment; break;
-                case EquipmentSlot.RightHand: RightHandEquipment = NewEquipment; break;
-                case EquipmentSlot.TwoHands: TwoHandsEquipment = NewEquipment; break;
-                case EquipmentSlot.Body: BodyEquipment = NewEquipment; break;
-                case EquipmentSlot.Boots: BootsEquipnemt = NewEquipment; break;
-                case EquipmentSlot.Consumable: ConsumableEquipment = NewEquipment; break;
+                this[(int)EquipmentSlot.TwoHands] = null;
+            }
+            else if (Slot == EquipmentSlot.TwoHands)
+            {
+                this[(int)EquipmentSlot.RightHand] = null;
+                this[(int)EquipmentSlot.LeftHand] = null;
             }
         }
 
@@ -199,12 +187,12 @@ namespace TimelineHero.Character
 
         public void DiscardAllCards()
         {
-            GetAllEquipment().ForEach(x => x?.DiscardAllCards());
+            ForEach(x => x?.DiscardAllCards());
         }
 
         public void DrawCardInEachSlot()
         {
-            GetAllEquipment().ForEach(x => x?.DrawCardInEachSlot());
+            ForEach(x => x?.DrawCardInEachSlot());
         }
     }
 }

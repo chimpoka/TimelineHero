@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -38,15 +39,17 @@ namespace TimelineHero.Character
 
         protected EquipmentSet GetEquipmentSet(CharacterBase Owner)
         {
-            return new EquipmentSet
-            {
-                LeftHandEquipment = ConvertEquipment(LeftHandEquipment, Owner),
-                RightHandEquipment = ConvertEquipment(RightHandEquipment, Owner),
-                TwoHandsEquipment = ConvertEquipment(TwoHandsEquipment, Owner),
-                BodyEquipment = ConvertEquipment(BodyEquipment, Owner),
-                BootsEquipnemt = ConvertEquipment(BootsEquipnemt, Owner),
-                ConsumableEquipment = ConvertEquipment(ConsumableEquipment, Owner)
+            var newEquipmentSet = new EquipmentSet()
+            { 
+                ConvertEquipment(LeftHandEquipment, Owner),
+                ConvertEquipment(RightHandEquipment, Owner),
+                ConvertEquipment(TwoHandsEquipment, Owner),
+                ConvertEquipment(BodyEquipment, Owner),
+                ConvertEquipment(BootsEquipnemt, Owner),
+                ConvertEquipment(ConsumableEquipment, Owner)
             };
+
+            return newEquipmentSet;
         }
 
         public static Equipment ConvertEquipment(EquipmentAsset InEquipmentAsset, CharacterBase Owner)
