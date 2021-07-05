@@ -9,7 +9,6 @@ namespace TimelineHero.Battle
         {
             BattleHud.Get().OnPlayBattleButtonEvent += SetPlayState;
             BattleSystem.Get().SetMainBattleState();
-            //BattleSceneControllerRef.BattleView.SetBattleCardsControlStrategy();
         }
 
         private void SetPlayState()

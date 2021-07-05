@@ -16,8 +16,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b1a373f5c4a646843965bfa4ffef59f0, type: 2}
   EnemyCharacters:
   - {fileID: 11400000, guid: 24fd5a61c5ff61e46acf64f1544519ef, type: 2}
-  - {fileID: 11400000, guid: bcbb4911f5a99b047b38328bf3559434, type: 2}
-  - {fileID: 11400000, guid: 2057c4df2e018b64ba12431465fe8edc, type: 2}
-  - {fileID: 11400000, guid: 680c94c6e199f9c40a36ffecdf45f186, type: 2}
-  - {fileID: 11400000, guid: d3b3ec2d2f18bed4cb21069705e3b82c, type: 2}
-  - {fileID: 11400000, guid: 825244d150d78194bb1479b97bb866be, type: 2}
+  - {fileID: 11400000, guid: 2fb57d279f6d24f44bff3860eaa45466, type: 2}
+  - {fileID: 11400000, guid: 11486d3b84e38a749b26ef5fcb68300d, type: 2}
+  - {fileID: 11400000, guid: e869e7a41f0e93840ac9e8222a59fb77, type: 2}
+  - {fileID: 11400000, guid: c0bfe667245ea2b4d93f667be5492997, type: 2}
+  - {fileID: 11400000, guid: a2e11e7474a290045a1ac70429ff01a8, type: 2}

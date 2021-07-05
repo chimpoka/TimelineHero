@@ -60,16 +60,7 @@ namespace TimelineHero.BattleView
             {
                 Decks[i].Initialize(EquipmentCached.EquipmentDecks[i]);
                 SkillNames[i].GetComponent<TextMeshProUGUI>().text = EquipmentCached.EquipmentDecks[i].SkillName;
-                //EquipmentCached.EquipmentDecks[i].Draw();
             }
         }
-
-        //public void DestroyEquipment()
-        //{
-        //    foreach (var deck in Decks)
-        //    {
-        //        deck.DestroyCards();
-        //    }
-        //}
     }
 }
